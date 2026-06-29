@@ -11,7 +11,13 @@ and this project follows [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- No unreleased changes yet.
+- Comprehensive documentation hub under `docs/`.
+- New guides for getting started, configuration, API reference, customization, architecture, examples, compatibility, and troubleshooting.
+
+### Changed
+
+- Updated the root and package READMEs to link to the full documentation suite.
+- Refined documentation guidance for global overlay styling and Angular Material theming.
 
 ---
 

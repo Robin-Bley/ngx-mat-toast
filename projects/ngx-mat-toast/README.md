@@ -14,6 +14,20 @@ It provides a simple, `ngx-toastr`-style API while keeping the implementation al
 - optional `ToastrService` compatibility adapter for `ngx-toastr` migrations
 - no Material Icons font dependency
 
+## Documentation
+
+For the full documentation set, see the repository docs:
+
+- [Documentation hub](https://github.com/Robin-Bley/ngx-mat-toast/blob/main/docs/README.md)
+- [Getting started](https://github.com/Robin-Bley/ngx-mat-toast/blob/main/docs/getting-started.md)
+- [Configuration guide](https://github.com/Robin-Bley/ngx-mat-toast/blob/main/docs/configuration.md)
+- [API reference](https://github.com/Robin-Bley/ngx-mat-toast/blob/main/docs/api-reference.md)
+- [Customization guide](https://github.com/Robin-Bley/ngx-mat-toast/blob/main/docs/customization.md)
+- [Examples](https://github.com/Robin-Bley/ngx-mat-toast/blob/main/docs/examples.md)
+- [Migration guide](https://github.com/Robin-Bley/ngx-mat-toast/blob/main/docs/migrating-from-ngx-toastr.md)
+- [Compatibility adapter guide](https://github.com/Robin-Bley/ngx-mat-toast/blob/main/docs/compatibility-adapter.md)
+- [Troubleshooting](https://github.com/Robin-Bley/ngx-mat-toast/blob/main/docs/troubleshooting.md)
+
 ---
 
 ## Installation
@@ -140,20 +154,37 @@ Within a stack, the newest toast stays closest to the configured viewport edge.
    ```scss
    // styles.scss
    @use '@angular/material' as mat;
-   @include mat.core();
-   $theme: mat.define-light-theme((...));
-   @include mat.all-component-colors($theme);
-   ```
 
-2. **Overriding toast styles:**
-   ```scss
-   ::ng-deep .mat-mdc-snack-bar-container {
-     .ngx-mat-toast {
-       border-radius: 12px;
-       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-     }
+   @include mat.core();
+
+   $theme: mat.define-theme(
+     (
+       color: (
+         theme-type: light,
+         primary: mat.$blue-palette,
+         tertiary: mat.$orange-palette,
+       ),
+     )
+   );
+
+   @include mat.all-component-themes($theme);
+
+   :root {
+     --ngx-mat-toast-success-color: #2e7d32;
+     --ngx-mat-toast-warning-color: #ed6c02;
    }
    ```
+
+2. **Overriding toast styles from a global stylesheet:**
+
+   ```scss
+   .ngx-mat-toast-snack-panel .ngx-mat-toast-item {
+     border-radius: 12px;
+     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+   }
+   ```
+
+   This is preferred because Material snackbars render in the CDK overlay container.
 
 ### Per-toast configuration
 
@@ -221,6 +252,11 @@ Supported compatibility options include:
 - `maxOpened`
 - `positionClass`
 - `progressAnimation`
+
+For migration details and adapter caveats, see:
+
+- [Migration guide](https://github.com/Robin-Bley/ngx-mat-toast/blob/main/docs/migrating-from-ngx-toastr.md)
+- [Compatibility adapter guide](https://github.com/Robin-Bley/ngx-mat-toast/blob/main/docs/compatibility-adapter.md)
 
 ---
 

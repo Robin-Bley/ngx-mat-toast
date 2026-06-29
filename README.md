@@ -17,6 +17,25 @@ It is designed to feel familiar to teams coming from `ngx-toastr`, while staying
   <img src="docs/assets/preview.gif" alt="ngx-mat-toast preview" width="800" />
 </p>
 
+## Documentation
+
+The full documentation now lives in [`docs/`](docs/README.md).
+
+Start with the guide that matches your goal:
+
+- [`docs/README.md`](docs/README.md) – documentation hub and recommended reading path
+- [`docs/getting-started.md`](docs/getting-started.md) – installation, setup, and first toast
+- [`docs/configuration.md`](docs/configuration.md) – full configuration guide and defaults
+- [`docs/api-reference.md`](docs/api-reference.md) – public API reference
+- [`docs/customization.md`](docs/customization.md) – theming and styling best practices
+- [`docs/examples.md`](docs/examples.md) – practical recipes and copyable patterns
+- [`docs/architecture.md`](docs/architecture.md) – internal model and design rationale
+- [`docs/migrating-from-ngx-toastr.md`](docs/migrating-from-ngx-toastr.md) – step-by-step migration guide
+- [`docs/compatibility-adapter.md`](docs/compatibility-adapter.md) – `ToastrService` adapter details
+- [`docs/troubleshooting.md`](docs/troubleshooting.md) – integration and styling diagnostics
+
+---
+
 ## Features
 
 - ✅ Simple service API: `success()`, `error()`, `warning()`, `info()`, `show()`, `dismiss()`, `clear()`
@@ -165,57 +184,54 @@ Every toast method accepts `NgxMatToastOptions`, which are merged with the globa
 
 ### Theming with Angular Material
 
-`ngx-mat-toast` respects your Angular Material theme. To customize the toast appearance, configure your Material theme in your global styles:
+`ngx-mat-toast` respects your Angular Material theme. Configure your Material theme in your global styles and optionally override the toast CSS variables there as well:
 
 ```scss
 // styles.scss
 @use '@angular/material' as mat;
-@use 'ngx-mat-toast/toast' as toast;
 
-// Include Material theme
 @include mat.core();
-$theme: mat.define-light-theme(
+
+$theme: mat.define-theme(
   (
     color: (
-      primary: mat.$indigo-palette,
-      accent: mat.$pink-palette,
-      warn: mat.$red-palette,
+      theme-type: light,
+      primary: mat.$blue-palette,
+      tertiary: mat.$orange-palette,
     ),
   )
 );
-@include mat.all-component-colors($theme);
 
-// Optionally override toast-specific colors
-$custom-toast-theme: (
-  success: #4caf50,
-  error: #f44336,
-  warning: #ff9800,
-  info: #2196f3,
-);
+@include mat.all-component-themes($theme);
+
+:root {
+  --ngx-mat-toast-success-color: #2e7d32;
+  --ngx-mat-toast-warning-color: #ed6c02;
+}
 ```
 
 ### Custom styling
 
-Override toast styles by targeting the Material Snackbar container:
+Because snackbars render in the CDK overlay container, prefer **global styles** instead of component-scoped styles:
 
 ```scss
-// app.component.scss
-::ng-deep .mat-mdc-snack-bar-container {
-  .ngx-mat-toast {
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+// styles.scss
+.ngx-mat-toast-snack-panel .ngx-mat-toast-item {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
-    .ngx-mat-toast-title {
-      font-weight: 600;
-      font-size: 14px;
-    }
+  .ngx-mat-toast-item__title {
+    font-weight: 600;
+    font-size: 14px;
+  }
 
-    .ngx-mat-toast-message {
-      font-size: 13px;
-    }
+  .ngx-mat-toast-item__message {
+    font-size: 13px;
   }
 }
 ```
+
+For a fuller customization guide, see [`docs/customization.md`](docs/customization.md).
 
 ### Per-toast configuration overrides
 
@@ -352,7 +368,10 @@ Supported compatibility options include:
 - `positionClass`
 - `progressAnimation`
 
-See [`docs/migrating-from-ngx-toastr.md`](docs/migrating-from-ngx-toastr.md) for a more detailed migration guide.
+See these guides for migration details:
+
+- [`docs/migrating-from-ngx-toastr.md`](docs/migrating-from-ngx-toastr.md)
+- [`docs/compatibility-adapter.md`](docs/compatibility-adapter.md)
 
 ---
 
@@ -414,6 +433,15 @@ projects/
   ngx-mat-toast/    Publishable Angular library
 
 docs/
+  README.md
+  getting-started.md
+  configuration.md
+  api-reference.md
+  customization.md
+  examples.md
+  architecture.md
+  compatibility-adapter.md
+  troubleshooting.md
   migrating-from-ngx-toastr.md
 
 .github/

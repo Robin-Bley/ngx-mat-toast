@@ -4,6 +4,13 @@ This guide helps you move from `ngx-toastr` to `ngx-mat-toast` with minimal fric
 
 `ngx-mat-toast` keeps the API intentionally familiar while using **Angular Material Snackbar** internally.
 
+Related guides:
+
+- [Documentation overview](./README.md)
+- [Compatibility adapter guide](./compatibility-adapter.md)
+- [API reference](./api-reference.md)
+- [Troubleshooting](./troubleshooting.md)
+
 ---
 
 ## 1. Install the new package
@@ -232,7 +239,32 @@ export class ProfileComponent {
 
 ---
 
-## 7. Recommended migration strategy
+## 7. Common migration pitfalls
+
+### Expecting full-width legacy positions to look identical
+
+Legacy `toast-top-full-width` and `toast-bottom-full-width` values are mapped to centered positions, not literal full-width toast layouts.
+
+### Styling the overlay from component-local styles only
+
+Because the Material snackbar renders in the CDK overlay container, migration styling should usually move to a global stylesheet such as `styles.scss`.
+
+### Starting with the adapter and never standardizing the native API
+
+The `ToastrService` adapter is the safest first step, but the cleanest long-term result is to move application code toward:
+
+- `NgxMatToastService`
+- `NgxMatToastOptions`
+- `duration`
+- `position`
+
+### Reusing many different toast positions in one workflow
+
+During migration, it can be tempting to preserve every historical `positionClass`. In practice, most apps benefit from standardizing on one default position and using overrides only where the UX clearly improves.
+
+---
+
+## 8. Recommended migration strategy
 
 1. Replace package installation.
 2. Swap app bootstrap/module configuration.

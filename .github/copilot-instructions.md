@@ -48,6 +48,28 @@ When changing behavior, update the relevant docs:
 - `docs/migrating-from-ngx-toastr.md` when migration behavior changes
 - `CHANGELOG.md`
 
+The repository also maintains a dedicated docs suite under `docs/`:
+
+- `docs/README.md` – documentation hub and navigation
+- `docs/getting-started.md` – setup and first-use guide
+- `docs/configuration.md` – configuration semantics and defaults
+- `docs/api-reference.md` – public API reference
+- `docs/customization.md` – theming and styling guidance
+- `docs/examples.md` – practical recipes
+- `docs/architecture.md` – internal design rationale
+- `docs/compatibility-adapter.md` – `ToastrService` adapter details
+- `docs/troubleshooting.md` – diagnostics and common issues
+- `docs/migrating-from-ngx-toastr.md` – migration path from `ngx-toastr`
+
+Documentation best practices for this repository:
+
+- Keep documentation in English for consistency with the existing public docs.
+- Keep the root `README.md` focused on overview, quick start, and links into `docs/`.
+- Keep the package README concise and friendly for npm readers, with clear links back to the repository docs.
+- Prefer global-style guidance for snackbar customization because Material overlays render outside component style scope.
+- When public API changes, update `docs/api-reference.md` and `docs/configuration.md` together.
+- When migration behavior changes, update both `docs/migrating-from-ngx-toastr.md` and `docs/compatibility-adapter.md`.
+
 ## Release expectations
 
 - The npm package metadata lives in `projects/ngx-mat-toast/package.json`.
