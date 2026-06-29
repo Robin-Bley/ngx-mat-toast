@@ -153,7 +153,7 @@ Every toast method accepts `NgxMatToastOptions`, which are merged with the globa
 | `maxToasts`            | `number`                                            | `5`            | Maximum visible toasts at once. `0` disables the limit.              |
 | `enableDebug`          | `boolean`                                           | `false`        | Log toast activity to the browser console.                           |
 
-> **Implementation note:** Angular Material exposes a single snackbar outlet. `ngx-mat-toast` keeps a stack of toast cards inside that outlet. If you mix different positions while toasts are already open, the stack moves to the most recently requested position.
+> **Implementation note:** Angular Material exposes a single snackbar outlet. `ngx-mat-toast` keeps a stack of toast cards inside that outlet. If you mix different positions while toasts are already open, the stack moves to the most recently requested position. Within that stack, the newest toast stays closest to the configured viewport edge.
 
 ---
 
@@ -170,13 +170,15 @@ Every toast method accepts `NgxMatToastOptions`, which are merged with the globa
 
 // Include Material theme
 @include mat.core();
-$theme: mat.define-light-theme((
-  color: (
-    primary: mat.$indigo-palette,
-    accent: mat.$pink-palette,
-    warn: mat.$red-palette,
+$theme: mat.define-light-theme(
+  (
+    color: (
+      primary: mat.$indigo-palette,
+      accent: mat.$pink-palette,
+      warn: mat.$red-palette,
+    ),
   )
-));
+);
 @include mat.all-component-colors($theme);
 
 // Optionally override toast-specific colors
@@ -260,8 +262,8 @@ ref.afterDismissed().subscribe(() => {
   this.handleToastDismissed();
 });
 
-// Access the container reference (for advanced use cases)
-const containerRef = ref.containerInstance;
+// Store the generated id if you want to dismiss the toast elsewhere later
+const toastId = ref.id;
 ```
 
 ### Duplicate prevention
@@ -269,13 +271,15 @@ const containerRef = ref.containerInstance;
 Prevent duplicate toasts by enabling the `preventDuplicates` option:
 
 **Globally:**
+
 ```ts
 provideNgxMatToast({
   preventDuplicates: true,
-})
+});
 ```
 
 **Per-toast:**
+
 ```ts
 this.toast.success('Saved', 'Success', { preventDuplicates: true });
 ```
@@ -285,17 +289,19 @@ this.toast.success('Saved', 'Success', { preventDuplicates: true });
 Control the maximum number of simultaneously visible toasts:
 
 **Globally:**
+
 ```ts
 provideNgxMatToast({
   maxToasts: 3, // Show only 3 toasts at once
-})
+});
 ```
 
 **Disable limit:**
+
 ```ts
 provideNgxMatToast({
   maxToasts: 0, // Unlimited toasts
-})
+});
 ```
 
 ### Debug mode
@@ -305,7 +311,7 @@ Enable debug output to monitor toast activity:
 ```ts
 provideNgxMatToast({
   enableDebug: true, // Logs to browser console
-})
+});
 ```
 
 This logs all toast creation, dismissal, and configuration changes to the browser console.

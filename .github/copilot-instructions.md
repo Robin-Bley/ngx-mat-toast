@@ -28,6 +28,9 @@ The library targets **Angular 22+** and is intentionally designed to feel famili
 - Keep styles scoped and library-safe.
 - Preserve compatibility with strict TypeScript settings and `isolatedModules`.
 - Use `export type` for type-only re-exports.
+- **Full type annotation**: Every variable must be explicitly typed (e.g., `const name: string = 'test';`). Avoid relying on type inference.
+- **Explicit access modifiers**: Mark all public member variables and functions explicitly with the `public` keyword (e.g., `public doSomething(): void {}`).
+- **One interface per file**: Each interface must be defined in its own dedicated file for better modularity and maintainability.
 
 ## Tests
 

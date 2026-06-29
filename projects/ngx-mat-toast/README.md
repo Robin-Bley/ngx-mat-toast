@@ -125,6 +125,8 @@ ref.afterDismissed().subscribe(() => {
 | `maxToasts`            | `5`            | Maximum visible toasts. Use `0` for unlimited.                     |
 | `enableDebug`          | `false`        | Log toast activity in the browser console.                         |
 
+Within a stack, the newest toast stays closest to the configured viewport edge.
+
 ---
 
 ## Customization
@@ -134,6 +136,7 @@ ref.afterDismissed().subscribe(() => {
 `ngx-mat-toast` respects your Angular Material theme. Customize appearance by:
 
 1. **Configuring your Material theme:**
+
    ```scss
    // styles.scss
    @use '@angular/material' as mat;
@@ -183,10 +186,10 @@ Enable globally or per-toast:
 
 ```ts
 // Global
-provideNgxMatToast({ preventDuplicates: true, maxToasts: 3 })
+provideNgxMatToast({ preventDuplicates: true, maxToasts: 3 });
 
 // Per-toast
-this.toast.success('Saved', null, { preventDuplicates: true })
+this.toast.success('Saved', null, { preventDuplicates: true });
 ```
 
 ### Debug mode
@@ -194,7 +197,7 @@ this.toast.success('Saved', null, { preventDuplicates: true })
 Enable console logging for development:
 
 ```ts
-provideNgxMatToast({ enableDebug: true })
+provideNgxMatToast({ enableDebug: true });
 ```
 
 ---
