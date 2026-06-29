@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { NgxMatToastOptions } from './toast.config';
+import type { NgxMatToastOptions } from './toast.config';
 
 /**
  * Injection token for providing global `ngx-mat-toast` configuration overrides.

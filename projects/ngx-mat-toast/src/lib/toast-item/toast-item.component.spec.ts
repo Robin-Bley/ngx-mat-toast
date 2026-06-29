@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ToastItemComponent } from './toast-item.component';
-import { ToastData } from '../toast.model';
+import type { ToastData } from '../toast.model';
 import { DEFAULT_TOAST_CONFIG } from '../toast.config';
 import { vi } from 'vitest';
 

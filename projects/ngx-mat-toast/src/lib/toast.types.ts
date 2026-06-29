@@ -12,11 +12,3 @@ export type ToastHorizontalPosition = 'start' | 'center' | 'end' | 'left' | 'rig
  * Vertical positioning of the toast container.
  */
 export type ToastVerticalPosition = 'top' | 'bottom';
-
-/**
- * Position configuration for the toast container.
- */
-export interface ToastPosition {
-  horizontal: ToastHorizontalPosition;
-  vertical: ToastVerticalPosition;
-}

@@ -1,6 +1,6 @@
 import { EnvironmentProviders, importProvidersFrom, makeEnvironmentProviders } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { NgxMatToastOptions } from './toast.config';
+import type { NgxMatToastOptions } from './toast.config';
 import { NGX_MAT_TOAST_CONFIG } from './toast-config.token';
 
 /**

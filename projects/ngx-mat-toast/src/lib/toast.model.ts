@@ -1,5 +1,5 @@
-import {ToastType} from './toast.types';
-import {NgxMatToastConfig} from './toast.config';
+import type { ToastType } from './toast.types';
+import type { NgxMatToastConfig } from './toast.config';
 
 /**
  * Internal data model for a single toast notification.

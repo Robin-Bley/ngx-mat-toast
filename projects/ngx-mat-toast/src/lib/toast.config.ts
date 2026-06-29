@@ -1,4 +1,4 @@
-import { ToastPosition } from './toast.types';
+import type { ToastPosition } from './toast-position';
 
 /**
  * Global configuration for the ngx-mat-toast library.

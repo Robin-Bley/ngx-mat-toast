@@ -14,14 +14,6 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import type { ToastData } from '../toast.model';
-import type { ToastType } from '../toast.types';
-
-const PROGRESS_COLORS: Record<ToastType, 'primary' | 'accent' | 'warn'> = {
-  success: 'accent',
-  error: 'warn',
-  warning: 'accent',
-  info: 'primary',
-};
 
 /**
  * Renders a single toast card inside the snackbar-hosted outlet.
@@ -48,10 +40,6 @@ export class ToastItemComponent implements OnChanges, OnInit, OnDestroy {
   private progressInterval?: ReturnType<typeof setInterval>;
   private leaveTimer?: ReturnType<typeof setTimeout>;
   private startTime: number = 0;
-
-  public get progressColor(): 'primary' | 'accent' | 'warn' {
-    return PROGRESS_COLORS[this.toast.type];
-  }
 
   public ngOnInit(): void {
     this.progressValue = this.toast.config.progressBarDirection === 'increasing' ? 0 : 100;
@@ -106,8 +94,7 @@ export class ToastItemComponent implements OnChanges, OnInit, OnDestroy {
   private startProgressBar(): void {
     this.startTime = Date.now();
     const duration: number = this.toast.config.duration;
-    const direction: ToastData['config']['progressBarDirection'] =
-      this.toast.config.progressBarDirection;
+    const direction: 'increasing' | 'decreasing' = this.toast.config.progressBarDirection;
 
     this.progressInterval = setInterval((): void => {
       const elapsed: number = Date.now() - this.startTime;

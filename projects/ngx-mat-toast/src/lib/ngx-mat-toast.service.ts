@@ -8,7 +8,8 @@ import {
 import { NGX_MAT_TOAST_CONFIG } from './toast-config.token';
 import type { ToastData } from './toast.model';
 import { NgxMatToastRef } from './toast.ref';
-import type { ToastPosition, ToastType } from './toast.types';
+import type { ToastType } from './toast.types';
+import type { ToastPosition } from './toast-position';
 import { ToastContainerComponent } from './toast-container/toast-container.component';
 import type { ToastOutletData } from './toast-container/toast-outlet-data';
 
@@ -20,7 +21,10 @@ function createToastId(): string {
 }
 
 function positionsMatch(a: ToastPosition | null, b: ToastPosition): boolean {
-  return a?.horizontal === b.horizontal && a?.vertical === b.vertical;
+  if (!a) {
+    return false;
+  }
+  return a.horizontal === b.horizontal && a.vertical === b.vertical;
 }
 
 function resolveToastConfig(...configs: Array<NgxMatToastOptions | undefined>): NgxMatToastConfig {

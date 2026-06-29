@@ -1,6 +1,6 @@
 import type { Signal } from '@angular/core';
 import type { ToastData } from '../toast.model';
-import type { ToastPosition } from '../toast.types';
+import type { ToastPosition } from '../toast-position';
 
 /**
  * Data passed from `NgxMatToastService` into the persistent Material snackbar outlet.

@@ -1,6 +1,6 @@
 import { ModuleWithProviders, NgModule, type Provider } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { NgxMatToastOptions } from './toast.config';
+import type { NgxMatToastOptions } from './toast.config';
 import { NGX_MAT_TOAST_CONFIG } from './toast-config.token';
 
 /**
@@ -31,7 +31,7 @@ export class NgxMatToastModule {
   /**
    * Registers global `ngx-mat-toast` configuration for NgModule-based applications.
    */
-  static forRoot(config: NgxMatToastOptions = {}): ModuleWithProviders<NgxMatToastModule> {
+  public static forRoot(config: NgxMatToastOptions = {}): ModuleWithProviders<NgxMatToastModule> {
     return {
       ngModule: NgxMatToastModule,
       providers: [
