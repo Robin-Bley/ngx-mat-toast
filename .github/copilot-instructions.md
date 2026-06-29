@@ -7,7 +7,7 @@ This repository contains:
 - `projects/ngx-mat-toast` – the publishable Angular library
 - `projects/demo` – the example application used for local verification
 
-The library targets **Angular 22+** and is intentionally designed to feel familiar to users of `ngx-toastr`, while using **Angular Material Snackbar** internally.
+The library targets **Angular 21+** and is intentionally designed to feel familiar to users of `ngx-toastr`, while using **Angular Material Snackbar** internally.
 
 ## Architecture expectations
 

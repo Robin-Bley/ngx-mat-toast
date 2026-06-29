@@ -4,7 +4,7 @@
 
 It is designed to feel familiar to teams coming from `ngx-toastr`, while staying aligned with modern Angular best practices:
 
-- Angular 22+
+- Angular 21+
 - standalone providers and NgModules
 - Angular Material Snackbar under the hood
 - fully typed API
@@ -48,9 +48,9 @@ npm install ngx-mat-toast @angular/material @angular/cdk @angular/animations
 
 ```ts
 // app.config.ts
-import {ApplicationConfig} from '@angular/core';
-import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
-import {provideNgxMatToast} from 'ngx-mat-toast';
+import { ApplicationConfig } from '@angular/core';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideNgxMatToast } from 'ngx-mat-toast';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -58,7 +58,7 @@ export const appConfig: ApplicationConfig = {
     provideNgxMatToast({
       duration: 3000,
       progressBar: true,
-      position: {horizontal: 'end', vertical: 'top'},
+      position: { horizontal: 'end', vertical: 'top' },
     }),
   ],
 };
@@ -66,8 +66,8 @@ export const appConfig: ApplicationConfig = {
 
 ```ts
 // some.component.ts
-import {Component, inject} from '@angular/core';
-import {NgxMatToastService} from 'ngx-mat-toast';
+import { Component, inject } from '@angular/core';
+import { NgxMatToastService } from 'ngx-mat-toast';
 
 @Component({
   selector: 'app-example',
@@ -88,9 +88,9 @@ export class ExampleComponent {
 
 ```ts
 // app.module.ts
-import {NgModule} from '@angular/core';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {NgxMatToastModule} from 'ngx-mat-toast';
+import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxMatToastModule } from 'ngx-mat-toast';
 
 @NgModule({
   imports: [
@@ -101,8 +101,7 @@ import {NgxMatToastModule} from 'ngx-mat-toast';
     }),
   ],
 })
-export class AppModule {
-}
+export class AppModule {}
 ```
 
 ---
@@ -172,7 +171,7 @@ Use `provideNgxMatToast()` or `NgxMatToastModule.forRoot()`.
 Every toast method accepts `NgxMatToastOptions`, which are merged with the global defaults.
 
 | Option                 | Type                                                | Default        | Description                                                          |
-|------------------------|-----------------------------------------------------|----------------|----------------------------------------------------------------------|
+| ---------------------- | --------------------------------------------------- | -------------- | -------------------------------------------------------------------- |
 | `duration`             | `number`                                            | `3000`         | Auto-dismiss delay in milliseconds. Use `0` for persistent toasts.   |
 | `position.horizontal`  | `'start' \| 'center' \| 'end' \| 'left' \| 'right'` | `'end'`        | Horizontal placement of the snackbar outlet.                         |
 | `position.vertical`    | `'top' \| 'bottom'`                                 | `'top'`        | Vertical placement of the snackbar outlet.                           |
@@ -253,7 +252,7 @@ this.toast.success('Quick save', 'Saved', {
   duration: 2000,
   progressBar: true,
   closeable: false,
-  position: {horizontal: 'start', vertical: 'bottom'},
+  position: { horizontal: 'start', vertical: 'bottom' },
 });
 
 this.toast.error('Invalid input', 'Error', {
@@ -269,11 +268,11 @@ Position toasts dynamically based on context:
 ```ts
 if (isMobile()) {
   ref = this.toast.warning('Low battery', 'Warning', {
-    position: {horizontal: 'center', vertical: 'bottom'},
+    position: { horizontal: 'center', vertical: 'bottom' },
   });
 } else {
   ref = this.toast.warning('Low battery', 'Warning', {
-    position: {horizontal: 'end', vertical: 'top'},
+    position: { horizontal: 'end', vertical: 'top' },
   });
 }
 ```
@@ -283,7 +282,7 @@ if (isMobile()) {
 Use the returned `NgxMatToastRef` to interact with toasts programmatically:
 
 ```ts
-const ref = this.toast.info('Processing...', 'In progress', {duration: 0});
+const ref = this.toast.info('Processing...', 'In progress', { duration: 0 });
 
 // Dismiss the toast manually
 ref.dismiss();
@@ -312,7 +311,7 @@ provideNgxMatToast({
 **Per-toast:**
 
 ```ts
-this.toast.success('Saved', 'Success', {preventDuplicates: true});
+this.toast.success('Saved', 'Success', { preventDuplicates: true });
 ```
 
 ### Limiting maximum visible toasts
@@ -354,7 +353,7 @@ This logs all toast creation, dismissal, and configuration changes to the browse
 This repository includes a lightweight compatibility adapter:
 
 ```ts
-import {ToastrService} from 'ngx-mat-toast';
+import { ToastrService } from 'ngx-mat-toast';
 ```
 
 It supports common `ngx-toastr` patterns such as:
