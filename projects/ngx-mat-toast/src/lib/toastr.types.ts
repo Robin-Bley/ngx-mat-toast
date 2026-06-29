@@ -10,4 +10,3 @@ export type ToastrPositionClass =
   | 'toast-bottom-center'
   | 'toast-bottom-right'
   | 'toast-bottom-full-width';
-

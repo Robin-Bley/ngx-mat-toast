@@ -52,9 +52,13 @@ export class App {
   public readonly progressBar: WritableSignal<boolean> = signal(true);
   public readonly tapToDismiss: WritableSignal<boolean> = signal(true);
   public readonly preventDuplicates: WritableSignal<boolean> = signal(false);
-  public readonly progressBarDirection: WritableSignal<'increasing' | 'decreasing'> = signal<'increasing' | 'decreasing'>('decreasing');
-  public readonly horizontalPosition: WritableSignal<ToastHorizontalPosition> = signal<ToastHorizontalPosition>('end');
-  public readonly verticalPosition: WritableSignal<ToastVerticalPosition> = signal<ToastVerticalPosition>('top');
+  public readonly progressBarDirection: WritableSignal<'increasing' | 'decreasing'> = signal<
+    'increasing' | 'decreasing'
+  >('decreasing');
+  public readonly horizontalPosition: WritableSignal<ToastHorizontalPosition> =
+    signal<ToastHorizontalPosition>('end');
+  public readonly verticalPosition: WritableSignal<ToastVerticalPosition> =
+    signal<ToastVerticalPosition>('top');
 
   public readonly toastTypes: ToastDemo[] = [
     { type: 'success', label: 'Success', color: '#4caf50' },

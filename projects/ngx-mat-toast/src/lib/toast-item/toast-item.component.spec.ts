@@ -123,12 +123,12 @@ describe('ToastItemComponent', () => {
     fixture.componentRef.setInput(
       'toast',
       createToast({
-      config: {
-        ...DEFAULT_TOAST_CONFIG,
-        progressBar: true,
-        duration: 3000,
-        progressBarDirection: 'increasing',
-      },
+        config: {
+          ...DEFAULT_TOAST_CONFIG,
+          progressBar: true,
+          duration: 3000,
+          progressBarDirection: 'increasing',
+        },
       }),
     );
     fixture.detectChanges();
@@ -142,13 +142,17 @@ describe('ToastItemComponent', () => {
     fixture.detectChanges();
 
     let element = fixture.nativeElement as HTMLElement;
-    expect(element.querySelector('.ngx-mat-toast-item')?.classList.contains('state-enter')).toBe(false);
+    expect(element.querySelector('.ngx-mat-toast-item')?.classList.contains('state-enter')).toBe(
+      false,
+    );
 
     fixture.componentRef.setInput('toast', createToast({ isVisible: true }));
     fixture.detectChanges();
 
     element = fixture.nativeElement as HTMLElement;
-    expect(element.querySelector('.ngx-mat-toast-item')?.classList.contains('state-enter')).toBe(true);
+    expect(element.querySelector('.ngx-mat-toast-item')?.classList.contains('state-enter')).toBe(
+      true,
+    );
   });
 
   it('dismisses after clicking the toast when tapToDismiss is enabled', () => {

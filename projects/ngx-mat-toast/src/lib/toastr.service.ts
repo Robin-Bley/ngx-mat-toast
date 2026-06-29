@@ -64,7 +64,11 @@ function mapCompatConfig(config?: Partial<IndividualConfig>): NgxMatToastOptions
 export class ToastrService {
   private readonly toast: NgxMatToastService = inject(NgxMatToastService);
 
-  public success(message?: string, title?: string, override?: Partial<IndividualConfig>): ActiveToast {
+  public success(
+    message?: string,
+    title?: string,
+    override?: Partial<IndividualConfig>,
+  ): ActiveToast {
     return this.createActiveToast(
       this.toast.success(message ?? '', title, mapCompatConfig(override)),
       message,
@@ -72,7 +76,11 @@ export class ToastrService {
     );
   }
 
-  public error(message?: string, title?: string, override?: Partial<IndividualConfig>): ActiveToast {
+  public error(
+    message?: string,
+    title?: string,
+    override?: Partial<IndividualConfig>,
+  ): ActiveToast {
     return this.createActiveToast(
       this.toast.error(message ?? '', title, mapCompatConfig(override)),
       message,
@@ -88,7 +96,11 @@ export class ToastrService {
     );
   }
 
-  public warning(message?: string, title?: string, override?: Partial<IndividualConfig>): ActiveToast {
+  public warning(
+    message?: string,
+    title?: string,
+    override?: Partial<IndividualConfig>,
+  ): ActiveToast {
     return this.createActiveToast(
       this.toast.warning(message ?? '', title, mapCompatConfig(override)),
       message,

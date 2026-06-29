@@ -17,4 +17,3 @@ export interface IndividualConfig {
   positionClass?: ToastrPositionClass;
   progressAnimation?: 'increasing' | 'decreasing';
 }
-

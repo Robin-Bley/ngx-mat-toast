@@ -1,3 +1,11 @@
-# Populate these values when the project is ready to accept sponsorship.
-github: []
-custom: []
+# Support the development of ngx-mat-toast
+# This project is maintained by open-source contributors and community members.
+
+# GitHub Sponsors
+# Add your GitHub username here if you set up GitHub Sponsors
+# github: []
+
+# Alternative sponsoring platforms
+custom:
+  - name: 'PayPal'
+    url: 'https://www.paypal.me/RobinBley28'

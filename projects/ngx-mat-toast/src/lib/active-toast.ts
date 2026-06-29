@@ -10,4 +10,3 @@ export interface ActiveToast {
   message?: string;
   toastRef: NgxMatToastRef;
 }
-

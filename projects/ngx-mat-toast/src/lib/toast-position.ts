@@ -7,4 +7,3 @@ export interface ToastPosition {
   horizontal: ToastHorizontalPosition;
   vertical: ToastVerticalPosition;
 }
-

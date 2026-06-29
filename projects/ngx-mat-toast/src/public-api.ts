@@ -6,11 +6,7 @@ export { NgxMatToastService } from './lib/ngx-mat-toast.service';
 export { NgxMatToastRef } from './lib/toast.ref';
 export type { NgxMatToastConfig, NgxMatToastOptions } from './lib/toast.config';
 export { DEFAULT_TOAST_CONFIG } from './lib/toast.config';
-export type {
-  ToastHorizontalPosition,
-  ToastType,
-  ToastVerticalPosition,
-} from './lib/toast.types';
+export type { ToastHorizontalPosition, ToastType, ToastVerticalPosition } from './lib/toast.types';
 export type { ToastPosition } from './lib/toast-position';
 export type { ToastData } from './lib/toast.model';
 export { provideNgxMatToast } from './lib/provide-ngx-mat-toast';
