@@ -19,9 +19,8 @@
   cursor: default;
   position: relative;
   overflow: hidden;
-  transition:
-    transform 0.2s ease,
-    opacity 0.2s ease;
+  opacity: 0;
+  transform: translateX(100%);
 
   &.state-enter {
     animation: toast-enter 0.25s ease forwards;

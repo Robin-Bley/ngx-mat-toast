@@ -5,9 +5,11 @@ import {
   EventEmitter,
   inject,
   Input,
-  OnDestroy,
+  OnChanges,
   OnInit,
+  OnDestroy,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -34,7 +36,7 @@ const PROGRESS_COLORS: Record<ToastType, 'primary' | 'accent' | 'warn'> = {
   styleUrl: './toast-item.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToastItemComponent implements OnInit, OnDestroy {
+export class ToastItemComponent implements OnChanges, OnInit, OnDestroy {
   private readonly cdr = inject(ChangeDetectorRef);
 
   @Input({ required: true }) toast!: ToastData;
@@ -54,7 +56,18 @@ export class ToastItemComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.progressValue = this.toast.config.progressBarDirection === 'increasing' ? 0 : 100;
 
-    if (this.toast.config.progressBar && this.toast.config.duration > 0) {
+    if (this.shouldStartProgressBar() && !this.progressInterval) {
+      this.startProgressBar();
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.progressValue = this.toast.config.progressBarDirection === 'increasing' ? 0 : 100;
+
+    const toastChange = changes['toast'];
+
+    if (toastChange && this.shouldStartProgressBar() && !toastChange.previousValue?.isVisible) {
+      this.stopProgressBar();
       this.startProgressBar();
     }
   }
@@ -105,6 +118,15 @@ export class ToastItemComponent implements OnInit, OnDestroy {
         this.stopProgressBar();
       }
     }, 50);
+  }
+
+  private shouldStartProgressBar(): boolean {
+    return (
+      this.toast.isVisible &&
+      this.toast.config.progressBar &&
+      this.toast.config.duration > 0 &&
+      !this.isLeaving
+    );
   }
 
   private stopProgressBar(): void {

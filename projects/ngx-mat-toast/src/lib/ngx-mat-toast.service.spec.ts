@@ -46,6 +46,27 @@ describe('NgxMatToastService', () => {
     expect(service._toasts()[0]?.type).toBe('success');
   });
 
+  it('reveals the first toast after the snackbar outlet finishes opening', async () => {
+    service.success('Saved successfully');
+
+    expect(service._toasts()[0]?.isVisible).toBe(false);
+
+    await new Promise((resolve) => setTimeout(resolve, 10));
+
+    expect(service._toasts()[0]?.isVisible).toBe(true);
+  });
+
+  it('shows additional toasts immediately once the outlet is open', async () => {
+    service.success('First');
+
+    await new Promise((resolve) => setTimeout(resolve, 10));
+
+    service.success('Second');
+
+    expect(service._toasts()[0]?.isVisible).toBe(true);
+    expect(service._toasts()[1]?.isVisible).toBe(true);
+  });
+
   it('creates success, error, warning, and info toasts', () => {
     service.success('Success');
     service.error('Error');

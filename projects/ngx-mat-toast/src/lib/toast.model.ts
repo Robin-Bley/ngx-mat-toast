@@ -17,4 +17,6 @@ export interface ToastData {
   config: NgxMatToastConfig;
   /** Timestamp when the toast was created. */
   createdAt: number;
+  /** Whether the toast card should be visible and run its enter animation. */
+  isVisible: boolean;
 }

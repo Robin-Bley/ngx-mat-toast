@@ -127,6 +127,78 @@ ref.afterDismissed().subscribe(() => {
 
 ---
 
+## Customization
+
+### Styling and theming
+
+`ngx-mat-toast` respects your Angular Material theme. Customize appearance by:
+
+1. **Configuring your Material theme:**
+   ```scss
+   // styles.scss
+   @use '@angular/material' as mat;
+   @include mat.core();
+   $theme: mat.define-light-theme((...));
+   @include mat.all-component-colors($theme);
+   ```
+
+2. **Overriding toast styles:**
+   ```scss
+   ::ng-deep .mat-mdc-snack-bar-container {
+     .ngx-mat-toast {
+       border-radius: 12px;
+       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+     }
+   }
+   ```
+
+### Per-toast configuration
+
+Override global settings for individual toasts:
+
+```ts
+this.toast.success('Saved', 'Success', {
+  duration: 2000,
+  position: { horizontal: 'start', vertical: 'bottom' },
+  closeable: false,
+  progressBar: true,
+});
+```
+
+### Toast references and programmatic control
+
+```ts
+const ref = this.toast.info('Processing...', null, { duration: 0 });
+
+ref.dismiss();
+
+ref.afterDismissed().subscribe(() => {
+  console.log('Toast dismissed');
+});
+```
+
+### Duplicate prevention and limits
+
+Enable globally or per-toast:
+
+```ts
+// Global
+provideNgxMatToast({ preventDuplicates: true, maxToasts: 3 })
+
+// Per-toast
+this.toast.success('Saved', null, { preventDuplicates: true })
+```
+
+### Debug mode
+
+Enable console logging for development:
+
+```ts
+provideNgxMatToast({ enableDebug: true })
+```
+
+---
+
 ## `ngx-toastr` compatibility
 
 For simpler migrations, you can import the compatibility adapter:

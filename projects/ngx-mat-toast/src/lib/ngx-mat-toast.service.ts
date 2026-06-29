@@ -62,6 +62,7 @@ export class NgxMatToastService {
 
   private outletRef: MatSnackBarRef<ToastContainerComponent> | null = null;
   private outletPosition: ToastPosition | null = null;
+  private outletOpened = false;
   private readonly activeRefs = new Map<string, NgxMatToastRef>();
   private readonly dismissTimers = new Map<string, ReturnType<typeof setTimeout>>();
 
@@ -124,17 +125,19 @@ export class NgxMatToastService {
       type,
       config: resolvedConfig,
       createdAt: Date.now(),
+      isVisible: this.canShowToastImmediately(resolvedConfig.position),
     };
 
     const ref = new NgxMatToastRef(id, this);
     this.activeRefs.set(id, ref);
-    this._toasts.update((current) => [...current, toast]);
-    this.ensureOutlet(resolvedConfig.position);
 
-    if (resolvedConfig.duration > 0) {
-      const timer = setTimeout(() => this.removeToast(id), resolvedConfig.duration);
-      this.dismissTimers.set(id, timer);
+    this._toasts.update((current) => [...current, toast]);
+
+    if (toast.isVisible) {
+      this.scheduleDismiss(toast);
     }
+
+    this.ensureOutlet(resolvedConfig.position);
 
     return ref;
   }
@@ -184,6 +187,7 @@ export class NgxMatToastService {
       const previousRef = this.outletRef;
       this.outletRef = null;
       this.outletPosition = null;
+      this.outletOpened = false;
       previousRef.dismiss();
     }
 
@@ -204,13 +208,51 @@ export class NgxMatToastService {
     const outletRef = this.snackBar.openFromComponent(ToastContainerComponent, config);
     this.outletRef = outletRef;
     this.outletPosition = position;
+    this.outletOpened = false;
+
+    outletRef.afterOpened().subscribe(() => {
+      if (this.outletRef === outletRef) {
+        this.outletOpened = true;
+        this.revealPendingToasts();
+      }
+    });
 
     outletRef.afterDismissed().subscribe(() => {
       if (this.outletRef === outletRef) {
         this.outletRef = null;
         this.outletPosition = null;
+        this.outletOpened = false;
       }
     });
+  }
+
+  private canShowToastImmediately(position: ToastPosition): boolean {
+    return !!this.outletRef && positionsMatch(this.outletPosition, position) && this.outletOpened;
+  }
+
+  private revealPendingToasts(): void {
+    const pendingToasts = this._toasts().filter((toast) => !toast.isVisible);
+
+    if (pendingToasts.length === 0) {
+      return;
+    }
+
+    this._toasts.update((current) =>
+      current.map((toast) => (toast.isVisible ? toast : { ...toast, isVisible: true })),
+    );
+
+    for (const toast of pendingToasts) {
+      this.scheduleDismiss(toast);
+    }
+  }
+
+  private scheduleDismiss(toast: ToastData): void {
+    if (toast.config.duration <= 0 || this.dismissTimers.has(toast.id)) {
+      return;
+    }
+
+    const timer = setTimeout(() => this.removeToast(toast.id), toast.config.duration);
+    this.dismissTimers.set(toast.id, timer);
   }
 
   private destroyOutlet(): void {
@@ -221,6 +263,7 @@ export class NgxMatToastService {
     const outletRef = this.outletRef;
     this.outletRef = null;
     this.outletPosition = null;
+    this.outletOpened = false;
     outletRef.dismiss();
   }
 }

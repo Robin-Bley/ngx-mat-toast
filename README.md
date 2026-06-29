@@ -157,6 +157,161 @@ Every toast method accepts `NgxMatToastOptions`, which are merged with the globa
 
 ---
 
+## Customization
+
+### Theming with Angular Material
+
+`ngx-mat-toast` respects your Angular Material theme. To customize the toast appearance, configure your Material theme in your global styles:
+
+```scss
+// styles.scss
+@use '@angular/material' as mat;
+@use 'ngx-mat-toast/toast' as toast;
+
+// Include Material theme
+@include mat.core();
+$theme: mat.define-light-theme((
+  color: (
+    primary: mat.$indigo-palette,
+    accent: mat.$pink-palette,
+    warn: mat.$red-palette,
+  )
+));
+@include mat.all-component-colors($theme);
+
+// Optionally override toast-specific colors
+$custom-toast-theme: (
+  success: #4caf50,
+  error: #f44336,
+  warning: #ff9800,
+  info: #2196f3,
+);
+```
+
+### Custom styling
+
+Override toast styles by targeting the Material Snackbar container:
+
+```scss
+// app.component.scss
+::ng-deep .mat-mdc-snack-bar-container {
+  .ngx-mat-toast {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    .ngx-mat-toast-title {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .ngx-mat-toast-message {
+      font-size: 13px;
+    }
+  }
+}
+```
+
+### Per-toast configuration overrides
+
+Every toast method supports per-toast options that override global defaults:
+
+```ts
+this.toast.success('Quick save', 'Saved', {
+  duration: 2000,
+  progressBar: true,
+  closeable: false,
+  position: { horizontal: 'start', vertical: 'bottom' },
+});
+
+this.toast.error('Invalid input', 'Error', {
+  duration: 0, // Persistent toast
+  tapToDismiss: false, // Prevent accidental dismissal
+});
+```
+
+### Custom positions for specific toasts
+
+Position toasts dynamically based on context:
+
+```ts
+if (isMobile()) {
+  ref = this.toast.warning('Low battery', 'Warning', {
+    position: { horizontal: 'center', vertical: 'bottom' },
+  });
+} else {
+  ref = this.toast.warning('Low battery', 'Warning', {
+    position: { horizontal: 'end', vertical: 'top' },
+  });
+}
+```
+
+### Working with toast references
+
+Use the returned `NgxMatToastRef` to interact with toasts programmatically:
+
+```ts
+const ref = this.toast.info('Processing...', 'In progress', { duration: 0 });
+
+// Dismiss the toast manually
+ref.dismiss();
+
+// Listen for dismissal
+ref.afterDismissed().subscribe(() => {
+  this.handleToastDismissed();
+});
+
+// Access the container reference (for advanced use cases)
+const containerRef = ref.containerInstance;
+```
+
+### Duplicate prevention
+
+Prevent duplicate toasts by enabling the `preventDuplicates` option:
+
+**Globally:**
+```ts
+provideNgxMatToast({
+  preventDuplicates: true,
+})
+```
+
+**Per-toast:**
+```ts
+this.toast.success('Saved', 'Success', { preventDuplicates: true });
+```
+
+### Limiting maximum visible toasts
+
+Control the maximum number of simultaneously visible toasts:
+
+**Globally:**
+```ts
+provideNgxMatToast({
+  maxToasts: 3, // Show only 3 toasts at once
+})
+```
+
+**Disable limit:**
+```ts
+provideNgxMatToast({
+  maxToasts: 0, // Unlimited toasts
+})
+```
+
+### Debug mode
+
+Enable debug output to monitor toast activity:
+
+```ts
+provideNgxMatToast({
+  enableDebug: true, // Logs to browser console
+})
+```
+
+This logs all toast creation, dismissal, and configuration changes to the browser console.
+
+---
+
 ## Migrating from `ngx-toastr`
 
 This repository includes a lightweight compatibility adapter:
@@ -194,6 +349,8 @@ See [`docs/migrating-from-ngx-toastr.md`](docs/migrating-from-ngx-toastr.md) for
 ## Demo application
 
 This workspace includes a demo app under `projects/demo`.
+
+**Try it online:** [StackBlitz Demo](https://stackblitz.com/github/Robin-Bley/ngx-mat-toast?file=README.md)
 
 Start it locally with:
 
