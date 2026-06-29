@@ -19,7 +19,6 @@
     "release": "npm run build:lib && npm publish ./dist/ngx-mat-toast --access public"
   },
   "dependencies": {
-    "@angular/animations": "^22.0.4",
     "@angular/cdk": "^22.0.2",
     "@angular/common": "^22.0.0",
     "@angular/compiler": "^22.0.0",

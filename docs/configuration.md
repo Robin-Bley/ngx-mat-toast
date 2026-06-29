@@ -57,12 +57,10 @@ Use global configuration for the behavior that should be consistent across the a
 
 ```ts
 import { ApplicationConfig } from '@angular/core';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideNgxMatToast } from 'ngx-mat-toast';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideAnimationsAsync(),
     provideNgxMatToast({
       duration: 3000,
       progressBar: true,
@@ -78,12 +76,10 @@ export const appConfig: ApplicationConfig = {
 
 ```ts
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMatToastModule } from 'ngx-mat-toast';
 
 @NgModule({
   imports: [
-    BrowserAnimationsModule,
     NgxMatToastModule.forRoot({
       duration: 3000,
       progressBar: true,
@@ -97,6 +93,8 @@ export class AppModule {}
 ```
 
 Best practice: use global defaults for position, max toast count, and duplicate handling. Keep per-toast overrides focused on exceptional flows.
+
+`ngx-mat-toast` uses CSS-native motion, so these setup examples do not need an Angular animations provider.
 
 ---
 

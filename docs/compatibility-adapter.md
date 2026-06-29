@@ -147,6 +147,8 @@ The adapter is best viewed as a migration bridge, not a forever abstraction.
 - install `ngx-mat-toast`
 - register `provideNgxMatToast()` or `NgxMatToastModule.forRoot()`
 
+No Angular animations provider is required for `ngx-mat-toast` itself because the library and the current Material snackbar host use CSS-native motion.
+
 ### Stage 2: change imports only
 
 Replace:

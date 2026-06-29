@@ -27,19 +27,17 @@ It is designed for teams that want a modern, typed toast API that still feels fa
 ### 1. Install
 
 ```bash
-npm install ngx-mat-toast @angular/material @angular/cdk @angular/animations
+npm install ngx-mat-toast @angular/material @angular/cdk
 ```
 
 ### 2. Register the provider
 
 ```ts
 import { ApplicationConfig } from '@angular/core';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideNgxMatToast } from 'ngx-mat-toast';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideAnimationsAsync(),
     provideNgxMatToast({
       duration: 3000,
       progressBar: true,
@@ -69,7 +67,7 @@ export class ExampleComponent {
 }
 ```
 
-> `ngx-mat-toast` uses Angular Material Snackbar internally, so your app must also provide animations via `provideAnimations()`, `provideAnimationsAsync()`, `provideNoopAnimations()`, `BrowserAnimationsModule`, or `NoopAnimationsModule`.
+> `ngx-mat-toast` uses native CSS motion for both the toast cards and the current Angular Material snackbar host, so no Angular animations provider is required for the library itself.
 
 **Using NgModules instead of standalone APIs?** Use `NgxMatToastModule.forRoot()`. The full setup is documented in [`docs/getting-started.md`](docs/getting-started.md).
 

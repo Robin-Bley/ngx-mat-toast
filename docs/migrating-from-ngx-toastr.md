@@ -19,7 +19,7 @@ Remove `ngx-toastr` and install `ngx-mat-toast` plus the Angular Material peers:
 
 ```bash
 npm uninstall ngx-toastr
-npm install ngx-mat-toast @angular/material @angular/cdk @angular/animations
+npm install ngx-mat-toast @angular/material @angular/cdk
 ```
 
 ---
@@ -49,12 +49,10 @@ export const appConfig = {
 After:
 
 ```ts
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideNgxMatToast } from 'ngx-mat-toast';
 
 export const appConfig = {
   providers: [
-    provideAnimations(),
     provideNgxMatToast({
       duration: 3000,
       progressBar: true,
@@ -81,14 +79,15 @@ export class AppModule {}
 After:
 
 ```ts
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMatToastModule } from 'ngx-mat-toast';
 
 @NgModule({
-  imports: [BrowserAnimationsModule, NgxMatToastModule.forRoot()],
+  imports: [NgxMatToastModule.forRoot()],
 })
 export class AppModule {}
 ```
+
+`ngx-mat-toast` itself does not require Angular animations providers or modules. Keep your existing Angular animations setup only if other parts of the app still rely on Angular's legacy animations package.
 
 ---
 

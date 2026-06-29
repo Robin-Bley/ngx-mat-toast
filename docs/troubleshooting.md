@@ -13,16 +13,16 @@ Related guides:
 
 ## Quick diagnosis table
 
-| Symptom                                                       | Likely cause                                            | What to check                                                                           |
-| ------------------------------------------------------------- | ------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| No toast appears at all                                       | Missing animations or provider setup                    | Verify `provideNgxMatToast()` or `NgxMatToastModule.forRoot()` and one animations setup |
-| Toast appears but custom styles do not apply                  | Styles live in component scope instead of global styles | Move overrides to `styles.scss` or another global stylesheet                            |
-| A new toast does not appear even though the method was called | `preventDuplicates` returned the active toast           | Check whether the same title, message, and type are already visible                     |
-| A toast never disappears                                      | `duration` is `0` or the toast is persistent by design  | Inspect resolved options                                                                |
-| The stack moved to another corner                             | A newer toast requested a different `position`          | Standardize position usage in the workflow                                              |
-| Progress bar is missing                                       | `progressBar` is `false` or `duration <= 0`             | Check both values                                                                       |
-| Close button is missing                                       | `closeable` is `false`                                  | Check global defaults and per-toast overrides                                           |
-| Full-width `ngx-toastr` positions do not match old visuals    | Compatibility adapter maps them to centered positions   | Review the adapter guide and adjust expectations                                        |
+| Symptom                                                       | Likely cause                                            | What to check                                                                            |
+| ------------------------------------------------------------- | ------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| No toast appears at all                                       | Library setup is missing or the toast call never runs   | Verify `provideNgxMatToast()` or `NgxMatToastModule.forRoot()` and confirm the code path |
+| Toast appears but custom styles do not apply                  | Styles live in component scope instead of global styles | Move overrides to `styles.scss` or another global stylesheet                             |
+| A new toast does not appear even though the method was called | `preventDuplicates` returned the active toast           | Check whether the same title, message, and type are already visible                      |
+| A toast never disappears                                      | `duration` is `0` or the toast is persistent by design  | Inspect resolved options                                                                 |
+| The stack moved to another corner                             | A newer toast requested a different `position`          | Standardize position usage in the workflow                                               |
+| Progress bar is missing                                       | `progressBar` is `false` or `duration <= 0`             | Check both values                                                                        |
+| Close button is missing                                       | `closeable` is `false`                                  | Check global defaults and per-toast overrides                                            |
+| Full-width `ngx-toastr` positions do not match old visuals    | Compatibility adapter maps them to centered positions   | Review the adapter guide and adjust expectations                                         |
 
 ---
 
@@ -33,26 +33,40 @@ Related guides:
 1. Confirm that the library is registered:
    - standalone: `provideNgxMatToast()`
    - NgModule: `NgxMatToastModule.forRoot()`
-2. Confirm that animations are provided:
-   - `provideAnimations()`
-   - `provideAnimationsAsync()`
-   - `provideNoopAnimations()`
-   - `BrowserAnimationsModule`
-   - `NoopAnimationsModule`
-3. Confirm that the toast method is actually executed.
-4. Confirm that there is no runtime error before the toast call.
+2. Confirm that the toast method is actually executed.
+3. Confirm that there is no runtime error before the toast call.
 
 ### Recommended minimal setup
 
 ```ts
 import { ApplicationConfig } from '@angular/core';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideNgxMatToast } from 'ngx-mat-toast';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideAnimationsAsync(), provideNgxMatToast()],
+  providers: [provideNgxMatToast()],
 };
 ```
+
+---
+
+## Problem: the editor warns that `provideAnimations()` or `BrowserAnimationsModule` is deprecated
+
+`ngx-mat-toast` does not need Angular's legacy animations package for its own behavior.
+
+### Fix
+
+Remove the deprecated animation provider or module from toast-only setup:
+
+```ts
+import { ApplicationConfig } from '@angular/core';
+import { provideNgxMatToast } from 'ngx-mat-toast';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideNgxMatToast()],
+};
+```
+
+If another part of your application still uses Angular's legacy animation APIs, keep that setup only for those features.
 
 ---
 
@@ -215,7 +229,7 @@ If something still behaves incorrectly, work through the problem in this order:
 
 1. reduce the setup to a minimal toast example
 2. remove custom styles temporarily
-3. verify the root provider and animations setup
+3. verify the root provider setup
 4. enable debug logging
 5. compare the behavior against [`architecture.md`](./architecture.md)
 6. if migrating, compare the behavior against [`compatibility-adapter.md`](./compatibility-adapter.md)

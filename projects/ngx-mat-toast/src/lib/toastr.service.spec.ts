@@ -1,8 +1,7 @@
-import { TestBed } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { ToastrService } from './toastr.service';
-import { provideNgxMatToast } from './provide-ngx-mat-toast';
-import { NgxMatToastService } from './ngx-mat-toast.service';
+import {TestBed} from '@angular/core/testing';
+import {ToastrService} from './toastr.service';
+import {provideNgxMatToast} from './provide-ngx-mat-toast';
+import {NgxMatToastService} from './ngx-mat-toast.service';
 
 describe('ToastrService compatibility adapter', () => {
   let service: ToastrService;
@@ -10,7 +9,7 @@ describe('ToastrService compatibility adapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideNoopAnimations(), provideNgxMatToast()],
+      providers: [provideNgxMatToast()],
     });
 
     service = TestBed.inject(ToastrService);
@@ -41,7 +40,7 @@ describe('ToastrService compatibility adapter', () => {
       preventDuplicates: true,
       maxToasts: 2,
       progressBarDirection: 'increasing',
-      position: { horizontal: 'start', vertical: 'bottom' },
+      position: {horizontal: 'start', vertical: 'bottom'},
     });
   });
 

@@ -246,12 +246,10 @@ Use this in standalone Angular apps.
 
 ```ts
 import { ApplicationConfig } from '@angular/core';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideNgxMatToast } from 'ngx-mat-toast';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideAnimationsAsync(),
     provideNgxMatToast({
       position: { horizontal: 'end', vertical: 'top' },
       progressBar: true,
@@ -260,7 +258,7 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-Important: you still need one Angular animations provider.
+Important: `ngx-mat-toast` uses CSS-native motion, so no Angular animations provider is required for the library itself.
 
 ---
 
@@ -278,12 +276,10 @@ Use this in NgModule-based Angular applications.
 
 ```ts
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMatToastModule } from 'ngx-mat-toast';
 
 @NgModule({
   imports: [
-    BrowserAnimationsModule,
     NgxMatToastModule.forRoot({
       progressBar: true,
       preventDuplicates: true,

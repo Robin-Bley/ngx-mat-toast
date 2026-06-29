@@ -17,7 +17,6 @@ Before installing the library, make sure your app already uses or can use:
 
 - Angular `21+`
 - Angular Material
-- Angular animations
 - Global styles that can target the Material overlay container
 
 `ngx-mat-toast` is designed to feel familiar to `ngx-toastr` users, but the runtime host is Angular Material `MatSnackBar`.
@@ -27,7 +26,7 @@ Before installing the library, make sure your app already uses or can use:
 ## 2. Install the package
 
 ```bash
-npm install ngx-mat-toast @angular/material @angular/cdk @angular/animations
+npm install ngx-mat-toast @angular/material @angular/cdk
 ```
 
 If your project does not yet include Angular Material, install and configure it first according to your team standards.
@@ -40,16 +39,14 @@ The library supports both Angular integration styles. Use exactly one of them at
 
 ### Option A: standalone Angular applications
 
-Use `provideNgxMatToast()` together with one animation provider.
+Use `provideNgxMatToast()` at the application root.
 
 ```ts
 import { ApplicationConfig } from '@angular/core';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideNgxMatToast } from 'ngx-mat-toast';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideAnimationsAsync(),
     provideNgxMatToast({
       duration: 3000,
       progressBar: true,
@@ -62,16 +59,14 @@ export const appConfig: ApplicationConfig = {
 
 ### Option B: NgModule-based Angular applications
 
-Use `NgxMatToastModule.forRoot()` and import an animations module.
+Use `NgxMatToastModule.forRoot()` in the root module.
 
 ```ts
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMatToastModule } from 'ngx-mat-toast';
 
 @NgModule({
   imports: [
-    BrowserAnimationsModule,
     NgxMatToastModule.forRoot({
       duration: 3000,
       progressBar: true,
@@ -159,7 +154,6 @@ Best practice:
 
 Once the provider setup is done, validate the integration with this checklist:
 
-- The app includes an animations provider or module.
 - The toast provider is registered exactly once.
 - A toast method is called from a reachable user flow.
 - Notifications appear in the expected screen corner.
@@ -174,12 +168,10 @@ A practical baseline for product UIs is:
 
 ```ts
 import { ApplicationConfig } from '@angular/core';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideNgxMatToast } from 'ngx-mat-toast';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideAnimationsAsync(),
     provideNgxMatToast({
       duration: 3000,
       closeable: true,
@@ -205,17 +197,13 @@ Why this works well:
 
 ## 8. Common onboarding mistakes
 
-### Missing animations
+### Adding deprecated Angular animations setup unnecessarily
 
-If no Angular animations provider or module is configured, the snackbar infrastructure is not set up correctly.
+`ngx-mat-toast` and the current Angular Material snackbar host both use native CSS motion.
 
-Use one of these:
+You do not need `provideAnimations()`, `provideAnimationsAsync()`, `provideNoopAnimations()`, `BrowserAnimationsModule`, or `NoopAnimationsModule` just to show toasts with this library.
 
-- `provideAnimations()`
-- `provideAnimationsAsync()`
-- `provideNoopAnimations()`
-- `BrowserAnimationsModule`
-- `NoopAnimationsModule`
+Keep legacy Angular animations setup only when another part of your app still depends on it.
 
 ### Styling from component scope only
 

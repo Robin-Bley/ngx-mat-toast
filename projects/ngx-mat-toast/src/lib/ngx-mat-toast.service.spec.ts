@@ -1,22 +1,23 @@
-import { TestBed } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { vi } from 'vitest';
-import { NgxMatToastService } from './ngx-mat-toast.service';
-import { provideNgxMatToast } from './provide-ngx-mat-toast';
-import type { NgxMatToastRef } from './toast.ref';
+import {TestBed} from '@angular/core/testing';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {vi} from 'vitest';
+import {NgxMatToastService} from './ngx-mat-toast.service';
+import {provideNgxMatToast} from './provide-ngx-mat-toast';
+import type {NgxMatToastRef} from './toast.ref';
 
 describe('NgxMatToastService', () => {
+  const outletOpenDelayMs: number = 250;
+  const autoDismissWaitMs: number = 300;
+
   let service: NgxMatToastService;
   let snackBar: MatSnackBar;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        provideNoopAnimations(),
         provideNgxMatToast({
           duration: 3000,
-          position: { horizontal: 'end', vertical: 'top' },
+          position: {horizontal: 'end', vertical: 'top'},
           maxToasts: 5,
         }),
       ],
@@ -52,7 +53,7 @@ describe('NgxMatToastService', () => {
 
     expect(service._toasts()[0]?.isVisible).toBe(false);
 
-    await new Promise((resolve) => setTimeout(resolve, 10));
+    await new Promise((resolve) => setTimeout(resolve, outletOpenDelayMs));
 
     expect(service._toasts()[0]?.isVisible).toBe(true);
   });
@@ -60,7 +61,7 @@ describe('NgxMatToastService', () => {
   it('shows additional toasts immediately once the outlet is open', async () => {
     service.success('First');
 
-    await new Promise((resolve) => setTimeout(resolve, 10));
+    await new Promise((resolve) => setTimeout(resolve, outletOpenDelayMs));
 
     service.success('Second');
 
@@ -84,7 +85,7 @@ describe('NgxMatToastService', () => {
 
   it('deep merges nested position overrides with the global config', () => {
     service.success('Custom position', 'Toast', {
-      position: { vertical: 'bottom' },
+      position: {vertical: 'bottom'},
     });
 
     expect(service._toasts()[0]?.config.position).toEqual({
@@ -94,8 +95,8 @@ describe('NgxMatToastService', () => {
   });
 
   it('returns the existing ref when preventDuplicates is enabled', () => {
-    const first = service.success('Duplicate', undefined, { preventDuplicates: true });
-    const second = service.success('Duplicate', undefined, { preventDuplicates: true });
+    const first = service.success('Duplicate', undefined, {preventDuplicates: true});
+    const second = service.success('Duplicate', undefined, {preventDuplicates: true});
 
     expect(first).toBe(second);
     expect(service._toasts()).toHaveLength(1);
@@ -114,34 +115,34 @@ describe('NgxMatToastService', () => {
   });
 
   it('allows duplicates when preventDuplicates is disabled', () => {
-    service.success('Duplicate', undefined, { preventDuplicates: false });
-    service.success('Duplicate', undefined, { preventDuplicates: false });
+    service.success('Duplicate', undefined, {preventDuplicates: false});
+    service.success('Duplicate', undefined, {preventDuplicates: false});
 
     expect(service._toasts()).toHaveLength(2);
   });
 
   it('removes the oldest toast when maxToasts is exceeded', () => {
-    service.success('First', undefined, { maxToasts: 2 });
-    service.success('Second', undefined, { maxToasts: 2 });
-    service.success('Third', undefined, { maxToasts: 2 });
+    service.success('First', undefined, {maxToasts: 2});
+    service.success('Second', undefined, {maxToasts: 2});
+    service.success('Third', undefined, {maxToasts: 2});
 
     expect(service._toasts().map((toast) => toast.message)).toEqual(['Second', 'Third']);
   });
 
   it('auto-dismisses a toast after its configured duration', async () => {
-    service.success('Dismiss me', undefined, { duration: 10 });
+    service.success('Dismiss me', undefined, {duration: 10});
 
     expect(service._toasts()).toHaveLength(1);
 
-    await new Promise((resolve) => setTimeout(resolve, 25));
+    await new Promise((resolve) => setTimeout(resolve, autoDismissWaitMs));
 
     expect(service._toasts()).toHaveLength(0);
   });
 
   it('keeps persistent toasts open when duration is 0', async () => {
-    service.info('Persistent', undefined, { duration: 0 });
+    service.info('Persistent', undefined, {duration: 0});
 
-    await new Promise((resolve) => setTimeout(resolve, 25));
+    await new Promise((resolve) => setTimeout(resolve, autoDismissWaitMs));
 
     expect(service._toasts()).toHaveLength(1);
   });
@@ -192,7 +193,7 @@ describe('NgxMatToastService', () => {
 
     service.success('Top right');
     service.success('Bottom left', undefined, {
-      position: { horizontal: 'start', vertical: 'bottom' },
+      position: {horizontal: 'start', vertical: 'bottom'},
     });
 
     expect(openSpy).toHaveBeenCalledTimes(2);

@@ -33,10 +33,10 @@ For the full documentation set, see the repository docs:
 ## Installation
 
 ```bash
-npm install ngx-mat-toast @angular/material @angular/cdk @angular/animations
+npm install ngx-mat-toast @angular/material @angular/cdk
 ```
 
-> Your app must also provide Angular animations with `provideAnimations()`, `provideAnimationsAsync()`, or `provideNoopAnimations()`.
+> `ngx-mat-toast` uses CSS-native motion and does not require an Angular animations provider for its own snackbar-based rendering.
 
 ---
 
@@ -44,12 +44,10 @@ npm install ngx-mat-toast @angular/material @angular/cdk @angular/animations
 
 ```ts
 import { ApplicationConfig } from '@angular/core';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideNgxMatToast } from 'ngx-mat-toast';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideAnimationsAsync(),
     provideNgxMatToast({
       duration: 3000,
       progressBar: true,
@@ -82,12 +80,10 @@ export class ProfileComponent {
 
 ```ts
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMatToastModule } from 'ngx-mat-toast';
 
 @NgModule({
   imports: [
-    BrowserAnimationsModule,
     NgxMatToastModule.forRoot({
       duration: 3000,
       progressBar: true,

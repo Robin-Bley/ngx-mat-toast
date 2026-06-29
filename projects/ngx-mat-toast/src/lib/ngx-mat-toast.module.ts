@@ -6,14 +6,13 @@ import { NGX_MAT_TOAST_CONFIG } from './toast-config.token';
 /**
  * NgModule for using `ngx-mat-toast` in **NgModule-based** Angular applications.
  *
- * > **Important:** Angular Material snackbars require animations. Make sure your app also
- * > imports `BrowserAnimationsModule` or `NoopAnimationsModule`.
+ * `ngx-mat-toast` uses CSS-native motion for the toast stack and does not require
+ * Angular animations modules for its own snackbar-based rendering.
  *
  * @example
  * ```ts
  * @NgModule({
  *   imports: [
- *     BrowserAnimationsModule,
  *     NgxMatToastModule.forRoot({
  *       duration: 4000,
  *       position: { horizontal: 'end', vertical: 'top' },

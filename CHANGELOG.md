@@ -17,11 +17,11 @@ and this project follows [Semantic Versioning](https://semver.org/).
 ### Changed
 
 - Updated the root and package READMEs to link to the full documentation suite.
-- Refined documentation guidance for global overlay styling and Angular Material theming.
+- Removed the Angular animations package/provider requirement from the demo, package metadata, and docs because `ngx-mat-toast` now documents CSS-native motion only.
 
 ---
 
-## [1.0.0] – 2026-06-29
+## [0.1.0] – 2026-06-29
 
 ### Added
 
