@@ -17,7 +17,7 @@ import { NgxMatToastService } from './ngx-mat-toast.service';
  * ```
  */
 export class NgxMatToastRef {
-  private readonly _dismissed$ = new Subject<void>();
+  private readonly _dismissed$: Subject<void> = new Subject<void>();
 
   constructor(
     /** The unique ID of the toast. */
@@ -28,21 +28,21 @@ export class NgxMatToastRef {
   /**
    * Programmatically dismiss the toast.
    */
-  dismiss(): void {
+  public dismiss(): void {
     this._service.dismiss(this.id);
   }
 
   /**
    * Returns an Observable that emits once when the toast is dismissed.
    */
-  afterDismissed(): Observable<void> {
+  public afterDismissed(): Observable<void> {
     return this._dismissed$.asObservable();
   }
 
   /**
    * @internal Called by the service when the toast is removed.
    */
-  _notifyDismissed(): void {
+  public _notifyDismissed(): void {
     this._dismissed$.next();
     this._dismissed$.complete();
   }

@@ -1,6 +1,14 @@
 :host {
   display: block;
   pointer-events: none;
+  --ngx-mat-toast-enter-offset: 100%;
+  --ngx-mat-toast-leave-offset: 110%;
+}
+
+:host([data-horizontal='start']),
+:host([data-horizontal='left']) {
+  --ngx-mat-toast-enter-offset: -100%;
+  --ngx-mat-toast-leave-offset: -110%;
 }
 
 .ngx-mat-toast-snack-panel {
@@ -31,6 +39,10 @@
   flex-direction: column;
   gap: 8px;
   pointer-events: none;
+}
+
+:host([data-vertical='top']) .ngx-mat-toast-stack {
+  flex-direction: column-reverse;
 }
 
 ngx-mat-toast-item {

@@ -13,8 +13,8 @@ import {
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { ToastData } from '../toast.model';
-import { ToastType } from '../toast.types';
+import type { ToastData } from '../toast.model';
+import type { ToastType } from '../toast.types';
 
 const PROGRESS_COLORS: Record<ToastType, 'primary' | 'accent' | 'warn'> = {
   success: 'accent',
@@ -37,23 +37,23 @@ const PROGRESS_COLORS: Record<ToastType, 'primary' | 'accent' | 'warn'> = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToastItemComponent implements OnChanges, OnInit, OnDestroy {
-  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
-  @Input({ required: true }) toast!: ToastData;
-  @Output() readonly dismissed = new EventEmitter<string>();
+  @Input({ required: true }) public toast!: ToastData;
+  @Output() public readonly dismissed: EventEmitter<string> = new EventEmitter<string>();
 
-  isLeaving = false;
-  progressValue = 100;
+  public isLeaving: boolean = false;
+  public progressValue: number = 100;
 
   private progressInterval?: ReturnType<typeof setInterval>;
   private leaveTimer?: ReturnType<typeof setTimeout>;
-  private startTime = 0;
+  private startTime: number = 0;
 
-  get progressColor(): 'primary' | 'accent' | 'warn' {
+  public get progressColor(): 'primary' | 'accent' | 'warn' {
     return PROGRESS_COLORS[this.toast.type];
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.progressValue = this.toast.config.progressBarDirection === 'increasing' ? 0 : 100;
 
     if (this.shouldStartProgressBar() && !this.progressInterval) {
@@ -61,10 +61,10 @@ export class ToastItemComponent implements OnChanges, OnInit, OnDestroy {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     this.progressValue = this.toast.config.progressBarDirection === 'increasing' ? 0 : 100;
 
-    const toastChange = changes['toast'];
+    const toastChange: SimpleChanges['toast'] = changes['toast'];
 
     if (toastChange && this.shouldStartProgressBar() && !toastChange.previousValue?.isVisible) {
       this.stopProgressBar();
@@ -72,7 +72,7 @@ export class ToastItemComponent implements OnChanges, OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.stopProgressBar();
 
     if (this.leaveTimer) {
@@ -81,18 +81,18 @@ export class ToastItemComponent implements OnChanges, OnInit, OnDestroy {
     }
   }
 
-  onTap(): void {
+  public onTap(): void {
     if (this.toast.config.tapToDismiss) {
       this.startLeave();
     }
   }
 
-  onClose(event: MouseEvent): void {
+  public onClose(event: MouseEvent): void {
     event.stopPropagation();
     this.startLeave();
   }
 
-  startLeave(): void {
+  public startLeave(): void {
     if (this.isLeaving) {
       return;
     }
@@ -105,12 +105,13 @@ export class ToastItemComponent implements OnChanges, OnInit, OnDestroy {
 
   private startProgressBar(): void {
     this.startTime = Date.now();
-    const duration = this.toast.config.duration;
-    const direction = this.toast.config.progressBarDirection;
+    const duration: number = this.toast.config.duration;
+    const direction: ToastData['config']['progressBarDirection'] =
+      this.toast.config.progressBarDirection;
 
-    this.progressInterval = setInterval(() => {
-      const elapsed = Date.now() - this.startTime;
-      const ratio = Math.min(elapsed / duration, 1);
+    this.progressInterval = setInterval((): void => {
+      const elapsed: number = Date.now() - this.startTime;
+      const ratio: number = Math.min(elapsed / duration, 1);
       this.progressValue = direction === 'decreasing' ? (1 - ratio) * 100 : ratio * 100;
       this.cdr.markForCheck();
 

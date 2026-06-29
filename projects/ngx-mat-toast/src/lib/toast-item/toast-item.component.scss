@@ -20,7 +20,7 @@
   position: relative;
   overflow: hidden;
   opacity: 0;
-  transform: translateX(100%);
+  transform: translateX(var(--ngx-mat-toast-enter-offset, 100%));
 
   &.state-enter {
     animation: toast-enter 0.25s ease forwards;
@@ -136,7 +136,7 @@
 @keyframes toast-enter {
   from {
     opacity: 0;
-    transform: translateX(100%);
+    transform: translateX(var(--ngx-mat-toast-enter-offset, 100%));
   }
   to {
     opacity: 1;
@@ -153,7 +153,7 @@
   }
   to {
     opacity: 0;
-    transform: translateX(110%);
+    transform: translateX(var(--ngx-mat-toast-leave-offset, 110%));
     max-height: 0;
     margin-bottom: 0;
   }

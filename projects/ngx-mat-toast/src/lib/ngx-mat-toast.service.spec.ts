@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { vi } from 'vitest';
 import { NgxMatToastService } from './ngx-mat-toast.service';
 import { provideNgxMatToast } from './provide-ngx-mat-toast';
+import type { NgxMatToastRef } from './toast.ref';
 
 describe('NgxMatToastService', () => {
   let service: NgxMatToastService;
@@ -100,6 +101,18 @@ describe('NgxMatToastService', () => {
     expect(service._toasts()).toHaveLength(1);
   });
 
+  it('does not treat toasts with different titles as duplicates when preventDuplicates is enabled', () => {
+    const first: NgxMatToastRef = service.success('Duplicate', 'First title', {
+      preventDuplicates: true,
+    });
+    const second: NgxMatToastRef = service.success('Duplicate', 'Second title', {
+      preventDuplicates: true,
+    });
+
+    expect(first).not.toBe(second);
+    expect(service._toasts()).toHaveLength(2);
+  });
+
   it('allows duplicates when preventDuplicates is disabled', () => {
     service.success('Duplicate', undefined, { preventDuplicates: false });
     service.success('Duplicate', undefined, { preventDuplicates: false });
@@ -143,6 +156,25 @@ describe('NgxMatToastService', () => {
     expect(service.dismiss('missing-id')).toBe(false);
     expect(dismissedSpy).toHaveBeenCalledTimes(1);
     expect(service._toasts()).toHaveLength(0);
+  });
+
+  it('completes the dismissal stream when a toast is removed', () => {
+    const ref: NgxMatToastRef = service.success('Dismiss me');
+    let nextCalls: number = 0;
+    let completeCalls: number = 0;
+    const handleNext: () => void = (): void => {
+      nextCalls += 1;
+    };
+    const handleComplete: () => void = (): void => {
+      completeCalls += 1;
+    };
+
+    ref.afterDismissed().subscribe(handleNext, undefined, handleComplete);
+
+    service.dismiss(ref.id);
+
+    expect(nextCalls).toBe(1);
+    expect(completeCalls).toBe(1);
   });
 
   it('clears all active toasts', () => {

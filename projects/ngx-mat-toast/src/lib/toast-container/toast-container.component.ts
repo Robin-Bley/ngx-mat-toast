@@ -7,20 +7,10 @@ import {
   type Signal,
 } from '@angular/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
-import { ToastData } from '../toast.model';
-import { ToastPosition } from '../toast.types';
+import type { ToastData } from '../toast.model';
+import type { ToastPosition } from '../toast.types';
 import { ToastItemComponent } from '../toast-item/toast-item.component';
-
-/**
- * Data passed from `NgxMatToastService` into the persistent Material snackbar outlet.
- *
- * @internal
- */
-export interface ToastOutletData {
-  toasts: Signal<ToastData[]>;
-  dismiss: (id: string) => void;
-  position: ToastPosition;
-}
+import type { ToastOutletData } from './toast-outlet-data';
 
 /**
  * Stack container rendered inside Angular Material `MatSnackBar`.
@@ -37,16 +27,21 @@ export interface ToastOutletData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToastContainerComponent {
-  private readonly data = inject<ToastOutletData>(MAT_SNACK_BAR_DATA);
+  private readonly data: ToastOutletData = inject<ToastOutletData>(MAT_SNACK_BAR_DATA);
 
-  readonly toasts = this.data.toasts;
+  public readonly toasts: Signal<ToastData[]> = this.data.toasts;
 
   @HostBinding('attr.data-vertical')
   protected get verticalPosition(): ToastPosition['vertical'] {
     return this.data.position.vertical;
   }
 
-  onDismiss(id: string): void {
+  @HostBinding('attr.data-horizontal')
+  protected get horizontalPosition(): ToastPosition['horizontal'] {
+    return this.data.position.horizontal;
+  }
+
+  public onDismiss(id: string): void {
     this.data.dismiss(id);
   }
 }
