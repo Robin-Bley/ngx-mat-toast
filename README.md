@@ -111,40 +111,14 @@ export class AppModule {}
 ### `NgxMatToastService`
 
 ```ts
-success(message
-:
-string, title ? : string, options ? : NgxMatToastOptions
-):
-NgxMatToastRef
-error(message
-:
-string, title ? : string, options ? : NgxMatToastOptions
-):
-NgxMatToastRef
-warning(message
-:
-string, title ? : string, options ? : NgxMatToastOptions
-):
-NgxMatToastRef
-info(message
-:
-string, title ? : string, options ? : NgxMatToastOptions
-):
-NgxMatToastRef
-show(message
-:
-string, type ? : ToastType, title ? : string, options ? : NgxMatToastOptions
-):
-NgxMatToastRef
+success(message: string, title?: string, options?: NgxMatToastOptions): NgxMatToastRef
+error(message: string, title?: string, options?: NgxMatToastOptions): NgxMatToastRef
+warning(message: string, title?: string, options?: NgxMatToastOptions): NgxMatToastRef
+info(message: string, title?: string, options?: NgxMatToastOptions): NgxMatToastRef
+show(message: string, type?: ToastType, title?: string, options?: NgxMatToastOptions): NgxMatToastRef
 
-dismiss(id
-:
-string
-):
-boolean
-clear()
-:
-void
+dismiss(id: string): boolean
+clear(): void
 ```
 
 ### `NgxMatToastRef`
