@@ -7,7 +7,7 @@ and this project follows [Semantic Versioning](https://semver.org/).
 
 ---
 
-## [Unreleased]
+## [0.2.0] – 2026-06-30
 
 ### Added
 
@@ -18,6 +18,7 @@ and this project follows [Semantic Versioning](https://semver.org/).
 
 - Updated the root and package READMEs to link to the full documentation suite.
 - Removed the Angular animations package/provider requirement from the demo, package metadata, and docs because `ngx-mat-toast` now documents CSS-native motion only.
+- Updated toast style
 
 ---
 
