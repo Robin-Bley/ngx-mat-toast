@@ -72,11 +72,11 @@
 
     .ngx-mat-toast-item__icon {
       background-color: rgba(176, 0, 32, 0.15);
-      color: var(--mat-sys-error, #b00020);
+      color: var(--ngx-mat-toast-error-color, #b00020);
     }
 
     .ngx-mat-toast-item__progress {
-      --mdc-linear-progress-active-indicator-color: var(--mat-sys-error, #b00020);
+      --mdc-linear-progress-active-indicator-color: var(--ngx-mat-toast-error-color, #b00020);
       --mdc-linear-progress-track-color: rgba(176, 0, 32, 0.2);
     }
   }
@@ -102,11 +102,11 @@
 
     .ngx-mat-toast-item__icon {
       background-color: rgba(103, 80, 164, 0.15);
-      color: var(--mat-sys-primary, #6750a4);
+      color: var(--ngx-mat-toast-info-color, #6750a4);
     }
 
     .ngx-mat-toast-item__progress {
-      --mdc-linear-progress-active-indicator-color: var(--mat-sys-primary, #6750a4);
+      --mdc-linear-progress-active-indicator-color: var(--ngx-mat-toast-info-color, #6750a4);
       --mdc-linear-progress-track-color: rgba(103, 80, 164, 0.2);
     }
   }

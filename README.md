@@ -7,14 +7,14 @@
 It is designed for teams that want a modern, typed toast API that still feels familiar when coming from `ngx-toastr`.
 
 > **⚠️ Upgrading from `ngx-toastr`?**
-> 
+>
 > `ngx-toastr` is [archived](https://github.com/scttcper/ngx-toastr) and **no longer compatible with Angular 22+**.
 > `ngx-mat-toast` provides a straightforward migration path with an optional compatibility adapter that makes the transition painless.
 
 **NPM Package:** [https://www.npmjs.com/package/ngx-mat-toast](https://www.npmjs.com/package/ngx-mat-toast)
 
-| Light style | Full style |
-| --- | --- |
+| Light style                                                       | Full style                                                       |
+| ----------------------------------------------------------------- | ---------------------------------------------------------------- |
 | ![ngx-mat-toast preview - Light style](docs/assets/Preview_1.png) | ![ngx-mat-toast preview - Full style](docs/assets/Preview_2.png) |
 
 ## Why `ngx-mat-toast`?

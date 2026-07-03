@@ -5,9 +5,9 @@
 It provides a simple, `ngx-toastr`-style API while keeping the implementation aligned with modern Angular practices.
 
 > **🚀 Migrating from `ngx-toastr`?**
-> 
+>
 > `ngx-toastr` is [archived](https://github.com/scttcper/ngx-toastr) and no longer compatible with Angular 22+.
-> `ngx-mat-toast` provides a straightforward migration path. 
+> `ngx-mat-toast` provides a straightforward migration path.
 > See the [migration guide](https://github.com/Robin-Bley/ngx-mat-toast/blob/main/docs/migrating-from-ngx-toastr.md) for details.
 
 ## Highlights
@@ -173,7 +173,9 @@ Within a stack, the newest toast stays closest to the configured viewport edge.
 
    :root {
      --ngx-mat-toast-success-color: #2e7d32;
+     --ngx-mat-toast-error-color: #c62828;
      --ngx-mat-toast-warning-color: #ed6c02;
+     --ngx-mat-toast-info-color: #1565c0;
    }
    ```
 
