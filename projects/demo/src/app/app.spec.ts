@@ -1,7 +1,7 @@
-import {TestBed} from '@angular/core/testing';
-import {vi} from 'vitest';
-import {App} from './app';
-import {NgxMatToastService} from 'ngx-mat-toast';
+import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
+import { App } from './app';
+import { NgxMatToastService } from 'ngx-mat-toast';
 
 describe('Demo App', () => {
   const toastServiceMock = {
@@ -10,7 +10,7 @@ describe('Demo App', () => {
     info: vi.fn(() => ({
       id: 'toast-1',
       dismiss: vi.fn(),
-      afterDismissed: () => ({subscribe: vi.fn()}),
+      afterDismissed: () => ({ subscribe: vi.fn() }),
     })),
     show: vi.fn(),
     clear: vi.fn(),

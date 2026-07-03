@@ -1,12 +1,12 @@
-import {type DebugElement, signal, type WritableSignal} from '@angular/core';
-import {type ComponentFixture, TestBed} from '@angular/core/testing';
-import {MAT_SNACK_BAR_DATA} from '@angular/material/snack-bar';
-import {By} from '@angular/platform-browser';
-import {DEFAULT_TOAST_CONFIG} from '../toast.config';
-import type {ToastData} from '../toast.model';
-import {ToastItemComponent} from '../toast-item/toast-item.component';
-import {ToastContainerComponent} from './toast-container.component';
-import type {ToastOutletData} from './toast-outlet-data';
+import { type DebugElement, signal, type WritableSignal } from '@angular/core';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
+import { By } from '@angular/platform-browser';
+import { DEFAULT_TOAST_CONFIG } from '../toast.config';
+import type { ToastData } from '../toast.model';
+import { ToastItemComponent } from '../toast-item/toast-item.component';
+import { ToastContainerComponent } from './toast-container.component';
+import type { ToastOutletData } from './toast-outlet-data';
 
 function createToast(overrides: Partial<ToastData> = {}): ToastData {
   const createdAt: number = Date.now();
@@ -38,7 +38,7 @@ describe('ToastContainerComponent', () => {
       dismiss: (id: string): void => {
         dismissedIds.push(id);
       },
-      position: {horizontal: 'start', vertical: 'top'},
+      position: { horizontal: 'start', vertical: 'top' },
     };
 
     await TestBed.configureTestingModule({
@@ -72,8 +72,8 @@ describe('ToastContainerComponent', () => {
     const fixture: ComponentFixture<ToastContainerComponent> = createFixture();
 
     toasts.set([
-      createToast({id: 'toast-1', message: 'First toast'}),
-      createToast({id: 'toast-2', message: 'Second toast', title: 'Another title'}),
+      createToast({ id: 'toast-1', message: 'First toast' }),
+      createToast({ id: 'toast-2', message: 'Second toast', title: 'Another title' }),
     ]);
     fixture.detectChanges();
 

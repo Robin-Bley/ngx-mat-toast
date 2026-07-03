@@ -232,6 +232,7 @@ Or for compact, space-efficient toasts:
 ```
 
 The default sizes are:
+
 - `.ngx-mat-toast-item__title`: 15px, weight 700
 - `.ngx-mat-toast-item__message`: 13px, weight 400
 
