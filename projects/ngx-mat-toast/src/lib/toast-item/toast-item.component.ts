@@ -29,10 +29,13 @@ import type { ToastData } from '../toast.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToastItemComponent implements OnChanges, OnInit, OnDestroy {
-  private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  private readonly changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
 
-  @Input({ required: true }) public toast!: ToastData;
-  @Output() public readonly dismissed: EventEmitter<string> = new EventEmitter<string>();
+  @Input({ required: true })
+  public toast!: ToastData;
+
+  @Output()
+  public readonly dismissed: EventEmitter<string> = new EventEmitter<string>();
 
   public isLeaving: boolean = false;
   public progressValue: number = 100;
@@ -87,7 +90,7 @@ export class ToastItemComponent implements OnChanges, OnInit, OnDestroy {
 
     this.isLeaving = true;
     this.stopProgressBar();
-    this.cdr.markForCheck();
+    this.changeDetectorRef.markForCheck();
     this.leaveTimer = setTimeout(() => this.dismissed.emit(this.toast.id), 200);
   }
 
@@ -100,7 +103,7 @@ export class ToastItemComponent implements OnChanges, OnInit, OnDestroy {
       const elapsed: number = Date.now() - this.startTime;
       const ratio: number = Math.min(elapsed / duration, 1);
       this.progressValue = direction === 'decreasing' ? (1 - ratio) * 100 : ratio * 100;
-      this.cdr.markForCheck();
+      this.changeDetectorRef.markForCheck();
 
       if (ratio >= 1) {
         this.stopProgressBar();

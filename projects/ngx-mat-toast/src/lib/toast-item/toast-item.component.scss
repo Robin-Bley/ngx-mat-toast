@@ -52,11 +52,7 @@
 
   /* Type variants with modern styling */
   &--success {
-    background: linear-gradient(
-      135deg,
-      #f1f8f4 0%,
-      #e8f5e9 100%
-    );
+    background: linear-gradient(135deg, #f1f8f4 0%, #e8f5e9 100%);
     border: 1px solid rgba(76, 175, 80, 0.3);
 
     .ngx-mat-toast-item__icon {
@@ -71,11 +67,7 @@
   }
 
   &--error {
-    background: linear-gradient(
-      135deg,
-      #fef5f5 0%,
-      #ffebee 100%
-    );
+    background: linear-gradient(135deg, #fef5f5 0%, #ffebee 100%);
     border: 1px solid rgba(176, 0, 32, 0.3);
 
     .ngx-mat-toast-item__icon {
@@ -90,11 +82,7 @@
   }
 
   &--warning {
-    background: linear-gradient(
-      135deg,
-      #fef7f0 0%,
-      #fff3e0 100%
-    );
+    background: linear-gradient(135deg, #fef7f0 0%, #fff3e0 100%);
     border: 1px solid rgba(255, 152, 0, 0.3);
 
     .ngx-mat-toast-item__icon {
@@ -109,11 +97,7 @@
   }
 
   &--info {
-    background: linear-gradient(
-      135deg,
-      #f3f0f8 0%,
-      #ede7f6 100%
-    );
+    background: linear-gradient(135deg, #f3f0f8 0%, #ede7f6 100%);
     border: 1px solid rgba(103, 80, 164, 0.3);
 
     .ngx-mat-toast-item__icon {
@@ -165,6 +149,7 @@
   }
 
   &__message {
+    font-weight: 400;
     font-size: 13px;
     line-height: 1.54;
     letter-spacing: 0.25px;

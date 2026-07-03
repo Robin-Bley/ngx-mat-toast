@@ -91,7 +91,7 @@ Use these defaults unless your product has a strong reason to differ:
 - Root overview: [`../README.md`](../README.md)
 - Publishable package README: [`../projects/ngx-mat-toast/README.md`](../projects/ngx-mat-toast/README.md)
 - Demo application: [`../projects/demo`](../projects/demo)
-- Preview asset: [`./assets/preview.gif`](./assets/preview.gif)
+- Preview assets: [`./assets/Preview_1.png`](./assets/Preview_1.png), [`./assets/Preview_2.png`](./assets/Preview_2.png)
 
 ---
 
@@ -125,7 +125,7 @@ Start with:
 
 ## Need a quick visual overview?
 
-The project README contains a preview GIF and a compact quick start:
+The project README contains preview images and a compact quick start:
 
 - [`../README.md`](../README.md)
 

@@ -179,6 +179,63 @@ Example:
 
 If your browser support matrix does not allow `color-mix()`, use static colors instead.
 
+### Example 4: high-contrast dark background for success toast
+
+```scss
+.ngx-mat-toast-snack-panel .ngx-mat-toast-item--success {
+  background: #000000 !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.ngx-mat-toast-snack-panel .ngx-mat-toast-item--success .ngx-mat-toast-item__icon {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.ngx-mat-toast-snack-panel .ngx-mat-toast-item--success .ngx-mat-toast-item__title,
+.ngx-mat-toast-snack-panel .ngx-mat-toast-item--success .ngx-mat-toast-item__message {
+  color: #ffffff !important;
+}
+```
+
+**Important:** When overriding `background` with a solid color, use `!important` to override the default gradient. Also ensure text and icon colors have sufficient contrast for readability.
+
+### Example 5: customizing text sizes and typography
+
+```scss
+/* Larger, more prominent toasts */
+.ngx-mat-toast-snack-panel .ngx-mat-toast-item__title {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  line-height: 1.5;
+}
+
+.ngx-mat-toast-snack-panel .ngx-mat-toast-item__message {
+  font-size: 14px;
+  line-height: 1.6;
+}
+```
+
+Or for compact, space-efficient toasts:
+
+```scss
+.ngx-mat-toast-snack-panel .ngx-mat-toast-item__title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ngx-mat-toast-snack-panel .ngx-mat-toast-item__message {
+  font-size: 12px;
+  line-height: 1.4;
+}
+```
+
+The default sizes are:
+
+- `.ngx-mat-toast-item__title`: 15px, weight 700
+- `.ngx-mat-toast-item__message`: 13px, weight 400
+
 ---
 
 ## Responsive customization

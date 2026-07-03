@@ -7,6 +7,16 @@ and this project follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [22.0.0] – 2026-07-03
+
+### Changed
+
+- Updated package version to 22.0.0 for release branding alignment.
+- Replaced README preview GIF reference with PNG preview images.
+- Updated documentation references to the new preview assets.
+
+---
+
 ## [0.2.0] – 2026-06-30
 
 ### Added
