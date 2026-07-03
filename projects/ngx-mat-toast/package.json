@@ -12,6 +12,15 @@
     "ngx"
   ],
   "author": "ngx-mat-toast contributors",
+  "homepage": "https://www.npmjs.com/package/ngx-mat-toast",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Robin-Bley/ngx-mat-toast.git",
+    "directory": "projects/ngx-mat-toast"
+  },
+  "bugs": {
+    "url": "https://github.com/Robin-Bley/ngx-mat-toast/issues"
+  },
   "funding": [
     {
       "type": "github",

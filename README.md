@@ -1,8 +1,12 @@
 # ngx-mat-toast
 
+[![npm version](https://img.shields.io/npm/v/ngx-mat-toast.svg?style=flat-square)](https://www.npmjs.com/package/ngx-mat-toast)
+
 `ngx-mat-toast` is an Angular toast notification library built on top of **Angular Material `MatSnackBar`**.
 
 It is designed for teams that want a modern, typed toast API that still feels familiar when coming from `ngx-toastr`.
+
+**NPM Package:** [https://www.npmjs.com/package/ngx-mat-toast](https://www.npmjs.com/package/ngx-mat-toast)
 
 <p>
   <img src="docs/assets/preview.gif" alt="ngx-mat-toast preview" width="436" />
