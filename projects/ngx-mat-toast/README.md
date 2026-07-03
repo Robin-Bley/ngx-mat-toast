@@ -4,6 +4,12 @@
 
 It provides a simple, `ngx-toastr`-style API while keeping the implementation aligned with modern Angular practices.
 
+> **🚀 Migrating from `ngx-toastr`?**
+> 
+> `ngx-toastr` is [archived](https://github.com/scttcper/ngx-toastr) and no longer compatible with Angular 22+.
+> `ngx-mat-toast` provides a straightforward migration path. 
+> See the [migration guide](https://github.com/Robin-Bley/ngx-mat-toast/blob/main/docs/migrating-from-ngx-toastr.md) for details.
+
 ## Highlights
 
 - Angular Material Snackbar powered

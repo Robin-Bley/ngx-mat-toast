@@ -6,6 +6,11 @@
 
 It is designed for teams that want a modern, typed toast API that still feels familiar when coming from `ngx-toastr`.
 
+> **⚠️ Upgrading from `ngx-toastr`?**
+> 
+> `ngx-toastr` is [archived](https://github.com/scttcper/ngx-toastr) and **no longer compatible with Angular 22+**.
+> `ngx-mat-toast` provides a straightforward migration path with an optional compatibility adapter that makes the transition painless.
+
 **NPM Package:** [https://www.npmjs.com/package/ngx-mat-toast](https://www.npmjs.com/package/ngx-mat-toast)
 
 | Light style | Full style |
@@ -100,18 +105,41 @@ The root README is intentionally kept short. Use the docs below for the full gui
 
 ## Migration from `ngx-toastr`
 
-If you are replacing `ngx-toastr`, you can start with the optional compatibility adapter:
+`ngx-toastr` is **archived and incompatible with Angular 22+**. If you need to upgrade Angular or are already on Angular 22+, `ngx-mat-toast` is your best path forward.
+
+### Smooth migration with optional compatibility adapter
+
+You have two options:
+
+**Option 1: Use the compatibility adapter (low-risk, fastest path)**
 
 ```ts
 import { ToastrService } from 'ngx-mat-toast';
+
+// Your existing code works with minimal changes
+this.toastr.success('Profile saved successfully.', 'Saved', {
+  timeOut: 3000,
+  progressBar: true,
+  positionClass: 'toast-top-right',
+});
 ```
 
-Then move to the native API when you are ready.
+**Option 2: Move to the native API (recommended long-term)**
+
+```ts
+import { NgxMatToastService } from 'ngx-mat-toast';
+
+this.toast.success('Profile saved successfully.', 'Saved', {
+  duration: 3000,
+  progressBar: true,
+  position: { horizontal: 'end', vertical: 'top' },
+});
+```
 
 Recommended reading:
 
-- [`docs/migrating-from-ngx-toastr.md`](docs/migrating-from-ngx-toastr.md)
-- [`docs/compatibility-adapter.md`](docs/compatibility-adapter.md)
+- [`docs/migrating-from-ngx-toastr.md`](docs/migrating-from-ngx-toastr.md) – complete migration guide
+- [`docs/compatibility-adapter.md`](docs/compatibility-adapter.md) – adapter details and supported options
 
 ---
 

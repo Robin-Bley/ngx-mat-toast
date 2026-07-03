@@ -107,6 +107,9 @@ Start with:
 
 ### Teams migrating from `ngx-toastr`
 
+> **Important:** `ngx-toastr` is [archived](https://github.com/scttcper/ngx-toastr) and no longer compatible with Angular 22+. 
+> `ngx-mat-toast` provides a straightforward migration path to keep your toast notifications working.
+
 Start with:
 
 1. [`migrating-from-ngx-toastr.md`](./migrating-from-ngx-toastr.md)
