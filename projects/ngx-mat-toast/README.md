@@ -169,12 +169,14 @@ Within a stack, the newest toast stays closest to the configured viewport edge.
      )
    );
 
-   @include mat.all-component-themes($theme);
+    @include mat.all-component-themes($theme);
 
-   :root {
-     --ngx-mat-toast-success-color: #2e7d32;
-     --ngx-mat-toast-warning-color: #ed6c02;
-   }
+    :root {
+      --ngx-mat-toast-success-color: #2e7d32;
+      --ngx-mat-toast-error-color: #c62828;
+      --ngx-mat-toast-warning-color: #ed6c02;
+      --ngx-mat-toast-info-color: #1565c0;
+    }
    ```
 
 2. **Overriding toast styles from a global stylesheet:**

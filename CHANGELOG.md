@@ -7,6 +7,14 @@ and this project follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [22.0.1] – 2026-07-03
+
+### Changed
+
+- **Standardized CSS custom properties for all toast types:** Added `--ngx-mat-toast-error-color` and `--ngx-mat-toast-info-color` for consistency with success and warning toasts. All four toast types now expose their own color customization variables instead of relying on Material system tokens.
+
+---
+
 ## [22.0.0] – 2026-07-03
 
 ### Changed

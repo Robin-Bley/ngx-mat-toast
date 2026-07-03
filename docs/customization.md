@@ -103,7 +103,9 @@ $theme: mat.define-theme(
 
 :root {
   --ngx-mat-toast-success-color: #2e7d32;
+  --ngx-mat-toast-error-color: #c62828;
   --ngx-mat-toast-warning-color: #ed6c02;
+  --ngx-mat-toast-info-color: #1565c0;
 }
 ```
 
@@ -118,7 +120,9 @@ The default implementation exposes a few CSS variables that are especially usefu
 | Variable                        | Purpose                           |
 | ------------------------------- | --------------------------------- |
 | `--ngx-mat-toast-success-color` | Accent color for success toasts   |
+| `--ngx-mat-toast-error-color`   | Accent color for error toasts     |
 | `--ngx-mat-toast-warning-color` | Accent color for warning toasts   |
+| `--ngx-mat-toast-info-color`    | Accent color for info toasts      |
 | `--ngx-mat-toast-enter-offset`  | Horizontal enter animation offset |
 | `--ngx-mat-toast-leave-offset`  | Horizontal leave animation offset |
 
@@ -127,7 +131,9 @@ Example:
 ```scss
 :root {
   --ngx-mat-toast-success-color: #2e7d32;
+  --ngx-mat-toast-error-color: #c62828;
   --ngx-mat-toast-warning-color: #ed6c02;
+  --ngx-mat-toast-info-color: #1565c0;
 }
 ```
 
