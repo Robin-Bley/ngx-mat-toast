@@ -75,3 +75,18 @@ Documentation best practices for this repository:
 - The npm package metadata lives in `projects/ngx-mat-toast/package.json`.
 - The publishable package is built into `dist/ngx-mat-toast`.
 - CI and release automation lives under `.github/workflows/`.
+
+## Repository metadata and documentation maintenance
+
+Keep the following repository files current and accurate:
+
+- **SECURITY.md** – Update supported versions table when releasing new major versions. Keep the vulnerability reporting section current.
+- **CHANGELOG.md** – Document all significant changes for each release (features, fixes, breaking changes).
+- **SECURITY.md** – Reflect the current support policy as the library evolves.
+- **package.json** – Update version numbers, dependencies, and metadata consistently across both the root and `projects/ngx-mat-toast/package.json`.
+- **package.json** (`projects/ngx-mat-toast/`) – Keep the `peerDependencies` aligned with Angular support matrix and material dependencies.
+- **README.md files** – Keep examples and feature descriptions current with the actual library capabilities.
+- **docs/** suite – Ensure all documentation files remain synchronized with actual API behavior and architecture.
+- **CODE_OF_CONDUCT.md** and **CONTRIBUTING.md** – Review periodically to reflect project governance.
+
+When making changes to library behavior, public API, or dependencies, update all related metadata and documentation in a single PR to maintain consistency.
