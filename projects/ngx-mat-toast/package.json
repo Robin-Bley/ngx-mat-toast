@@ -1,6 +1,6 @@
 {
   "name": "ngx-mat-toast",
-  "version": "22.0.3",
+  "version": "22.0.4",
   "description": "A toast notification library for Angular powered by Angular Material Snackbar.",
   "keywords": [
     "angular",
@@ -38,18 +38,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "./index.js",
-  "module": "./index.esm.js",
-  "types": "./index.d.ts",
-  "typings": "./index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./index.d.ts",
-      "import": "./index.esm.mjs",
-      "require": "./index.js",
-      "default": "./index.esm.mjs"
-    }
-  },
+  "main": "./fesm2022/ngx-mat-toast.mjs",
+  "module": "./fesm2022/ngx-mat-toast.mjs",
+  "types": "./types/ngx-mat-toast.d.ts",
+  "typings": "./types/ngx-mat-toast.d.ts",
   "peerDependencies": {
     "@angular/cdk": ">=21.0.0 <23.0.0",
     "@angular/common": ">=21.0.0 <23.0.0",

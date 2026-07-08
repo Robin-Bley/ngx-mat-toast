@@ -1,14 +1,14 @@
-import {Component, inject, signal, type WritableSignal} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {MatButtonModule} from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatSelectModule} from '@angular/material/select';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatSliderModule} from '@angular/material/slider';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { Component, inject, signal, type WritableSignal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import {
   NgxMatToastOptions,
   NgxMatToastRef,
@@ -52,26 +52,30 @@ export class App {
   public readonly progressBar: WritableSignal<boolean> = signal(true);
   public readonly tapToDismiss: WritableSignal<boolean> = signal(true);
   public readonly preventDuplicates: WritableSignal<boolean> = signal(false);
-  public readonly progressBarDirection: WritableSignal<'increasing' | 'decreasing'> = signal<'increasing' | 'decreasing'>('decreasing');
-  public readonly horizontalPosition: WritableSignal<ToastHorizontalPosition> = signal<ToastHorizontalPosition>('end');
-  public readonly verticalPosition: WritableSignal<ToastVerticalPosition> = signal<ToastVerticalPosition>('top');
+  public readonly progressBarDirection: WritableSignal<'increasing' | 'decreasing'> = signal<
+    'increasing' | 'decreasing'
+  >('decreasing');
+  public readonly horizontalPosition: WritableSignal<ToastHorizontalPosition> =
+    signal<ToastHorizontalPosition>('end');
+  public readonly verticalPosition: WritableSignal<ToastVerticalPosition> =
+    signal<ToastVerticalPosition>('top');
 
   public readonly toastTypes: ToastDemo[] = [
-    {type: 'success', label: 'Success', color: '#4caf50'},
-    {type: 'error', label: 'Error', color: '#f44336'},
-    {type: 'warning', label: 'Warning', color: '#ff9800'},
-    {type: 'info', label: 'Info', color: '#2196f3'},
+    { type: 'success', label: 'Success', color: '#4caf50' },
+    { type: 'error', label: 'Error', color: '#f44336' },
+    { type: 'warning', label: 'Warning', color: '#ff9800' },
+    { type: 'info', label: 'Info', color: '#2196f3' },
   ];
 
   public readonly horizontalPositions: { value: ToastHorizontalPosition; label: string }[] = [
-    {value: 'start', label: 'Start (left)'},
-    {value: 'center', label: 'Center'},
-    {value: 'end', label: 'End (right)'},
+    { value: 'start', label: 'Start (left)' },
+    { value: 'center', label: 'Center' },
+    { value: 'end', label: 'End (right)' },
   ];
 
   public readonly verticalPositions: { value: ToastVerticalPosition; label: string }[] = [
-    {value: 'top', label: 'Top'},
-    {value: 'bottom', label: 'Bottom'},
+    { value: 'top', label: 'Top' },
+    { value: 'bottom', label: 'Bottom' },
   ];
 
   public showToast(type: ToastType): void {
@@ -103,7 +107,7 @@ export class App {
     const ref: NgxMatToastRef = this.toast.info(
       'This toast will stay open until you dismiss it manually.',
       'Persistent toast',
-      {duration: 0},
+      { duration: 0 },
     );
 
     ref.afterDismissed().subscribe((): void => {
