@@ -38,16 +38,17 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "./index.js",
-  "module": "./index.esm.js",
-  "types": "./index.d.ts",
-  "typings": "./index.d.ts",
+  "main": "./fesm2022/ngx-mat-toast.mjs",
+  "module": "./fesm2022/ngx-mat-toast.mjs",
+  "types": "./types/ngx-mat-toast.d.ts",
   "exports": {
     ".": {
-      "types": "./index.d.ts",
-      "import": "./index.esm.mjs",
-      "require": "./index.js",
-      "default": "./index.esm.mjs"
+      "types": "./types/ngx-mat-toast.d.ts",
+      "import": "./fesm2022/ngx-mat-toast.mjs",
+      "default": "./fesm2022/ngx-mat-toast.mjs"
+    },
+    "./package.json": {
+      "default": "./package.json"
     }
   },
   "peerDependencies": {
