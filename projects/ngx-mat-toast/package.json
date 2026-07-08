@@ -38,16 +38,16 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "./index.cjs",
-  "module": "./index.mjs",
+  "main": "./index.js",
+  "module": "./index.esm.js",
   "types": "./index.d.ts",
   "typings": "./index.d.ts",
   "exports": {
     ".": {
       "types": "./index.d.ts",
-      "import": "./index.mjs",
-      "require": "./index.cjs",
-      "default": "./index.mjs"
+      "import": "./index.esm.mjs",
+      "require": "./index.js",
+      "default": "./index.esm.mjs"
     }
   },
   "peerDependencies": {
