@@ -5,9 +5,9 @@
 The table below shows which release lines currently receive security updates.
 
 | Version    | Supported |
-|------------|-----------|
-| `22.x`     | ✅         |
-| `< 22.0.0` | ❌         |
+| ---------- | --------- |
+| `22.x`     | ✅        |
+| `< 22.0.0` | ❌        |
 
 The latest version is recommended for all users. Security updates are provided for the current major version and one previous major version.
 
