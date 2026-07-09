@@ -18,12 +18,13 @@
 
 .ngx-mat-toast-snack-panel .mat-mdc-snack-bar-container {
   padding: 0;
+  margin: 0;
   box-shadow: none;
 }
 
 .ngx-mat-toast-snack-panel .mat-mdc-snackbar-surface {
   min-width: 0;
-  max-width: min(calc(100vw - (100vw - 100%)) - 16px, 420px);
+  max-width: min(calc(100vw - 16px), 420px);
   padding: 0;
   background: transparent;
   box-shadow: none;
