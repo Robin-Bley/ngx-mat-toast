@@ -11,9 +11,19 @@
     "notification",
     "snackbar",
     "toastr",
-    "ngx"
+    "ngx",
+    "ngx-toastr"
+  , "migration",
+    "angular22",
+    "standalone",
+    "signal",
+    "alert",
+    "popup"
   ],
-  "author": "ngx-mat-toast contributors",
+  "author": {
+    "name": "Robin Bley",
+    "url": "https://github.com/Robin-Bley"
+  },
   "homepage": "https://github.com/Robin-Bley/ngx-mat-toast#readme",
   "repository": {
     "type": "git",

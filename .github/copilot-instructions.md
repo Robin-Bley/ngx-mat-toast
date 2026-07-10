@@ -20,6 +20,17 @@ The library targets **Angular 21+** and is intentionally designed to feel famili
   - `NgxMatToastModule.forRoot()` for NgModule-based apps
 - Maintain the optional `ToastrService` compatibility adapter for `ngx-toastr` migrations.
 
+## MatSnackBar compatibility requirements
+
+**The library must always be fully compatible with the current version of Angular Material `MatSnackBar`.** This is a critical architectural constraint:
+
+- **Version alignment**: The `peerDependencies` in `projects/ngx-mat-toast/package.json` must reflect the latest stable or LTS versions of `@angular/material`.
+- **API compliance**: Any `MatSnackBar` API changes introduced in new Material versions must be tested and handled appropriately in the library.
+- **Breaking change detection**: When Material releases with breaking changes, evaluate the impact on the library and document any required consumer updates.
+- **Environment variables**: Respect all Material-related environment variables that may affect snackbar behavior (e.g., `MAT_SNACK_BAR_DEFAULT_OPTIONS`, animation settings, accessibility features).
+- **Testing**: Verify library functionality with the current Material version during development and CI/CD pipelines.
+- **Deprecation handling**: Monitor Material deprecation warnings and proactively refactor code to use current APIs.
+
 ## Code style
 
 - Prefer standalone Angular APIs and `inject()`.
