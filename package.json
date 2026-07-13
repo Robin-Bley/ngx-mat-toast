@@ -19,25 +19,25 @@
     "release": "npm run build:lib && npm publish ./dist/ngx-mat-toast --access public"
   },
   "dependencies": {
-    "@angular/cdk": "^22.0.3",
-    "@angular/common": "^22.0.5",
-    "@angular/compiler": "^22.0.5",
-    "@angular/core": "^22.0.5",
-    "@angular/forms": "^22.0.5",
-    "@angular/material": "^22.0.3",
-    "@angular/platform-browser": "^22.0.5",
-    "@angular/router": "^22.0.5",
+    "@angular/cdk": "^22.0.4",
+    "@angular/common": "^22.0.6",
+    "@angular/compiler": "^22.0.6",
+    "@angular/core": "^22.0.6",
+    "@angular/forms": "^22.0.6",
+    "@angular/material": "^22.0.4",
+    "@angular/platform-browser": "^22.0.6",
+    "@angular/router": "^22.0.6",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@angular/build": "^22.0.5",
-    "@angular/cli": "^22.0.5",
-    "@angular/compiler-cli": "^22.0.5",
+    "@angular/build": "^22.0.6",
+    "@angular/cli": "^22.0.6",
+    "@angular/compiler-cli": "^22.0.6",
     "jsdom": "^29.1.1",
     "ng-packagr": "^22.0.1",
-    "prettier": "^3.9.4",
-    "typescript": "~6.0.2",
+    "prettier": "^3.9.5",
+    "typescript": "~7.0.2",
     "vitest": "^4.0.8"
   }
 }
