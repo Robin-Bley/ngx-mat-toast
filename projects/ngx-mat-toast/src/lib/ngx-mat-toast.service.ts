@@ -159,8 +159,8 @@ export class NgxMatToastService {
       isVisible,
     };
 
-    const ref: NgxMatToastRef = new NgxMatToastRef(
-      id,
+    const ref: NgxMatToastRef = new NgxMatToastRef(id);
+    ref._setupLifecycle(
       dismissed$.asObservable(),
       shown$.asObservable(),
       tapped$.asObservable(),

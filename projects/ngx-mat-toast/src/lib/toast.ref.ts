@@ -23,13 +23,6 @@ import { EMPTY } from 'rxjs';
  * ```
  */
 export class NgxMatToastRef {
-  /**
-   * @internal
-   * Overload for backward compatibility. Creates a ref with minimal functionality.
-   * Lifecycle observables return EMPTY, and dismiss() is a no-op.
-   * Only use when instantiating directly for testing; normal consumers should use
-   * the service-provided signature with all lifecycle observables.
-   */
   constructor(
     /** The unique ID of the toast. */
     id: string,
@@ -46,11 +39,28 @@ export class NgxMatToastRef {
   constructor(
     /** The unique ID of the toast. */
     public readonly id: string,
-    private readonly _dismissed$?: Observable<void>,
-    private readonly _shown$?: Observable<void>,
-    private readonly _tapped$?: Observable<void>,
-    private readonly _dismissFn?: () => void,
+    private _dismissed$?: Observable<void>,
+    private _shown$?: Observable<void>,
+    private _tapped$?: Observable<void>,
+    private _dismissFn?: () => void,
   ) {}
+
+  /**
+   * @internal
+   * Sets up lifecycle observables and dismiss function for the toast.
+   * Used internally by NgxMatToastService to wire lifecycle events.
+   */
+  public _setupLifecycle(
+    dismissed$: Observable<void>,
+    shown$: Observable<void>,
+    tapped$: Observable<void>,
+    dismissFn: () => void,
+  ): void {
+    this._dismissed$ = dismissed$;
+    this._shown$ = shown$;
+    this._tapped$ = tapped$;
+    this._dismissFn = dismissFn;
+  }
 
   /**
    * Programmatically dismiss the toast.

@@ -408,6 +408,8 @@ this.toast.success('Settings saved', 'Success');
 
 ---
 
+## Suggested customization workflow
+
 1. Start with the default theme.
 2. Add only the global overrides you truly need.
 3. Test on mobile and desktop widths.

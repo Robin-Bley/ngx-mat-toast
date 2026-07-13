@@ -303,7 +303,7 @@ export class SyncResultNotifierService {
 
 ---
 
-## Example 10: react to toast lifecycle events
+## Example 10: React to toast lifecycle events
 
 Use `onShown()` and `onTap()` observables to react to user interactions and visibility changes.
 
