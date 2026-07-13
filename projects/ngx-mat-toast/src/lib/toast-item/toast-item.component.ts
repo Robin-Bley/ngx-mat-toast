@@ -8,10 +8,8 @@ import {
   OnDestroy,
   Output,
   signal,
-  Signal,
-  SimpleChanges,
-  WritableSignal,
 } from '@angular/core';
+import type { Signal, SimpleChanges, WritableSignal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
   animationFrameScheduler,
@@ -96,7 +94,12 @@ export class ToastItemComponent implements OnChanges, OnInit, OnDestroy {
 
   public ngOnChanges(changes: SimpleChanges): void {
     const toastChange: SimpleChanges['toast'] = changes['toast'];
-    if (toastChange && this.shouldStartProgressBar() && !toastChange.previousValue?.isVisible) {
+    if (
+      toastChange &&
+      !toastChange.isFirstChange() &&
+      this.shouldStartProgressBar() &&
+      !toastChange.previousValue?.isVisible
+    ) {
       this.startProgressBar();
     }
   }
