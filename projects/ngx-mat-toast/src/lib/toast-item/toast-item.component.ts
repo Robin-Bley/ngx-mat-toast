@@ -25,12 +25,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import type { ToastData } from '../toast.model';
-
-interface ProgressParams {
-  startTime: number;
-  duration: number;
-  direction: 'increasing' | 'decreasing';
-}
+import type { ProgressParams } from './progress-params';
 
 /**
  * Renders a single toast card inside the snackbar-hosted outlet.

@@ -30,6 +30,10 @@
   box-shadow: none;
 }
 
+.ngx-mat-toast-snack-panel--full-width .mat-mdc-snackbar-surface {
+  max-width: calc(100vw - 16px);
+}
+
 .ngx-mat-toast-snack-panel .mdc-snackbar__label,
 .ngx-mat-toast-snack-panel .mat-mdc-snack-bar-label {
   padding: 0;

@@ -7,11 +7,7 @@ import type { ToastPosition } from './toast-position';
 import type { ToastrPositionClass } from './toastr.types';
 import type { ActiveToast } from './active-toast';
 import type { IndividualConfig } from './individual-config';
-
-interface PositionMapping {
-  position: ToastPosition;
-  fullWidth: boolean;
-}
+import type { PositionMapping } from './position-mapping';
 
 const POSITION_CLASS_MAP: Record<ToastrPositionClass, PositionMapping> = {
   'toast-top-left': { position: { horizontal: 'start', vertical: 'top' }, fullWidth: false },

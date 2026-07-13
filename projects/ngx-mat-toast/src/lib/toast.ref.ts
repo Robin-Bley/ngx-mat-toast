@@ -1,4 +1,5 @@
 import type { Observable } from 'rxjs';
+import { EMPTY } from 'rxjs';
 
 /**
  * A reference to an active toast notification.
@@ -22,27 +23,41 @@ import type { Observable } from 'rxjs';
  * ```
  */
 export class NgxMatToastRef {
+  // Overload signatures for backward compatibility
+  constructor(
+    /** The unique ID of the toast. */
+    id: string,
+  );
+  constructor(
+    /** The unique ID of the toast. */
+    id: string,
+    dismissed$: Observable<void>,
+    shown$: Observable<void>,
+    tapped$: Observable<void>,
+    dismissFn: () => void,
+  );
+  // Implementation
   constructor(
     /** The unique ID of the toast. */
     public readonly id: string,
-    private readonly _dismissed$: Observable<void>,
-    private readonly _shown$: Observable<void>,
-    private readonly _tapped$: Observable<void>,
-    private readonly _dismissFn: () => void,
+    private readonly _dismissed$?: Observable<void>,
+    private readonly _shown$?: Observable<void>,
+    private readonly _tapped$?: Observable<void>,
+    private readonly _dismissFn?: () => void,
   ) {}
 
   /**
    * Programmatically dismiss the toast.
    */
   public dismiss(): void {
-    this._dismissFn();
+    this._dismissFn?.();
   }
 
   /**
    * Returns an Observable that emits once when the toast is dismissed.
    */
   public afterDismissed(): Observable<void> {
-    return this._dismissed$;
+    return this._dismissed$ ?? EMPTY;
   }
 
   /**
@@ -52,13 +67,13 @@ export class NgxMatToastRef {
    * to avoid missing the first emission.
    */
   public onShown(): Observable<void> {
-    return this._shown$;
+    return this._shown$ ?? EMPTY;
   }
 
   /**
    * Returns an Observable that emits every time the user taps / clicks the toast.
    */
   public onTap(): Observable<void> {
-    return this._tapped$;
+    return this._tapped$ ?? EMPTY;
   }
 }

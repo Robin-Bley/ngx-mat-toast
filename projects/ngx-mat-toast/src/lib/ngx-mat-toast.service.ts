@@ -13,6 +13,7 @@ import type { ToastType } from './toast.types';
 import type { ToastPosition } from './toast-position';
 import { ToastContainerComponent } from './toast-container/toast-container.component';
 import type { ToastOutletData } from './toast-container/toast-outlet-data';
+import type { ToastOutletState } from './toast-outlet-state';
 
 let nextToastId: number = 0;
 
@@ -50,14 +51,6 @@ function resolveToastConfig(...configs: Array<NgxMatToastOptions | undefined>): 
   }
 
   return resolved;
-}
-
-/** @internal Consolidated state of the snackbar outlet. */
-interface ToastOutletState {
-  ref: MatSnackBarRef<ToastContainerComponent>;
-  position: ToastPosition;
-  fullWidth: boolean;
-  isOpen: boolean;
 }
 
 /**
