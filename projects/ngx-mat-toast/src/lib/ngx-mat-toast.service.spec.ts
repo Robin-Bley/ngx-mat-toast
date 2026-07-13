@@ -249,7 +249,7 @@ describe('NgxMatToastService', () => {
     expect(tapSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('emits onShown when the outlet opens and the toast becomes visible', async () => {
+  it('emits onShown when the outlet opens and the toast becomes visible', () => {
     const mock = createMockOutletRef();
     vi.spyOn(snackBar, 'openFromComponent').mockReturnValue(mock.fakeRef);
 

@@ -182,7 +182,12 @@ export class NgxMatToastService {
     if (toast.isVisible) {
       this.scheduleDismiss(toast);
       queueMicrotask((): void => {
-        this.shownSubjects.get(id)?.next();
+        const subject: Subject<void> | undefined = this.shownSubjects.get(id);
+        if (subject) {
+          subject.next();
+          subject.complete();
+          this.shownSubjects.delete(id);
+        }
       });
     }
 
@@ -329,7 +334,12 @@ export class NgxMatToastService {
 
     for (const toast of pendingToasts) {
       this.scheduleDismiss(toast);
-      this.shownSubjects.get(toast.id)?.next();
+      const subject: Subject<void> | undefined = this.shownSubjects.get(toast.id);
+      if (subject) {
+        subject.next();
+        subject.complete();
+        this.shownSubjects.delete(toast.id);
+      }
     }
   }
 

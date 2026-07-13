@@ -50,13 +50,18 @@
   },
   "exports": {
     ".": {
+      "types": "./types/ngx-mat-toast.d.ts",
       "esm2022": "./esm2022/ngx-mat-toast.mjs",
-      "esm": "./esm2022/ngx-mat-toast.mjs"
+      "esm": "./esm2022/ngx-mat-toast.mjs",
+      "default": "./fesm2022/ngx-mat-toast.mjs"
     },
     "./toastr-adapter": {
+      "types": "./types/toastr-adapter/index.d.ts",
       "esm2022": "./esm2022/toastr-adapter/index.mjs",
-      "esm": "./esm2022/toastr-adapter/index.mjs"
-    }
+      "esm": "./esm2022/toastr-adapter/index.mjs",
+      "default": "./fesm2022/toastr-adapter/index.mjs"
+    },
+    "./package.json": "./package.json"
   },
   "main": "./fesm2022/ngx-mat-toast.mjs",
   "module": "./fesm2022/ngx-mat-toast.mjs",

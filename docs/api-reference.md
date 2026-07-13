@@ -140,7 +140,7 @@ export class UploadNotifierService {
 - `dismiss()` forwards to the service using the toast id.
 - `afterDismissed()` emits once when the toast is dismissed and then completes.
 - `onShown()` emits once when the toast becomes visible on screen and then completes.
-- `onTap()` emits when the toast card is clicked, regardless of `tapToDismiss` setting. It emits once and then completes.
+- `onTap()` emits every time the toast card is clicked, regardless of `tapToDismiss` setting. It continues emitting on each click until the toast is dismissed.
 - If a toast is removed because of `maxToasts`, `clear()`, or a direct `dismiss(id)`, the reference still receives the dismissal notification.
 
 ---

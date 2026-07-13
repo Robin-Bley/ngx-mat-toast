@@ -146,7 +146,7 @@ Each `NgxMatToastRef` exposes reactive observables for different lifecycle event
 - **`onShown()`** – Emits once when the toast becomes visible on screen, then completes.
   - Useful for analytics tracking, focus management, or actions that should only happen when the user can see the toast.
 
-- **`onTap()`** – Emits once when the toast card is clicked, regardless of `tapToDismiss` setting, then completes.
+- **`onTap()`** – Emits every time the toast card is clicked, regardless of `tapToDismiss` setting, and continues emitting until the toast is dismissed.
   - Useful for event logging, navigation, or tracking user engagement.
 
 - **`afterDismissed()`** – Emits once when the toast is dismissed (by any means), then completes.
