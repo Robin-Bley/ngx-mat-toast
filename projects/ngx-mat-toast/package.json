@@ -48,6 +48,16 @@
   "publishConfig": {
     "access": "public"
   },
+  "exports": {
+    ".": {
+      "esm2022": "./esm2022/ngx-mat-toast.mjs",
+      "esm": "./esm2022/ngx-mat-toast.mjs"
+    },
+    "./toastr-adapter": {
+      "esm2022": "./esm2022/toastr-adapter/index.mjs",
+      "esm": "./esm2022/toastr-adapter/index.mjs"
+    }
+  },
   "main": "./fesm2022/ngx-mat-toast.mjs",
   "module": "./fesm2022/ngx-mat-toast.mjs",
   "types": "./types/ngx-mat-toast.d.ts",

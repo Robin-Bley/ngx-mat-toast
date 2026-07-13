@@ -9,8 +9,18 @@ import { NGX_MAT_TOAST_CONFIG } from './toast-config.token';
  * `ngx-mat-toast` uses CSS-native motion for the toast stack and does not require
  * Angular animations modules for its own snackbar-based rendering.
  *
+ * @deprecated Use `provideNgxMatToast()` instead for standalone Angular applications.
+ * NgModule-based support is maintained for backward compatibility but may be removed in a
+ * future major version once the Angular ecosystem has fully migrated to standalone APIs.
+ *
  * @example
  * ```ts
+ * // Preferred – standalone API
+ * bootstrapApplication(AppComponent, {
+ *   providers: [provideNgxMatToast({ duration: 4000 })],
+ * });
+ *
+ * // Legacy – NgModule
  * @NgModule({
  *   imports: [
  *     NgxMatToastModule.forRoot({

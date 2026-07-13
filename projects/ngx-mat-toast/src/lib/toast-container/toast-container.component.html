@@ -1,5 +1,5 @@
 <div class="ngx-mat-toast-stack" aria-label="Notifications" role="region">
   @for (toast of toasts(); track toast.id) {
-    <ngx-mat-toast-item [toast]="toast" (dismissed)="onDismiss($event)" />
+    <ngx-mat-toast-item [toast]="toast" (dismissed)="onDismiss($event)" (tapped)="onTap($event)" />
   }
 </div>

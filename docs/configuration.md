@@ -46,6 +46,7 @@ These are the library defaults exported as `DEFAULT_TOAST_CONFIG`.
 | `preventDuplicates`    | `boolean`                                           | `false`        | Reuses the active toast instead of creating a duplicate with the same title, message, and type. |
 | `maxToasts`            | `number`                                            | `5`            | Maximum visible toasts. `0` disables the limit.                                                 |
 | `enableDebug`          | `boolean`                                           | `false`        | Logs toast activity to the browser console.                                                     |
+| `fullWidth`            | `boolean`                                           | `false`        | Stretches the toast to fill the available snackbar width.                                       |
 
 ---
 
@@ -262,6 +263,19 @@ this.toast.info('Diagnostics enabled.', 'Debug', {
 ```
 
 Use this only during development or when diagnosing an integration issue.
+
+### `fullWidth`
+
+Enable full-width mode to stretch the toast across the entire snackbar container width.
+
+```ts
+this.toast.info('Account update in progress.', 'Status', {
+  duration: 0,
+  fullWidth: true,
+});
+```
+
+When enabled, the toast card expands horizontally to match the snackbar host width, providing more space for longer messages.
 
 ---
 

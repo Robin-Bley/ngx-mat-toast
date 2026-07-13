@@ -7,6 +7,55 @@ and this project follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [22.0.7] – 2026-07-10
+
+### Added
+
+- **Lifecycle observables** in `NgxMatToastRef`:
+  - `onShown(): Observable<void>` – emits when the toast becomes visible
+  - `onTap(): Observable<void>` – emits when the toast is clicked, regardless of `tapToDismiss` setting
+- **Full-width toast support** via `fullWidth: boolean` configuration option
+  - Stretches toasts to fill the snackbar container width
+  - Automatically enabled for `ngx-toastr` `*-full-width` position classes
+- **Built-in ARIA accessibility**:
+  - Errors and warnings use `role="alert"` with `aria-live="assertive"`
+  - Info and success toasts use `role="status"` with `aria-live="polite"`
+  - All toasts include `aria-atomic="true"` for completeness
+- **Signal-based progress bar**:
+  - Replaced `setInterval` implementation with RxJS observables + `animationFrameScheduler`
+  - Non-blocking, frame-optimized progress animations
+- **Secondary entry point for tree-shaking**:
+  - Import adapter from `ngx-mat-toast/toastr-adapter` to exclude non-adapter code from bundles
+- **Observable properties in `ActiveToast`**:
+  - `onShown: Observable<void>` – emitted when toast becomes visible
+  - `onTap: Observable<void>` – emitted when toast is tapped
+- **Enhanced documentation**:
+  - Updated API reference with new lifecycle methods
+  - Added full-width configuration guide
+  - Documented ARIA accessibility features
+  - Added tree-shaking optimization guidance
+  - Updated position class mapping table with `fullWidth` indicators
+
+### Changed
+
+- **`NgxMatToastModule` deprecation notice**:
+  - Added JSDoc deprecation warning recommending migration to `provideNgxMatToast()` standalone API
+  - NgModule support is maintained for backward compatibility but may be removed in future major versions
+- **`NgxMatToastRef` constructor signature** (internal):
+  - Now accepts Observable arguments for lifecycle notifications instead of internal Subjects
+  - Provides cleaner separation of concerns in service lifecycle management
+- **Toast container state consolidation**:
+  - Merged three separate outlet fields into single `ToastOutletState` interface for cleaner service state
+- **Position mapping**:
+  - Extended `POSITION_CLASS_MAP` in adapter to include `fullWidth` boolean per position class
+
+### Fixed
+
+- Fixed toast tap event handling to emit `onTap` regardless of `tapToDismiss` configuration
+- Improved type safety for Observable Subject lifecycle management
+
+---
+
 ## [22.0.6] – 2026-07-10
 
 ### Changed

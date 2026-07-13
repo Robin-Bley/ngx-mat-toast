@@ -134,10 +134,25 @@ When a toast is removed:
 
 1. its timer is cleared
 2. it is removed from the active signal
-3. the corresponding `NgxMatToastRef` is notified
+3. the corresponding `NgxMatToastRef` is notified via its lifecycle observables
 4. the snackbar host is destroyed when no toasts remain
 
 ---
+
+## Toast lifecycle observables
+
+Each `NgxMatToastRef` exposes reactive observables for different lifecycle events:
+
+- **`onShown()`** – Emits once when the toast becomes visible on screen, then completes.
+  - Useful for analytics tracking, focus management, or actions that should only happen when the user can see the toast.
+
+- **`onTap()`** – Emits once when the toast card is clicked, regardless of `tapToDismiss` setting, then completes.
+  - Useful for event logging, navigation, or tracking user engagement.
+
+- **`afterDismissed()`** – Emits once when the toast is dismissed (by any means), then completes.
+  - Useful for cleanup, state updates, or triggering follow-up actions after the toast is gone.
+
+These observables are backed by internal `Subject` instances in the service, isolated per toast instance, and ensure type-safe reactive programming patterns.
 
 ## Progress bar behavior
 
@@ -152,6 +167,8 @@ The progress value updates over time and supports two directions:
 
 - `'decreasing'`
 - `'increasing'`
+
+**Implementation detail:** Progress updates are computed using `toSignal()` with RxJS observables and `animationFrameScheduler` to ensure smooth, frame-optimized animations without blocking the main thread.
 
 Best practice: use progress bars for timed informational feedback, not for persistent error states.
 

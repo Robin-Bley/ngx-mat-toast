@@ -370,7 +370,43 @@ Avoid customizations that fight the architecture of the library:
 
 ---
 
-## Suggested customization workflow
+## Accessibility (ARIA)
+
+`ngx-mat-toast` includes built-in ARIA support for screen readers and assistive technologies:
+
+### Toast roles
+
+Each toast card is annotated with an appropriate ARIA role based on its type:
+
+- **Error and Warning toasts**: `role="alert"` with `aria-live="assertive"`
+  - These interrupt screen reader users immediately
+  - Use for critical issues that require immediate attention
+
+- **Info and Success toasts**: `role="status"` with `aria-live="polite"`
+  - These are announced when the screen reader becomes idle
+  - Use for confirmations and routine status updates
+
+### Implementation
+
+The roles are automatically applied based on toast type, so no additional configuration is needed:
+
+```ts
+// This toast will use role="alert" and aria-live="assertive"
+this.toast.error('Payment failed', 'Error');
+
+// This toast will use role="status" and aria-live="polite"
+this.toast.success('Settings saved', 'Success');
+```
+
+### Best practices for accessibility
+
+- Use title and message fields to provide context for screen reader users
+- Avoid relying solely on color to communicate meaning; include text labels
+- Keep toast messages concise and understandable out of context
+- Use `duration: 0` for critical messages to ensure users have time to read them
+- Pair persistent toasts with a close button for keyboard navigation
+
+---
 
 1. Start with the default theme.
 2. Add only the global overrides you truly need.

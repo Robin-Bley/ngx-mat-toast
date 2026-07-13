@@ -1,19 +1,38 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   EventEmitter,
-  inject,
   Input,
   OnChanges,
   OnInit,
   OnDestroy,
   Output,
+  signal,
+  Signal,
   SimpleChanges,
+  WritableSignal,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import {
+  animationFrameScheduler,
+  concat,
+  EMPTY,
+  interval,
+  map,
+  of,
+  Subject,
+  switchMap,
+  takeWhile,
+} from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import type { ToastData } from '../toast.model';
+
+interface ProgressParams {
+  startTime: number;
+  duration: number;
+  direction: 'increasing' | 'decreasing';
+}
 
 /**
  * Renders a single toast card inside the snackbar-hosted outlet.
@@ -29,43 +48,65 @@ import type { ToastData } from '../toast.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToastItemComponent implements OnChanges, OnInit, OnDestroy {
-  private readonly changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
-
   @Input({ required: true })
   public toast!: ToastData;
 
   @Output()
   public readonly dismissed: EventEmitter<string> = new EventEmitter<string>();
 
-  public isLeaving: boolean = false;
-  public progressValue: number = 100;
+  @Output()
+  public readonly tapped: EventEmitter<string> = new EventEmitter<string>();
 
-  private progressInterval?: ReturnType<typeof setInterval>;
-  private leaveTimer?: ReturnType<typeof setTimeout>;
-  private startTime: number = 0;
+  public readonly isLeaving: WritableSignal<boolean> = signal<boolean>(false);
+
+  private readonly progressParams$: Subject<ProgressParams | null> =
+    new Subject<ProgressParams | null>();
+
+  public readonly progressValue: Signal<number> = toSignal(
+    this.progressParams$.pipe(
+      switchMap((params: ProgressParams | null) => {
+        if (!params) {
+          return EMPTY;
+        }
+        const { startTime, duration, direction } = params;
+        const computeValue = (): number => {
+          const elapsed: number = Date.now() - startTime;
+          const ratio: number = Math.min(elapsed / duration, 1);
+          return direction === 'decreasing' ? (1 - ratio) * 100 : ratio * 100;
+        };
+        return concat(
+          of(computeValue()),
+          interval(0, animationFrameScheduler).pipe(
+            map(computeValue),
+            takeWhile(
+              (v: number): boolean =>
+                direction === 'decreasing' ? v > 0 : v < 100,
+              true,
+            ),
+          ),
+        );
+      }),
+    ),
+    { initialValue: 100 },
+  );
+
+  private leaveTimer: ReturnType<typeof setTimeout> | undefined;
 
   public ngOnInit(): void {
-    this.progressValue = this.toast.config.progressBarDirection === 'increasing' ? 0 : 100;
-
-    if (this.shouldStartProgressBar() && !this.progressInterval) {
+    if (this.shouldStartProgressBar()) {
       this.startProgressBar();
     }
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    this.progressValue = this.toast.config.progressBarDirection === 'increasing' ? 0 : 100;
-
     const toastChange: SimpleChanges['toast'] = changes['toast'];
-
     if (toastChange && this.shouldStartProgressBar() && !toastChange.previousValue?.isVisible) {
-      this.stopProgressBar();
       this.startProgressBar();
     }
   }
 
   public ngOnDestroy(): void {
-    this.stopProgressBar();
-
+    this.progressParams$.complete();
     if (this.leaveTimer) {
       clearTimeout(this.leaveTimer);
       this.leaveTimer = undefined;
@@ -73,6 +114,7 @@ export class ToastItemComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   public onTap(): void {
+    this.tapped.emit(this.toast.id);
     if (this.toast.config.tapToDismiss) {
       this.startLeave();
     }
@@ -84,31 +126,20 @@ export class ToastItemComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   public startLeave(): void {
-    if (this.isLeaving) {
+    if (this.isLeaving()) {
       return;
     }
-
-    this.isLeaving = true;
-    this.stopProgressBar();
-    this.changeDetectorRef.markForCheck();
-    this.leaveTimer = setTimeout(() => this.dismissed.emit(this.toast.id), 200);
+    this.isLeaving.set(true);
+    this.progressParams$.next(null);
+    this.leaveTimer = setTimeout((): void => this.dismissed.emit(this.toast.id), 200);
   }
 
   private startProgressBar(): void {
-    this.startTime = Date.now();
-    const duration: number = this.toast.config.duration;
-    const direction: 'increasing' | 'decreasing' = this.toast.config.progressBarDirection;
-
-    this.progressInterval = setInterval((): void => {
-      const elapsed: number = Date.now() - this.startTime;
-      const ratio: number = Math.min(elapsed / duration, 1);
-      this.progressValue = direction === 'decreasing' ? (1 - ratio) * 100 : ratio * 100;
-      this.changeDetectorRef.markForCheck();
-
-      if (ratio >= 1) {
-        this.stopProgressBar();
-      }
-    }, 50);
+    this.progressParams$.next({
+      startTime: Date.now(),
+      duration: this.toast.config.duration,
+      direction: this.toast.config.progressBarDirection,
+    });
   }
 
   private shouldStartProgressBar(): boolean {
@@ -116,14 +147,7 @@ export class ToastItemComponent implements OnChanges, OnInit, OnDestroy {
       this.toast.isVisible &&
       this.toast.config.progressBar &&
       this.toast.config.duration > 0 &&
-      !this.isLeaving
+      !this.isLeaving()
     );
-  }
-
-  private stopProgressBar(): void {
-    if (this.progressInterval) {
-      clearInterval(this.progressInterval);
-      this.progressInterval = undefined;
-    }
   }
 }

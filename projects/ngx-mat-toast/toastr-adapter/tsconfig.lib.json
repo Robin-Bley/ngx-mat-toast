@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.lib.json",
+  "compilerOptions": {
+    "outDir": "../../../out-tsc/lib-toastr-adapter",
+    "paths": {
+      "ngx-mat-toast": ["../src/public-api.ts"]
+    }
+  },
+  "include": ["src/**/*.ts"]
+}

@@ -133,7 +133,9 @@ describe('ToastItemComponent', () => {
     );
     fixture.detectChanges();
 
-    expect(fixture.componentInstance.progressValue).toBe(0);
+    // The concat(of(computeValue()), ...) emits synchronously during ngOnInit,
+    // so progressValue() is already 0 at the time of the first detectChanges().
+    expect(fixture.componentInstance.progressValue()).toBe(0);
   });
 
   it('only applies the enter state once the toast becomes visible', () => {
@@ -199,6 +201,23 @@ describe('ToastItemComponent', () => {
     expect(dismissedSpy).not.toHaveBeenCalled();
   });
 
+  it('always emits the tapped event on click, regardless of tapToDismiss', () => {
+    const fixture = TestBed.createComponent(ToastItemComponent);
+    fixture.componentInstance.toast = createToast({
+      config: { ...DEFAULT_TOAST_CONFIG, tapToDismiss: false },
+    });
+    fixture.detectChanges();
+
+    const tappedSpy = vi.fn();
+    fixture.componentInstance.tapped.subscribe(tappedSpy);
+
+    (fixture.nativeElement as HTMLElement)
+      .querySelector('.ngx-mat-toast-item')
+      ?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+    expect(tappedSpy).toHaveBeenCalledWith('toast-1');
+  });
+
   it('only triggers leave once even if startLeave is called multiple times', () => {
     vi.useFakeTimers();
 
@@ -215,6 +234,52 @@ describe('ToastItemComponent', () => {
     vi.advanceTimersByTime(200);
 
     expect(dismissedSpy).toHaveBeenCalledTimes(1);
+  });
+
+  // ---------------------------------------------------------------------------
+  // ARIA roles (item 12)
+  // ---------------------------------------------------------------------------
+
+  it('sets role="status" and aria-live="polite" for a success toast', () => {
+    const fixture = TestBed.createComponent(ToastItemComponent);
+    fixture.componentInstance.toast = createToast({ type: 'success' });
+    fixture.detectChanges();
+
+    const el = (fixture.nativeElement as HTMLElement).querySelector('.ngx-mat-toast-item');
+    expect(el?.getAttribute('role')).toBe('status');
+    expect(el?.getAttribute('aria-live')).toBe('polite');
+    expect(el?.getAttribute('aria-atomic')).toBe('true');
+  });
+
+  it('sets role="status" and aria-live="polite" for an info toast', () => {
+    const fixture = TestBed.createComponent(ToastItemComponent);
+    fixture.componentInstance.toast = createToast({ type: 'info' });
+    fixture.detectChanges();
+
+    const el = (fixture.nativeElement as HTMLElement).querySelector('.ngx-mat-toast-item');
+    expect(el?.getAttribute('role')).toBe('status');
+    expect(el?.getAttribute('aria-live')).toBe('polite');
+  });
+
+  it('sets role="alert" and aria-live="assertive" for an error toast', () => {
+    const fixture = TestBed.createComponent(ToastItemComponent);
+    fixture.componentInstance.toast = createToast({ type: 'error' });
+    fixture.detectChanges();
+
+    const el = (fixture.nativeElement as HTMLElement).querySelector('.ngx-mat-toast-item');
+    expect(el?.getAttribute('role')).toBe('alert');
+    expect(el?.getAttribute('aria-live')).toBe('assertive');
+    expect(el?.getAttribute('aria-atomic')).toBe('true');
+  });
+
+  it('sets role="alert" and aria-live="assertive" for a warning toast', () => {
+    const fixture = TestBed.createComponent(ToastItemComponent);
+    fixture.componentInstance.toast = createToast({ type: 'warning' });
+    fixture.detectChanges();
+
+    const el = (fixture.nativeElement as HTMLElement).querySelector('.ngx-mat-toast-item');
+    expect(el?.getAttribute('role')).toBe('alert');
+    expect(el?.getAttribute('aria-live')).toBe('assertive');
   });
 
   it('does not expose the content wrapper as a live region', () => {

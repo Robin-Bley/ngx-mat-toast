@@ -1,3 +1,4 @@
+import type { Observable } from 'rxjs';
 import type { NgxMatToastRef } from './toast.ref';
 
 /**
@@ -9,4 +10,8 @@ export interface ActiveToast {
   title?: string;
   message?: string;
   toastRef: NgxMatToastRef;
+  /** Emits once when the toast becomes visible. */
+  onShown: Observable<void>;
+  /** Emits every time the user taps / clicks the toast. */
+  onTap: Observable<void>;
 }

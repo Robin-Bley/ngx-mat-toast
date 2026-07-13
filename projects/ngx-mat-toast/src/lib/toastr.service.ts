@@ -8,15 +8,35 @@ import type { ToastrPositionClass } from './toastr.types';
 import type { ActiveToast } from './active-toast';
 import type { IndividualConfig } from './individual-config';
 
-const POSITION_CLASS_MAP: Record<ToastrPositionClass, ToastPosition> = {
-  'toast-top-left': { horizontal: 'start', vertical: 'top' },
-  'toast-top-center': { horizontal: 'center', vertical: 'top' },
-  'toast-top-right': { horizontal: 'end', vertical: 'top' },
-  'toast-top-full-width': { horizontal: 'center', vertical: 'top' },
-  'toast-bottom-left': { horizontal: 'start', vertical: 'bottom' },
-  'toast-bottom-center': { horizontal: 'center', vertical: 'bottom' },
-  'toast-bottom-right': { horizontal: 'end', vertical: 'bottom' },
-  'toast-bottom-full-width': { horizontal: 'center', vertical: 'bottom' },
+interface PositionMapping {
+  position: ToastPosition;
+  fullWidth: boolean;
+}
+
+const POSITION_CLASS_MAP: Record<ToastrPositionClass, PositionMapping> = {
+  'toast-top-left': { position: { horizontal: 'start', vertical: 'top' }, fullWidth: false },
+  'toast-top-center': { position: { horizontal: 'center', vertical: 'top' }, fullWidth: false },
+  'toast-top-right': { position: { horizontal: 'end', vertical: 'top' }, fullWidth: false },
+  'toast-top-full-width': {
+    position: { horizontal: 'center', vertical: 'top' },
+    fullWidth: true,
+  },
+  'toast-bottom-left': {
+    position: { horizontal: 'start', vertical: 'bottom' },
+    fullWidth: false,
+  },
+  'toast-bottom-center': {
+    position: { horizontal: 'center', vertical: 'bottom' },
+    fullWidth: false,
+  },
+  'toast-bottom-right': {
+    position: { horizontal: 'end', vertical: 'bottom' },
+    fullWidth: false,
+  },
+  'toast-bottom-full-width': {
+    position: { horizontal: 'center', vertical: 'bottom' },
+    fullWidth: true,
+  },
 };
 
 function normalizeType(type?: string): ToastType {
@@ -42,6 +62,10 @@ function mapCompatConfig(config?: Partial<IndividualConfig>): NgxMatToastOptions
     return {};
   }
 
+  const mapping: PositionMapping | undefined = config.positionClass
+    ? POSITION_CLASS_MAP[config.positionClass]
+    : undefined;
+
   return {
     duration: config.disableTimeOut ? 0 : config.timeOut,
     closeable: config.closeButton,
@@ -50,7 +74,8 @@ function mapCompatConfig(config?: Partial<IndividualConfig>): NgxMatToastOptions
     preventDuplicates: config.preventDuplicates,
     maxToasts: config.maxOpened,
     progressBarDirection: config.progressAnimation,
-    position: config.positionClass ? POSITION_CLASS_MAP[config.positionClass] : undefined,
+    position: mapping?.position,
+    fullWidth: mapping?.fullWidth,
   };
 }
 
@@ -149,6 +174,8 @@ export class ToastrService {
       message,
       title,
       toastRef,
+      onShown: toastRef.onShown(),
+      onTap: toastRef.onTap(),
     };
   }
 }

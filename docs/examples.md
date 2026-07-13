@@ -303,6 +303,80 @@ export class SyncResultNotifierService {
 
 ---
 
+## Example 10: react to toast lifecycle events
+
+Use `onShown()` and `onTap()` observables to react to user interactions and visibility changes.
+
+```ts
+import { Injectable, inject } from '@angular/core';
+import { NgxMatToastRef, NgxMatToastService } from 'ngx-mat-toast';
+
+@Injectable({ providedIn: 'root' })
+export class ToastEventsService {
+  private readonly toast: NgxMatToastService = inject(NgxMatToastService);
+
+  public showWithTracking(): void {
+    const toastRef: NgxMatToastRef = this.toast.success('Action completed!', 'Success');
+
+    // Track when the toast becomes visible
+    toastRef.onShown().subscribe(() => {
+      console.log('Toast is now visible on screen');
+      // Useful for analytics, focus management, or timing-dependent actions
+    });
+
+    // Track when the toast is tapped
+    toastRef.onTap().subscribe(() => {
+      console.log('User tapped the toast');
+      // Useful for event logging, navigation, or user engagement tracking
+    });
+
+    // Track dismissal
+    toastRef.afterDismissed().subscribe(() => {
+      console.log('Toast has been dismissed');
+    });
+  }
+}
+```
+
+---
+
+## Example 11: full-width notifications
+
+Use `fullWidth: true` for wider notifications that need more space.
+
+```ts
+import { Injectable, inject } from '@angular/core';
+import { NgxMatToastService } from 'ngx-mat-toast';
+
+@Injectable({ providedIn: 'root' })
+export class FullWidthNotificationsService {
+  private readonly toast: NgxMatToastService = inject(NgxMatToastService);
+
+  public showWideMessage(): void {
+    this.toast.info('This is a wide notification with more content space available.', 'Full Width', {
+      duration: 3000,
+      fullWidth: true,
+      progressBar: true,
+    });
+  }
+
+  public showWideError(): void {
+    // Full-width is particularly useful for error messages with detailed context
+    this.toast.error(
+      'The server returned a validation error: Please check the email format in the profile settings.',
+      'Validation Error',
+      {
+        duration: 0,
+        fullWidth: true,
+        closeable: true,
+      }
+    );
+  }
+}
+```
+
+---
+
 ## Recipe selection guide
 
 Choose the pattern that matches your situation:
@@ -315,6 +389,8 @@ Choose the pattern that matches your situation:
 - `ngx-toastr` migration: Example 6 or 7
 - Cross-flow dismissal: Example 8
 - Runtime-selected type: Example 9
+- Lifecycle event handling: Example 10
+- Wide notifications: Example 11
 
 ---
 

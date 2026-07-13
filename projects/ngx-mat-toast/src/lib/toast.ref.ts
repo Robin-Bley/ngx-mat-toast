@@ -1,5 +1,4 @@
-import { Subject, Observable } from 'rxjs';
-import { NgxMatToastService } from './ngx-mat-toast.service';
+import type { Observable } from 'rxjs';
 
 /**
  * A reference to an active toast notification.
@@ -14,36 +13,52 @@ import { NgxMatToastService } from './ngx-mat-toast.service';
  *
  * // React when dismissed
  * ref.afterDismissed().subscribe(() => console.log('Toast gone!'));
+ *
+ * // React when the toast becomes visible
+ * ref.onShown().subscribe(() => console.log('Toast is visible!'));
+ *
+ * // React when the user taps the toast
+ * ref.onTap().subscribe(() => console.log('Toast tapped!'));
  * ```
  */
 export class NgxMatToastRef {
-  private readonly _dismissed$: Subject<void> = new Subject<void>();
-
   constructor(
     /** The unique ID of the toast. */
     public readonly id: string,
-    private readonly _service: NgxMatToastService,
+    private readonly _dismissed$: Observable<void>,
+    private readonly _shown$: Observable<void>,
+    private readonly _tapped$: Observable<void>,
+    private readonly _dismissFn: () => void,
   ) {}
 
   /**
    * Programmatically dismiss the toast.
    */
   public dismiss(): void {
-    this._service.dismiss(this.id);
+    this._dismissFn();
   }
 
   /**
    * Returns an Observable that emits once when the toast is dismissed.
    */
   public afterDismissed(): Observable<void> {
-    return this._dismissed$.asObservable();
+    return this._dismissed$;
   }
 
   /**
-   * @internal Called by the service when the toast is removed.
+   * Returns an Observable that emits once when the toast becomes visible.
+   *
+   * Note: subscribe immediately after calling `show()` / `success()` / etc.
+   * to avoid missing the first emission.
    */
-  public _notifyDismissed(): void {
-    this._dismissed$.next();
-    this._dismissed$.complete();
+  public onShown(): Observable<void> {
+    return this._shown$;
+  }
+
+  /**
+   * Returns an Observable that emits every time the user taps / clicks the toast.
+   */
+  public onTap(): Observable<void> {
+    return this._tapped$;
   }
 }

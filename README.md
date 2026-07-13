@@ -27,9 +27,14 @@ It is designed for teams that want a modern, typed toast API that still feels fa
 - powered by Angular Material Snackbar
 - standalone and NgModule integration styles
 - simple service API: `success()`, `error()`, `warning()`, `info()`, `show()`, `dismiss()`, `clear()`
+- lifecycle observables: `onShown()`, `onTap()`, `afterDismissed()` for reactive event handling
 - global defaults plus per-toast overrides
 - duplicate prevention, progress bars, close buttons, persistent toasts, and max toast limits
+- full-width toast support
+- built-in ARIA accessibility (alert/status roles, aria-live regions)
+- signal-based progress animation with smooth non-blocking updates
 - optional `ToastrService` compatibility adapter for `ngx-toastr` migrations
+- secondary entry point for tree-shaking optimization
 - no Material Icons webfont dependency
 - SSR-compatible (works with Angular Universal / @angular/ssr)
 - demo application and Vitest-based tests included in the workspace
@@ -76,7 +81,11 @@ export class ExampleComponent {
   private readonly toast: NgxMatToastService = inject(NgxMatToastService);
 
   public save(): void {
-    this.toast.success('Profile saved successfully.', 'Saved');
+    const ref = this.toast.success('Profile saved successfully.', 'Saved');
+    
+    // React to lifecycle events
+    ref.onShown().subscribe(() => console.log('Toast is visible'));
+    ref.onTap().subscribe(() => console.log('Toast was clicked'));
   }
 }
 ```

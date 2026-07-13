@@ -31,6 +31,8 @@ Prefer `NgxMatToastService` when you:
 
 ## Import and usage
 
+### From the main entry point
+
 ```ts
 import { Component, inject } from '@angular/core';
 import { ToastrService } from 'ngx-mat-toast';
@@ -51,6 +53,16 @@ export class LegacySaveActionComponent {
   }
 }
 ```
+
+### From the secondary entry point (tree-shaking optimized)
+
+For better tree-shaking, import from the dedicated adapter entry point:
+
+```ts
+import { ToastrService } from 'ngx-mat-toast/toastr-adapter';
+```
+
+This allows bundlers to exclude the adapter code when it is not used.
 
 ---
 
@@ -92,24 +104,24 @@ The adapter accepts `Partial<IndividualConfig>` and maps supported options into 
 
 ### Position class mapping
 
-| `positionClass`             | Native position                                |
-| --------------------------- | ---------------------------------------------- |
-| `'toast-top-left'`          | `{ horizontal: 'start', vertical: 'top' }`     |
-| `'toast-top-center'`        | `{ horizontal: 'center', vertical: 'top' }`    |
-| `'toast-top-right'`         | `{ horizontal: 'end', vertical: 'top' }`       |
-| `'toast-top-full-width'`    | `{ horizontal: 'center', vertical: 'top' }`    |
-| `'toast-bottom-left'`       | `{ horizontal: 'start', vertical: 'bottom' }`  |
-| `'toast-bottom-center'`     | `{ horizontal: 'center', vertical: 'bottom' }` |
-| `'toast-bottom-right'`      | `{ horizontal: 'end', vertical: 'bottom' }`    |
-| `'toast-bottom-full-width'` | `{ horizontal: 'center', vertical: 'bottom' }` |
+| `positionClass`             | Native position                                | `fullWidth` |
+| --------------------------- | ---------------------------------------------- | ----------- |
+| `'toast-top-left'`          | `{ horizontal: 'start', vertical: 'top' }`     | `false`     |
+| `'toast-top-center'`        | `{ horizontal: 'center', vertical: 'top' }`    | `false`     |
+| `'toast-top-right'`         | `{ horizontal: 'end', vertical: 'top' }`       | `false`     |
+| `'toast-top-full-width'`    | `{ horizontal: 'center', vertical: 'top' }`    | `true`      |
+| `'toast-bottom-left'`       | `{ horizontal: 'start', vertical: 'bottom' }`  | `false`     |
+| `'toast-bottom-center'`     | `{ horizontal: 'center', vertical: 'bottom' }` | `false`     |
+| `'toast-bottom-right'`      | `{ horizontal: 'end', vertical: 'bottom' }`    | `false`     |
+| `'toast-bottom-full-width'` | `{ horizontal: 'center', vertical: 'bottom' }` | `true`      |
 
-Important note: the `full-width` position classes are mapped to centered positions. They do not recreate a literal full-width toast layout.
+The `full-width` position classes automatically enable the `fullWidth` configuration, stretching the toast to fill the snackbar container width.
 
 ---
 
 ## `ActiveToast` result shape
 
-Adapter methods return a lightweight compatibility result.
+Adapter methods return a lightweight compatibility result with access to lifecycle observables.
 
 ```ts
 interface ActiveToast {
@@ -117,10 +129,16 @@ interface ActiveToast {
   title?: string;
   message?: string;
   toastRef: NgxMatToastRef;
+  onShown: Observable<void>;
+  onTap: Observable<void>;
 }
 ```
 
-This lets you keep a familiar migration shape while still gaining access to the native `NgxMatToastRef` when needed.
+This lets you keep a familiar migration shape while still gaining access to:
+
+- The native `NgxMatToastRef` for programmatic control
+- `onShown` to observe when the toast becomes visible
+- `onTap` to react when the toast is clicked
 
 ---
 

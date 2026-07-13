@@ -38,7 +38,9 @@ describe('ToastContainerComponent', () => {
       dismiss: (id: string): void => {
         dismissedIds.push(id);
       },
+      tapped: (_id: string): void => {},
       position: { horizontal: 'start', vertical: 'top' },
+      fullWidth: false,
     };
 
     await TestBed.configureTestingModule({

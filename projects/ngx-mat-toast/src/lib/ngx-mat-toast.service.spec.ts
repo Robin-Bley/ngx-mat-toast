@@ -1,14 +1,48 @@
 import { TestBed } from '@angular/core/testing';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { Subject } from 'rxjs';
 import { vi } from 'vitest';
 import { NgxMatToastService } from './ngx-mat-toast.service';
 import { provideNgxMatToast } from './provide-ngx-mat-toast';
+import { ToastContainerComponent } from './toast-container/toast-container.component';
 import type { NgxMatToastRef } from './toast.ref';
 
-describe('NgxMatToastService', () => {
-  const outletOpenDelayMs: number = 250;
-  const autoDismissWaitMs: number = 300;
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
 
+function createMockOutletRef(): {
+  fakeRef: MatSnackBarRef<ToastContainerComponent>;
+  triggerOpened: () => void;
+  triggerDismissed: () => void;
+} {
+  const afterOpened$: Subject<void> = new Subject<void>();
+  const afterDismissed$: Subject<void> = new Subject<void>();
+
+  const fakeRef: MatSnackBarRef<ToastContainerComponent> = {
+    afterOpened: (): Subject<void> => afterOpened$,
+    afterDismissed: (): Subject<void> => afterDismissed$,
+    dismiss: vi.fn((): void => {
+      afterDismissed$.next();
+      afterDismissed$.complete();
+    }),
+  } as unknown as MatSnackBarRef<ToastContainerComponent>;
+
+  return {
+    fakeRef,
+    triggerOpened: (): void => afterOpened$.next(),
+    triggerDismissed: (): void => {
+      afterDismissed$.next();
+      afterDismissed$.complete();
+    },
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Tests
+// ---------------------------------------------------------------------------
+
+describe('NgxMatToastService', () => {
   let service: NgxMatToastService;
   let snackBar: MatSnackBar;
 
@@ -39,7 +73,7 @@ describe('NgxMatToastService', () => {
   });
 
   it('opens the Angular Material snackbar outlet when the first toast is shown', () => {
-    const openSpy = vi.spyOn(snackBar, 'openFromComponent');
+    const openSpy: ReturnType<typeof vi.spyOn> = vi.spyOn(snackBar, 'openFromComponent');
 
     service.success('Saved successfully');
 
@@ -48,20 +82,25 @@ describe('NgxMatToastService', () => {
     expect(service.toasts()[0]?.type).toBe('success');
   });
 
-  it('reveals the first toast after the snackbar outlet finishes opening', async () => {
+  it('reveals the first toast after the snackbar outlet finishes opening', () => {
+    const mock = createMockOutletRef();
+    vi.spyOn(snackBar, 'openFromComponent').mockReturnValue(mock.fakeRef);
+
     service.success('Saved successfully');
 
     expect(service.toasts()[0]?.isVisible).toBe(false);
 
-    await new Promise((resolve) => setTimeout(resolve, outletOpenDelayMs));
+    mock.triggerOpened();
 
     expect(service.toasts()[0]?.isVisible).toBe(true);
   });
 
-  it('shows additional toasts immediately once the outlet is open', async () => {
-    service.success('First');
+  it('shows additional toasts immediately once the outlet is open', () => {
+    const mock = createMockOutletRef();
+    vi.spyOn(snackBar, 'openFromComponent').mockReturnValue(mock.fakeRef);
 
-    await new Promise((resolve) => setTimeout(resolve, outletOpenDelayMs));
+    service.success('First');
+    mock.triggerOpened();
 
     service.success('Second');
 
@@ -95,8 +134,12 @@ describe('NgxMatToastService', () => {
   });
 
   it('returns the existing ref when preventDuplicates is enabled', () => {
-    const first = service.success('Duplicate', undefined, { preventDuplicates: true });
-    const second = service.success('Duplicate', undefined, { preventDuplicates: true });
+    const first: NgxMatToastRef = service.success('Duplicate', undefined, {
+      preventDuplicates: true,
+    });
+    const second: NgxMatToastRef = service.success('Duplicate', undefined, {
+      preventDuplicates: true,
+    });
 
     expect(first).toBe(second);
     expect(service.toasts()).toHaveLength(1);
@@ -129,29 +172,41 @@ describe('NgxMatToastService', () => {
     expect(service.toasts().map((toast) => toast.message)).toEqual(['Second', 'Third']);
   });
 
-  it('auto-dismisses a toast after its configured duration', async () => {
-    service.success('Dismiss me', undefined, { duration: 10 });
+  it('auto-dismisses a toast after its configured duration', () => {
+    vi.useFakeTimers();
+
+    const mock = createMockOutletRef();
+    vi.spyOn(snackBar, 'openFromComponent').mockReturnValue(mock.fakeRef);
+
+    service.success('Dismiss me', undefined, { duration: 100 });
+    mock.triggerOpened();
 
     expect(service.toasts()).toHaveLength(1);
 
-    await new Promise((resolve) => setTimeout(resolve, autoDismissWaitMs));
+    vi.advanceTimersByTime(150);
 
     expect(service.toasts()).toHaveLength(0);
   });
 
-  it('keeps persistent toasts open when duration is 0', async () => {
-    service.info('Persistent', undefined, { duration: 0 });
+  it('keeps persistent toasts open when duration is 0', () => {
+    vi.useFakeTimers();
 
-    await new Promise((resolve) => setTimeout(resolve, autoDismissWaitMs));
+    const mock = createMockOutletRef();
+    vi.spyOn(snackBar, 'openFromComponent').mockReturnValue(mock.fakeRef);
+
+    service.info('Persistent', undefined, { duration: 0 });
+    mock.triggerOpened();
+
+    vi.advanceTimersByTime(10_000);
 
     expect(service.toasts()).toHaveLength(1);
   });
 
   it('dismisses a toast by id and notifies its ref', () => {
-    const ref = service.success('Dismiss me');
-    const dismissedSpy = vi.fn();
+    const ref: NgxMatToastRef = service.success('Dismiss me');
+    const dismissedSpy: () => void = vi.fn();
 
-    ref.afterDismissed().subscribe(dismissedSpy);
+    ref.afterDismissed().subscribe((): void => dismissedSpy());
 
     expect(service.dismiss(ref.id)).toBe(true);
     expect(service.dismiss('missing-id')).toBe(false);
@@ -170,12 +225,41 @@ describe('NgxMatToastService', () => {
       completeCalls += 1;
     };
 
-    ref.afterDismissed().subscribe(handleNext, undefined, handleComplete);
+    ref.afterDismissed().subscribe({ next: handleNext, complete: handleComplete });
 
     service.dismiss(ref.id);
 
     expect(nextCalls).toBe(1);
     expect(completeCalls).toBe(1);
+  });
+
+  it('emits onTap when the outlet data tapped callback is invoked', () => {
+    const mock = createMockOutletRef();
+    vi.spyOn(snackBar, 'openFromComponent').mockReturnValue(mock.fakeRef);
+
+    const ref: NgxMatToastRef = service.success('Tap me');
+    const tapSpy: () => void = vi.fn();
+    ref.onTap().subscribe((): void => tapSpy());
+
+    // Retrieve the data passed to openFromComponent and call tapped()
+    const openCall = (snackBar.openFromComponent as ReturnType<typeof vi.spyOn>).mock.calls[0];
+    const data = (openCall?.[1] as { data: { tapped: (id: string) => void } })?.data;
+    data?.tapped(ref.id);
+
+    expect(tapSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('emits onShown when the outlet opens and the toast becomes visible', async () => {
+    const mock = createMockOutletRef();
+    vi.spyOn(snackBar, 'openFromComponent').mockReturnValue(mock.fakeRef);
+
+    const ref: NgxMatToastRef = service.success('Watch me');
+    const shownSpy: () => void = vi.fn();
+    ref.onShown().subscribe((): void => shownSpy());
+
+    mock.triggerOpened();
+
+    expect(shownSpy).toHaveBeenCalledTimes(1);
   });
 
   it('clears all active toasts', () => {
@@ -189,7 +273,7 @@ describe('NgxMatToastService', () => {
   });
 
   it('reopens the snackbar outlet when the requested position changes', () => {
-    const openSpy = vi.spyOn(snackBar, 'openFromComponent');
+    const openSpy: ReturnType<typeof vi.spyOn> = vi.spyOn(snackBar, 'openFromComponent');
 
     service.success('Top right');
     service.success('Bottom left', undefined, {
@@ -197,5 +281,23 @@ describe('NgxMatToastService', () => {
     });
 
     expect(openSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it('reopens the snackbar outlet when fullWidth changes', () => {
+    const openSpy: ReturnType<typeof vi.spyOn> = vi.spyOn(snackBar, 'openFromComponent');
+
+    service.success('Normal', undefined, { fullWidth: false });
+    service.success('Full width', undefined, { fullWidth: true });
+
+    expect(openSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it('adds the full-width panel class when fullWidth is true', () => {
+    const openSpy: ReturnType<typeof vi.spyOn> = vi.spyOn(snackBar, 'openFromComponent');
+
+    service.success('Full width', undefined, { fullWidth: true });
+
+    const config = (openSpy.mock.calls[0] as unknown[])[1] as { panelClass: string[] };
+    expect(config.panelClass).toContain('ngx-mat-toast-snack-panel--full-width');
   });
 });

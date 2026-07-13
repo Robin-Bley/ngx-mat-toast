@@ -45,4 +45,8 @@ export class ToastContainerComponent {
   public onDismiss(id: string): void {
     this.data.dismiss(id);
   }
+
+  public onTap(id: string): void {
+    this.data.tapped(id);
+  }
 }

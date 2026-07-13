@@ -63,6 +63,17 @@ export interface NgxMatToastConfig {
    * @default false
    */
   enableDebug: boolean;
+
+  /**
+   * Whether the toast container spans the full width of the viewport.
+   *
+   * When `true`, the `ngx-mat-toast-snack-panel--full-width` CSS class is applied to
+   * the snackbar panel, allowing consumers to style it to full-viewport width.
+   * Mapped automatically from `toast-top-full-width` / `toast-bottom-full-width`
+   * when using the `ToastrService` compatibility adapter.
+   * @default false
+   */
+  fullWidth: boolean;
 }
 
 /**
@@ -91,4 +102,5 @@ export const DEFAULT_TOAST_CONFIG: NgxMatToastConfig = {
   preventDuplicates: false,
   maxToasts: 5,
   enableDebug: false,
+  fullWidth: false,
 };

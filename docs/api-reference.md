@@ -102,6 +102,8 @@ readonly id: string
 
 dismiss(): void
 afterDismissed(): Observable<void>
+onShown(): Observable<void>
+onTap(): Observable<void>
 ```
 
 ### Usage example
@@ -124,6 +126,10 @@ export class UploadNotifierService {
       console.log('Upload toast dismissed.');
     });
 
+    toastRef.onShown().subscribe((): void => {
+      console.log('Upload toast is now visible.');
+    });
+
     return toastRef;
   }
 }
@@ -132,7 +138,9 @@ export class UploadNotifierService {
 ### Behavior notes
 
 - `dismiss()` forwards to the service using the toast id.
-- `afterDismissed()` emits once and then completes.
+- `afterDismissed()` emits once when the toast is dismissed and then completes.
+- `onShown()` emits once when the toast becomes visible on screen and then completes.
+- `onTap()` emits when the toast card is clicked, regardless of `tapToDismiss` setting. It emits once and then completes.
 - If a toast is removed because of `maxToasts`, `clear()`, or a direct `dismiss(id)`, the reference still receives the dismissal notification.
 
 ---
@@ -154,6 +162,7 @@ interface NgxMatToastConfig {
   preventDuplicates: boolean;
   maxToasts: number;
   enableDebug: boolean;
+  fullWidth: boolean;
 }
 ```
 
@@ -342,6 +351,8 @@ interface ActiveToast {
   title?: string;
   message?: string;
   toastRef: NgxMatToastRef;
+  onShown: Observable<void>;
+  onTap: Observable<void>;
 }
 ```
 
@@ -384,6 +395,18 @@ function mapNgxToastrConfigToNgxMatToastConfig(
 ```
 
 Use this helper when you want to translate legacy `ngx-toastr` configuration into native `ngx-mat-toast` options during a staged migration.
+
+---
+
+## Compatibility adapter secondary entry point
+
+For tree-shaking optimization, you can import the `ToastrService` adapter from a separate entry point:
+
+```ts
+import { ToastrService, mapNgxToastrConfigToNgxMatToastConfig } from 'ngx-mat-toast/toastr-adapter';
+```
+
+This allows consumers who do not use the compatibility layer to exclude it from their bundle.
 
 ---
 

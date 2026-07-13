@@ -16,12 +16,17 @@ Perfect for developers migrating from `ngx-toastr`, building Angular Material ap
 ## Highlights
 
 - Angular Material Snackbar powered
-- standalone + NgModule support
-- typed service API
+- standalone + NgModule support (NgModule deprecated, use standalone)
+- typed service API with full TypeScript support
+- lifecycle observables: `onShown()`, `onTap()`, `afterDismissed()`
 - close button, progress bar, duplicate prevention, and max toast limits
 - persistent toasts with `duration: 0`
+- full-width toast support with `fullWidth: boolean`
+- built-in ARIA accessibility (alert/status roles, aria-live regions)
 - optional `ToastrService` compatibility adapter for `ngx-toastr` migrations
+- secondary entry point for tree-shaking (`ngx-mat-toast/toastr-adapter`)
 - no Material Icons font dependency
+- signal-based progress bar with smooth animations
 
 ## Documentation
 
@@ -125,8 +130,10 @@ show(message: string, type?: ToastType, title?: string, options?: NgxMatToastOpt
 
 All toast creation methods return a `NgxMatToastRef` object that allows you to:
 
-- **`dismiss(id?: string): boolean`** – Programmatically dismiss a specific toast by ID (or dismiss all toasts if no ID provided)
+- **`dismiss(): void`** – Programmatically dismiss the toast
 - **`afterDismissed(): Observable<void>`** – Subscribe to be notified when the toast is dismissed
+- **`onShown(): Observable<void>`** – Subscribe to observe when the toast becomes visible
+- **`onTap(): Observable<void>`** – Subscribe to observe when the toast is tapped (regardless of `tapToDismiss`)
 
 ### Utility methods
 
@@ -153,7 +160,12 @@ export class ExampleComponent {
   private readonly toast = inject(NgxMatToastService);
 
   showSuccess(): void {
-    this.toast.success('Profile saved successfully.', 'Saved');
+    const ref = this.toast.success('Profile saved successfully.', 'Saved');
+    
+    // React to tap events
+    ref.onTap().subscribe(() => {
+      console.log('Toast was tapped');
+    });
   }
 
   showPersistent(): void {
@@ -161,6 +173,11 @@ export class ExampleComponent {
     const ref = this.toast.info('Sync in progress...', 'Background job', {
       duration: 0,
       closeable: true,
+    });
+
+    // React when visible
+    ref.onShown().subscribe(() => {
+      console.log('Toast is now visible on screen');
     });
 
     // Subscribe to dismissal
@@ -197,6 +214,7 @@ export class ExampleComponent {
 | `preventDuplicates`    | `false`        | Suppress duplicate title/message/type combinations.                |
 | `maxToasts`            | `5`            | Maximum visible toasts. Use `0` for unlimited.                     |
 | `enableDebug`          | `false`        | Log toast activity in the browser console.                         |
+| `fullWidth`            | `false`        | Stretch the toast to fill the snackbar container width.            |
 
 Within a stack, the newest toast stays closest to the configured viewport edge.
 
@@ -257,6 +275,7 @@ this.toast.success('Saved', 'Success', {
   position: { horizontal: 'start', vertical: 'bottom' },
   closeable: false,
   progressBar: true,
+  fullWidth: true,
 });
 ```
 
