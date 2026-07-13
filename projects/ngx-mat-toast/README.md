@@ -161,7 +161,7 @@ export class ExampleComponent {
 
   showSuccess(): void {
     const ref = this.toast.success('Profile saved successfully.', 'Saved');
-    
+
     // React to tap events
     ref.onTap().subscribe(() => {
       console.log('Toast was tapped');

@@ -82,7 +82,7 @@ export class ExampleComponent {
 
   public save(): void {
     const ref = this.toast.success('Profile saved successfully.', 'Saved');
-    
+
     // React to lifecycle events
     ref.onShown().subscribe(() => console.log('Toast is visible'));
     ref.onTap().subscribe(() => console.log('Toast was clicked'));

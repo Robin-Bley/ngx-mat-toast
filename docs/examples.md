@@ -353,11 +353,15 @@ export class FullWidthNotificationsService {
   private readonly toast: NgxMatToastService = inject(NgxMatToastService);
 
   public showWideMessage(): void {
-    this.toast.info('This is a wide notification with more content space available.', 'Full Width', {
-      duration: 3000,
-      fullWidth: true,
-      progressBar: true,
-    });
+    this.toast.info(
+      'This is a wide notification with more content space available.',
+      'Full Width',
+      {
+        duration: 3000,
+        fullWidth: true,
+        progressBar: true,
+      },
+    );
   }
 
   public showWideError(): void {
@@ -369,7 +373,7 @@ export class FullWidthNotificationsService {
         duration: 0,
         fullWidth: true,
         closeable: true,
-      }
+      },
     );
   }
 }

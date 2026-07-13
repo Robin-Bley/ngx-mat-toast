@@ -78,11 +78,7 @@ export class ToastItemComponent implements OnChanges, OnInit, OnDestroy {
           of(computeValue()),
           interval(0, animationFrameScheduler).pipe(
             map(computeValue),
-            takeWhile(
-              (v: number): boolean =>
-                direction === 'decreasing' ? v > 0 : v < 100,
-              true,
-            ),
+            takeWhile((v: number): boolean => (direction === 'decreasing' ? v > 0 : v < 100), true),
           ),
         );
       }),

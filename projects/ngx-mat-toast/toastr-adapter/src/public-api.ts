@@ -14,6 +14,3 @@
 
 export { ToastrService, mapNgxToastrConfigToNgxMatToastConfig } from 'ngx-mat-toast';
 export type { ToastrPositionClass, ActiveToast, IndividualConfig } from 'ngx-mat-toast';
-
-
-

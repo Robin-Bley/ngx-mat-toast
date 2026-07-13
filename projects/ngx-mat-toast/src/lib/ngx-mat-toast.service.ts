@@ -86,10 +86,7 @@ export class NgxMatToastService {
     ReturnType<typeof setTimeout>
   >();
 
-  private readonly dismissedSubjects: Map<string, Subject<void>> = new Map<
-    string,
-    Subject<void>
-  >();
+  private readonly dismissedSubjects: Map<string, Subject<void>> = new Map<string, Subject<void>>();
   private readonly shownSubjects: Map<string, Subject<void>> = new Map<string, Subject<void>>();
   private readonly tappedSubjects: Map<string, Subject<void>> = new Map<string, Subject<void>>();
 
