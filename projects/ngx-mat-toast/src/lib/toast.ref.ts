@@ -23,7 +23,13 @@ import { EMPTY } from 'rxjs';
  * ```
  */
 export class NgxMatToastRef {
-  // Overload signatures for backward compatibility
+  /**
+   * @internal
+   * Overload for backward compatibility. Creates a ref with minimal functionality.
+   * Lifecycle observables return EMPTY, and dismiss() is a no-op.
+   * Only use when instantiating directly for testing; normal consumers should use
+   * the service-provided signature with all lifecycle observables.
+   */
   constructor(
     /** The unique ID of the toast. */
     id: string,
