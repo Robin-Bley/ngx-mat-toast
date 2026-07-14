@@ -11,3 +11,4 @@ export * from './lib/toast.ref';
 export * from './lib/toast.model';
 export * from './lib/toast.types';
 export * from './lib/toast-position';
+export * from '../toastr-adapter/public-api';
