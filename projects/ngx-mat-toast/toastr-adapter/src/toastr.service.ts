@@ -1,13 +1,12 @@
 import { Injectable, inject } from '@angular/core';
-import type { NgxMatToastOptions } from './toast.config';
-import { NgxMatToastService } from './ngx-mat-toast.service';
-import { NgxMatToastRef } from './toast.ref';
-import type { ToastType } from './toast.types';
-import type { ToastPosition } from './toast-position';
+import type { NgxMatToastOptions } from '../../src/lib/toast.config';
+import { NgxMatToastService } from '../../src/lib/ngx-mat-toast.service';
+import { NgxMatToastRef } from '../../src/lib/toast.ref';
+import type { ToastType } from '../../src/lib/toast.types';
 import type { ToastrPositionClass } from './toastr.types';
 import type { ActiveToast } from './active-toast';
 import type { IndividualConfig } from './individual-config';
-import type { PositionMapping } from './position-mapping';
+import type { PositionMapping } from '../../src/lib/position-mapping';
 
 const POSITION_CLASS_MAP: Record<ToastrPositionClass, PositionMapping> = {
   'toast-top-left': { position: { horizontal: 'start', vertical: 'top' }, fullWidth: false },
@@ -63,7 +62,8 @@ function mapCompatConfig(config?: Partial<IndividualConfig>): NgxMatToastOptions
     : undefined;
 
   return {
-    duration: config.disableTimeOut ? 0 : config.timeOut,
+    duration:
+      config.disableTimeOut === true || config.disableTimeOut === 'timeOut' ? 0 : config.timeOut,
     closeable: config.closeButton,
     progressBar: config.progressBar,
     tapToDismiss: config.tapToDismiss,

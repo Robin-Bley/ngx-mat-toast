@@ -68,7 +68,7 @@ export class ToastItemComponent implements OnChanges, OnInit, OnDestroy {
           return direction === 'decreasing' ? (1 - ratio) * 100 : ratio * 100;
         };
         return concat(
-          of(computeValue()),
+          of(direction === 'decreasing' ? 100 : 0),
           interval(0, animationFrameScheduler).pipe(
             map(computeValue),
             takeWhile((v: number): boolean => (direction === 'decreasing' ? v > 0 : v < 100), true),

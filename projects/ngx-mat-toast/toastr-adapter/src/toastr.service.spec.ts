@@ -1,8 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { ToastrService } from './toastr.service';
-import { provideNgxMatToast } from './provide-ngx-mat-toast';
-import { NgxMatToastService } from './ngx-mat-toast.service';
-import { mapNgxToastrConfigToNgxMatToastConfig } from './toastr.service';
+import { provideNgxMatToast } from 'ngx-mat-toast';
+import { NgxMatToastService } from 'ngx-mat-toast';
+import { mapNgxToastrConfigToNgxMatToastConfig, ToastrService } from './toastr.service';
 
 describe('ToastrService compatibility adapter', () => {
   let service: ToastrService;
@@ -10,7 +9,7 @@ describe('ToastrService compatibility adapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideNgxMatToast()],
+      providers: [provideNgxMatToast(), ToastrService],
     });
 
     service = TestBed.inject(ToastrService);
