@@ -9,7 +9,7 @@
     "ngx-mat-toast": {
       "projectType": "library",
       "root": "projects/ngx-mat-toast",
-      "sourceRoot": "projects/ngx-mat-toast",
+      "sourceRoot": "projects/ngx-mat-toast/src",
       "prefix": "ngx",
       "architect": {
         "build": {
@@ -27,11 +27,7 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/ngx-mat-toast/tsconfig.spec.json",
-            "include": [
-              "projects/ngx-mat-toast/src/**/*.spec.ts",
-              "projects/ngx-mat-toast/toastr-adapter/**/*.spec.ts"
-            ]
+            "tsConfig": "projects/ngx-mat-toast/tsconfig.spec.json"
           }
         }
       }

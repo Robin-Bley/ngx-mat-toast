@@ -1,5 +1,5 @@
 import type { Observable } from 'rxjs';
-import type { NgxMatToastRef } from '../../src/lib/toast.ref';
+import type { NgxMatToastRef } from './toast.ref';
 
 /**
  * Lightweight compatibility result that mirrors the most useful parts of

@@ -31,8 +31,6 @@ Prefer `NgxMatToastService` when you:
 
 ## Import and usage
 
-### From the main entry point
-
 ```ts
 import { Component, inject } from '@angular/core';
 import { ToastrService } from 'ngx-mat-toast';
@@ -53,16 +51,6 @@ export class LegacySaveActionComponent {
   }
 }
 ```
-
-### From the secondary entry point (tree-shaking optimized)
-
-For better tree-shaking, import from the dedicated adapter entry point:
-
-```ts
-import { ToastrService } from 'ngx-mat-toast/toastr-adapter';
-```
-
-This allows bundlers to exclude the adapter code when it is not used.
 
 ---
 
@@ -104,8 +92,8 @@ The adapter accepts `Partial<IndividualConfig>` and maps supported options into 
 
 ### Position class mapping
 
-| `positionClass`             | Native position                                | `fullWidth` |
-| --------------------------- | ---------------------------------------------- | ----------- |
+| `positionClass`             | Native position                                |
+| --------------------------- | ---------------------------------------------- |
 | `'toast-top-left'`          | `{ horizontal: 'start', vertical: 'top' }`     | `false`     |
 | `'toast-top-center'`        | `{ horizontal: 'center', vertical: 'top' }`    | `false`     |
 | `'toast-top-right'`         | `{ horizontal: 'end', vertical: 'top' }`       | `false`     |
@@ -149,7 +137,6 @@ The adapter is intentionally pragmatic. It does not aim for full feature parity 
 Notable boundaries:
 
 - no promise of total visual parity with `ngx-toastr`
-- no literal recreation of `full-width` toast layouts
 - no custom HTML or template rendering parity
 - no escape from the single Angular Material snackbar host model
 

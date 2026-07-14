@@ -24,8 +24,6 @@ and this project follows [Semantic Versioning](https://semver.org/).
 - **Signal-based progress bar**:
   - Replaced `setInterval` implementation with RxJS observables + `animationFrameScheduler`
   - Non-blocking, frame-optimized progress animations
-- **Secondary entry point for tree-shaking**:
-  - Import adapter from `ngx-mat-toast/toastr-adapter` to exclude non-adapter code from bundles
 - **Observable properties in `ActiveToast`**:
   - `onShown: Observable<void>` – emitted when toast becomes visible
   - `onTap: Observable<void>` – emitted when toast is tapped
@@ -33,7 +31,6 @@ and this project follows [Semantic Versioning](https://semver.org/).
   - Updated API reference with new lifecycle methods
   - Added full-width configuration guide
   - Documented ARIA accessibility features
-  - Added tree-shaking optimization guidance
   - Updated position class mapping table with `fullWidth` indicators
 
 ### Changed
