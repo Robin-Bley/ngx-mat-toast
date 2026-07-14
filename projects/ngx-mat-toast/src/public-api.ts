@@ -6,6 +6,7 @@ export * from './lib/ngx-mat-toast.service';
 export * from './lib/provide-ngx-mat-toast';
 export * from './lib/ngx-mat-toast.module';
 export * from './lib/toast.config';
+export * from './lib/toast-config.token';
 export * from './lib/toast.ref';
 export * from './lib/toast.model';
 export * from './lib/toast.types';
