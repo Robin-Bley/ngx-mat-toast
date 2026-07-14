@@ -48,25 +48,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "exports": {
-    ".": {
-      "types": "./types/ngx-mat-toast.d.ts",
-      "esm2022": "./esm2022/ngx-mat-toast.mjs",
-      "esm": "./esm2022/ngx-mat-toast.mjs",
-      "default": "./fesm2022/ngx-mat-toast.mjs"
-    },
-    "./toastr-adapter": {
-      "types": "./types/toastr-adapter/index.d.ts",
-      "esm2022": "./esm2022/toastr-adapter.mjs",
-      "esm": "./esm2022/toastr-adapter.mjs",
-      "default": "./fesm2022/toastr-adapter.mjs"
-    },
-    "./package.json": "./package.json"
-  },
-  "main": "./fesm2022/ngx-mat-toast.mjs",
-  "module": "./fesm2022/ngx-mat-toast.mjs",
-  "types": "./types/ngx-mat-toast.d.ts",
-  "typings": "./types/ngx-mat-toast.d.ts",
   "peerDependencies": {
     "@angular/cdk": ">=21.0.0 <23.0.0",
     "@angular/common": ">=21.0.0 <23.0.0",
