@@ -8,8 +8,6 @@
   [class.state-leave]="isLeaving()"
   [tabindex]="toast.config.tapToDismiss ? 0 : -1"
   (click)="onTap()"
-  (keydown.enter)="onTap()"
-  (keydown.space)="onTap(); $event.preventDefault()"
 >
   <div class="ngx-mat-toast-item__icon" aria-hidden="true">
     @switch (toast.type) {

@@ -17,4 +17,3 @@ export { ToastrService, mapNgxToastrConfigToNgxMatToastConfig } from './lib/toas
 export type { ToastrPositionClass } from './lib/toastr.types';
 export type { ActiveToast } from './lib/active-toast';
 export type { IndividualConfig } from './lib/individual-config';
-

@@ -92,8 +92,8 @@ The adapter accepts `Partial<IndividualConfig>` and maps supported options into 
 
 ### Position class mapping
 
-| `positionClass`             | Native position                                |
-| --------------------------- | ---------------------------------------------- |
+| `positionClass`             | Native position                                | `fullWidth` |
+| --------------------------- | ---------------------------------------------- | ----------- |
 | `'toast-top-left'`          | `{ horizontal: 'start', vertical: 'top' }`     | `false`     |
 | `'toast-top-center'`        | `{ horizontal: 'center', vertical: 'top' }`    | `false`     |
 | `'toast-top-right'`         | `{ horizontal: 'end', vertical: 'top' }`       | `false`     |

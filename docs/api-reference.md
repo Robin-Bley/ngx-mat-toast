@@ -398,15 +398,15 @@ Use this helper when you want to translate legacy `ngx-toastr` configuration int
 
 ---
 
-## Compatibility adapter secondary entry point
+## Compatibility adapter
 
-For tree-shaking optimization, you can import the `ToastrService` adapter from a separate entry point:
+The `ToastrService` adapter and mapping function are exported from the primary entry point:
 
 ```ts
-import { ToastrService, mapNgxToastrConfigToNgxMatToastConfig } from 'ngx-mat-toast/toastr-adapter';
+import { ToastrService, mapNgxToastrConfigToNgxMatToastConfig } from 'ngx-mat-toast';
 ```
 
-This allows consumers who do not use the compatibility layer to exclude it from their bundle.
+For detailed migration guidance, see [Migrating from ngx-toastr](../docs/migrating-from-ngx-toastr.md).
 
 ---
 

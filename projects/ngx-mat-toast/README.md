@@ -24,7 +24,6 @@ Perfect for developers migrating from `ngx-toastr`, building Angular Material ap
 - full-width toast support with `fullWidth: boolean`
 - built-in ARIA accessibility (alert/status roles, aria-live regions)
 - optional `ToastrService` compatibility adapter for `ngx-toastr` migrations
-- secondary entry point for tree-shaking (`ngx-mat-toast/toastr-adapter`)
 - no Material Icons font dependency
 - signal-based progress bar with smooth animations
 

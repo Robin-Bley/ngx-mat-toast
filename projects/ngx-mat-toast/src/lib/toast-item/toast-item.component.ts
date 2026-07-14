@@ -61,7 +61,11 @@ export class ToastItemComponent implements OnChanges, OnInit, OnDestroy {
         if (!params) {
           return EMPTY;
         }
-        const { startTime, duration, direction } = params;
+        const {
+          startTime,
+          duration,
+          direction,
+        }: { startTime: number; duration: number; direction: 'increasing' | 'decreasing' } = params;
         const computeValue = (): number => {
           const elapsed: number = Date.now() - startTime;
           const ratio: number = Math.min(elapsed / duration, 1);
