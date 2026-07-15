@@ -162,7 +162,7 @@ interface NgxMatToastConfig {
   preventDuplicates: boolean;
   maxToasts: number;
   enableDebug: boolean;
-  fullWidth: boolean;
+  fullWidth?: boolean;
 }
 ```
 
