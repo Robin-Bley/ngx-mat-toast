@@ -45,7 +45,6 @@ describe('ToastrService compatibility adapter', () => {
       maxToasts: 2,
       progressBarDirection: 'increasing',
       position: { horizontal: 'start', vertical: 'bottom' },
-      fullWidth: false,
     });
   });
 
@@ -69,7 +68,7 @@ describe('ToastrService compatibility adapter', () => {
   // Full-width position class mapping
   // ---------------------------------------------------------------------------
 
-  it('maps toast-top-full-width to center/top with fullWidth: true', () => {
+  it('maps toast-top-full-width to center/top', () => {
     service.success('Full width top', undefined, {
       positionClass: 'toast-top-full-width',
     });
@@ -78,10 +77,9 @@ describe('ToastrService compatibility adapter', () => {
       horizontal: 'center',
       vertical: 'top',
     });
-    expect(toastService.toasts()[0]?.config.fullWidth).toBe(true);
   });
 
-  it('maps toast-bottom-full-width to center/bottom with fullWidth: true', () => {
+  it('maps toast-bottom-full-width to center/bottom', () => {
     service.warning('Full width bottom', undefined, {
       positionClass: 'toast-bottom-full-width',
     });
@@ -90,10 +88,9 @@ describe('ToastrService compatibility adapter', () => {
       horizontal: 'center',
       vertical: 'bottom',
     });
-    expect(toastService.toasts()[0]?.config.fullWidth).toBe(true);
   });
 
-  it('maps toast-top-right to end/top with fullWidth: false', () => {
+  it('maps toast-top-right to end/top', () => {
     service.error('Top right', undefined, {
       positionClass: 'toast-top-right',
     });
@@ -102,7 +99,6 @@ describe('ToastrService compatibility adapter', () => {
       horizontal: 'end',
       vertical: 'top',
     });
-    expect(toastService.toasts()[0]?.config.fullWidth).toBe(false);
   });
 
   // ---------------------------------------------------------------------------

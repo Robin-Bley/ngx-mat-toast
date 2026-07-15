@@ -283,21 +283,26 @@ describe('NgxMatToastService', () => {
     expect(openSpy).toHaveBeenCalledTimes(2);
   });
 
-  it('reopens the snackbar outlet when fullWidth changes', () => {
+  it('does not recreate outlet when per-toast fullWidth differs from global config', () => {
     const openSpy: ReturnType<typeof vi.spyOn> = vi.spyOn(snackBar, 'openFromComponent');
 
+    // First toast with fullWidth: false (per-toast, but ignored)
     service.success('Normal', undefined, { fullWidth: false });
+    // Second toast with fullWidth: true (per-toast, but ignored)
     service.success('Full width', undefined, { fullWidth: true });
 
-    expect(openSpy).toHaveBeenCalledTimes(2);
+    // Outlet should only be created once because per-toast fullWidth is ignored
+    expect(openSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('adds the full-width panel class when fullWidth is true', () => {
+  it('adds the full-width panel class based on global config, not per-toast option', () => {
     const openSpy: ReturnType<typeof vi.spyOn> = vi.spyOn(snackBar, 'openFromComponent');
 
+    // Per-toast fullWidth option is ignored, only global config is used
     service.success('Full width', undefined, { fullWidth: true });
 
     const config = (openSpy.mock.calls[0] as unknown[])[1] as { panelClass: string[] };
-    expect(config.panelClass).toContain('ngx-mat-toast-snack-panel--full-width');
+    // Since global fullWidth defaults to false, the panel class should not include full-width
+    expect(config.panelClass).toEqual(['ngx-mat-toast-snack-panel']);
   });
 });

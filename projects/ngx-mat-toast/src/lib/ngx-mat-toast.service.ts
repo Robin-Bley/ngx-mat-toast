@@ -154,17 +154,23 @@ export class NgxMatToastService {
     this.shownSubjects.set(id, shown$);
     this.tappedSubjects.set(id, tapped$);
 
+    const globalFullWidth: boolean = resolveToastConfig(this.globalConfig).fullWidth;
+
     const isVisible: boolean = this.canShowToastImmediately(
       resolvedConfig.position,
-      resolvedConfig.fullWidth,
+      globalFullWidth,
     );
+
+    // Remove fullWidth from per-toast config since it's an outlet-level setting
+    const toastConfig: NgxMatToastConfig = { ...resolvedConfig };
+    delete (toastConfig as Partial<NgxMatToastConfig>).fullWidth;
 
     const toast: ToastData = {
       id,
       message,
       title,
       type,
-      config: resolvedConfig,
+      config: toastConfig,
       createdAt: Date.now(),
       isVisible,
     };
@@ -194,7 +200,7 @@ export class NgxMatToastService {
       });
     }
 
-    this.ensureOutlet(resolvedConfig.position, resolvedConfig.fullWidth);
+    this.ensureOutlet(resolvedConfig.position, globalFullWidth);
 
     return ref;
   }
