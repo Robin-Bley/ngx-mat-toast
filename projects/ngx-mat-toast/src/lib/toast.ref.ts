@@ -36,8 +36,8 @@ export class NgxMatToastRef {
     dismissFn: () => void,
   );
   /**
-   * @deprecated Use the constructor with full lifecycle parameters instead.
-   * Provided for backward compatibility with code that directly instantiates this class.
+   * @deprecated Do not instantiate `NgxMatToastRef` directly. Use `NgxMatToastService` methods (success/error/info/...) to obtain a ref.
+   * This overload is kept only for backward compatibility with legacy code that passed a service-like object.
    */
   constructor(
     /** The unique ID of the toast. */
