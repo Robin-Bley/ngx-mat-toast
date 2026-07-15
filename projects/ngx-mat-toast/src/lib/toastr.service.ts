@@ -19,6 +19,12 @@ const POSITION_CLASS_MAP: Record<ToastrPositionClass, ToastPosition> = {
   'toast-bottom-full-width': { horizontal: 'center', vertical: 'bottom' },
 };
 
+/** Position classes that should also enable the `fullWidth` layout option. */
+const FULL_WIDTH_POSITION_CLASSES: ReadonlySet<ToastrPositionClass> = new Set<ToastrPositionClass>([
+  'toast-top-full-width',
+  'toast-bottom-full-width',
+]);
+
 function normalizeType(type?: string): ToastType {
   switch (type) {
     case 'success':
@@ -42,8 +48,12 @@ function mapCompatConfig(config?: Partial<IndividualConfig>): NgxMatToastOptions
     return {};
   }
 
+  const isFullWidth: boolean =
+    !!config.positionClass && FULL_WIDTH_POSITION_CLASSES.has(config.positionClass);
+
   return {
-    duration: config.disableTimeOut ? 0 : config.timeOut,
+    duration:
+      config.disableTimeOut === true || config.disableTimeOut === 'timeOut' ? 0 : config.timeOut,
     closeable: config.closeButton,
     progressBar: config.progressBar,
     tapToDismiss: config.tapToDismiss,
@@ -51,6 +61,7 @@ function mapCompatConfig(config?: Partial<IndividualConfig>): NgxMatToastOptions
     maxToasts: config.maxOpened,
     progressBarDirection: config.progressAnimation,
     position: config.positionClass ? POSITION_CLASS_MAP[config.positionClass] : undefined,
+    fullWidth: isFullWidth || undefined,
   };
 }
 

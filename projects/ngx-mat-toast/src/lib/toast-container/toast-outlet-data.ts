@@ -10,5 +10,7 @@ import type { ToastPosition } from '../toast-position';
 export interface ToastOutletData {
   toasts: Signal<ToastData[]>;
   dismiss: (id: string) => void;
+  tap: (id: string) => void;
   position: ToastPosition;
+  fullWidth: boolean;
 }
