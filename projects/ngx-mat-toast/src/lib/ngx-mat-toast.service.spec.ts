@@ -30,7 +30,10 @@ function stubOutlet(snackBar: MatSnackBar): OutletControl[] {
       const stub = {
         afterOpened: (): Subject<void> => opened$,
         afterDismissed: (): Subject<void> => dismissed$,
-        dismiss: (): void => dismissed$.next(),
+        dismiss: (): void => {
+          dismissed$.next();
+          dismissed$.complete();
+        },
       } as unknown as MatSnackBarRef<ToastContainerComponent>;
 
       controls.push({
@@ -38,7 +41,10 @@ function stubOutlet(snackBar: MatSnackBar): OutletControl[] {
           opened$.next();
           opened$.complete();
         },
-        triggerDismissed: (): void => dismissed$.next(),
+        triggerDismissed: (): void => {
+          dismissed$.next();
+          dismissed$.complete();
+        },
         triggerTap: (id: string): void => {
           const configTyped = config as MatSnackBarConfig<ToastOutletData> | undefined;
           if (configTyped?.data) {

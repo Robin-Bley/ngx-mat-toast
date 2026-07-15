@@ -103,7 +103,7 @@ export class ToastItemComponent {
     });
 
     // Start the progress bar tick interval only when the progress bar is active.
-    effect((onCleanup) => {
+    effect((onCleanup: (cleanup: () => void) => void): void => {
       const toastData: ToastData = this.toast();
       const shouldTick: boolean =
         toastData.isVisible &&
