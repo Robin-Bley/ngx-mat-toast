@@ -61,18 +61,47 @@ function mapCompatConfig(config?: Partial<IndividualConfig>): NgxMatToastOptions
     ? POSITION_CLASS_MAP[config.positionClass]
     : undefined;
 
-  return {
-    duration:
-      config.disableTimeOut === true || config.disableTimeOut === 'timeOut' ? 0 : config.timeOut,
-    closeable: config.closeButton,
-    progressBar: config.progressBar,
-    tapToDismiss: config.tapToDismiss,
-    preventDuplicates: config.preventDuplicates,
-    maxToasts: config.maxOpened,
-    progressBarDirection: config.progressAnimation,
-    position: mapping?.position,
-    fullWidth: mapping?.fullWidth,
-  };
+  const options: NgxMatToastOptions = {};
+
+  if (config.disableTimeOut === true || config.disableTimeOut === 'timeOut') {
+    options.duration = 0;
+  } else if (config.timeOut !== undefined) {
+    options.duration = config.timeOut;
+  }
+
+  if (config.closeButton !== undefined) {
+    options.closeable = config.closeButton;
+  }
+
+  if (config.progressBar !== undefined) {
+    options.progressBar = config.progressBar;
+  }
+
+  if (config.tapToDismiss !== undefined) {
+    options.tapToDismiss = config.tapToDismiss;
+  }
+
+  if (config.preventDuplicates !== undefined) {
+    options.preventDuplicates = config.preventDuplicates;
+  }
+
+  if (config.maxOpened !== undefined) {
+    options.maxToasts = config.maxOpened;
+  }
+
+  if (config.progressAnimation !== undefined) {
+    options.progressBarDirection = config.progressAnimation;
+  }
+
+  if (mapping?.position !== undefined) {
+    options.position = mapping.position;
+  }
+
+  if (mapping?.fullWidth !== undefined) {
+    options.fullWidth = mapping.fullWidth;
+  }
+
+  return options;
 }
 
 /**

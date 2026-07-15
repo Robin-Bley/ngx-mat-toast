@@ -73,7 +73,7 @@ export interface NgxMatToastConfig {
    * when using the `ToastrService` compatibility adapter.
    * @default false
    */
-  fullWidth: boolean;
+  fullWidth?: boolean;
 }
 
 /**

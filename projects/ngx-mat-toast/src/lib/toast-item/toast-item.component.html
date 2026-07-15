@@ -6,10 +6,10 @@
   [class.tap-to-dismiss]="toast.config.tapToDismiss"
   [class.state-enter]="toast.isVisible && !isLeaving()"
   [class.state-leave]="isLeaving()"
-  [tabindex]="toast.config.tapToDismiss ? 0 : -1"
+  tabindex="0"
   (click)="onTap()"
-  (keydown.enter)="toast.config.tapToDismiss && onTap()"
-  (keydown.space)="toast.config.tapToDismiss && onTap()"
+  (keydown.enter)="onTap()"
+  (keydown.space)="onTap()"
 >
   <div class="ngx-mat-toast-item__icon" aria-hidden="true">
     @switch (toast.type) {

@@ -1,5 +1,5 @@
 import type { Observable } from 'rxjs';
-import { EMPTY } from 'rxjs';
+import { NEVER } from 'rxjs';
 
 /**
  * A reference to an active toast notification.
@@ -100,7 +100,7 @@ export class NgxMatToastRef {
     if (this._dismissed$ && typeof this._dismissed$ === 'object' && 'subscribe' in this._dismissed$) {
       return this._dismissed$ as Observable<void>;
     }
-    return EMPTY;
+    return NEVER;
   }
 
   /**
@@ -110,13 +110,13 @@ export class NgxMatToastRef {
    * to avoid missing the first emission.
    */
   public onShown(): Observable<void> {
-    return this._shown$ ?? EMPTY;
+    return this._shown$ ?? NEVER;
   }
 
   /**
    * Returns an Observable that emits every time the user taps / clicks the toast.
    */
   public onTap(): Observable<void> {
-    return this._tapped$ ?? EMPTY;
+    return this._tapped$ ?? NEVER;
   }
 }

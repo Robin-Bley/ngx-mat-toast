@@ -29,7 +29,12 @@ function positionsMatch(a: ToastPosition | null, b: ToastPosition): boolean {
   return a.horizontal === b.horizontal && a.vertical === b.vertical;
 }
 
-function resolveToastConfig(...configs: Array<NgxMatToastOptions | undefined>): NgxMatToastConfig {
+/**
+ * Internal type for resolved config that ensures all optional fields are required.
+ */
+type ResolvedToastConfig = NgxMatToastConfig & { fullWidth: boolean };
+
+function resolveToastConfig(...configs: Array<NgxMatToastOptions | undefined>): ResolvedToastConfig {
   let resolved: NgxMatToastConfig = {
     ...DEFAULT_TOAST_CONFIG,
     position: { ...DEFAULT_TOAST_CONFIG.position },
@@ -47,10 +52,15 @@ function resolveToastConfig(...configs: Array<NgxMatToastOptions | undefined>): 
         ...resolved.position,
         ...config.position,
       },
-    };
+    } as NgxMatToastConfig;
   }
 
-  return resolved;
+  // Ensure fullWidth is always a boolean (even if undefined in options)
+  if (resolved.fullWidth === undefined) {
+    resolved.fullWidth = DEFAULT_TOAST_CONFIG.fullWidth;
+  }
+
+  return resolved as ResolvedToastConfig;
 }
 
 /**
@@ -105,7 +115,7 @@ export class NgxMatToastService {
     title?: string,
     config?: NgxMatToastOptions,
   ): NgxMatToastRef {
-    const resolvedConfig: NgxMatToastConfig = resolveToastConfig(this.globalConfig, config);
+    const resolvedConfig: ResolvedToastConfig = resolveToastConfig(this.globalConfig, config);
 
     if (resolvedConfig.enableDebug) {
       console.debug('[ngx-mat-toast]', { message, title, type, config: resolvedConfig });
