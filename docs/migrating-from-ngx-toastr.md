@@ -247,7 +247,7 @@ Legacy `toast-top-full-width` and `toast-bottom-full-width` position classes are
 ```ts
 // Via the adapter (automatic)
 this.toastr.success('Message', 'Title', {
-  positionClass: 'toast-top-full-width',  // Automatically sets fullWidth: true
+  positionClass: 'toast-top-full-width', // Automatically sets fullWidth: true
 });
 
 // Via the native API (explicit)

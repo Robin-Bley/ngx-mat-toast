@@ -46,7 +46,8 @@ function stubOutlet(snackBar: MatSnackBar): OutletControl[] {
           dismissed$.complete();
         },
         triggerTap: (id: string): void => {
-          const configTyped = config as MatSnackBarConfig<ToastOutletData> | undefined;
+          const configTyped: MatSnackBarConfig<ToastOutletData> | undefined = config as
+            MatSnackBarConfig<ToastOutletData> | undefined;
           if (configTyped?.data) {
             configTyped.data.tap(id);
           }
