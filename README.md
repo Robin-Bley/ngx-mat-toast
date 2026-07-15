@@ -34,7 +34,6 @@ It is designed for teams that want a modern, typed toast API that still feels fa
 - built-in ARIA accessibility (alert/status roles, aria-live regions)
 - signal-based progress animation with smooth non-blocking updates
 - optional `ToastrService` compatibility adapter for `ngx-toastr` migrations
-- secondary entry point for tree-shaking optimization
 - no Material Icons webfont dependency
 - SSR-compatible (works with Angular Universal / @angular/ssr)
 - demo application and Vitest-based tests included in the workspace

@@ -35,15 +35,39 @@ export class NgxMatToastRef {
     tapped$: Observable<void>,
     dismissFn: () => void,
   );
+  /**
+   * @deprecated Use the constructor with full lifecycle parameters instead.
+   * Provided for backward compatibility with code that directly instantiates this class.
+   */
+  constructor(
+    /** The unique ID of the toast. */
+    id: string,
+    /** A service object with a dismiss(id) method (for backward compatibility). */
+    service?: { dismiss(id: string): void },
+  );
   // Implementation
   constructor(
     /** The unique ID of the toast. */
     public readonly id: string,
-    private _dismissed$?: Observable<void>,
+    private _dismissed$?: Observable<void> | { dismiss(id: string): void },
     private _shown$?: Observable<void>,
     private _tapped$?: Observable<void>,
     private _dismissFn?: () => void,
-  ) {}
+  ) {
+    // Handle backward-compatible constructor with service object
+    if (
+      this._dismissed$ &&
+      typeof this._dismissed$ === 'object' &&
+      'dismiss' in this._dismissed$ &&
+      !('subscribe' in this._dismissed$)
+    ) {
+      const service: { dismiss(id: string): void } = this._dismissed$ as { dismiss(id: string): void };
+      this._dismissFn = (): void => service.dismiss(id);
+      this._dismissed$ = undefined;
+      this._shown$ = undefined;
+      this._tapped$ = undefined;
+    }
+  }
 
   /**
    * @internal
@@ -56,7 +80,7 @@ export class NgxMatToastRef {
     tapped$: Observable<void>,
     dismissFn: () => void,
   ): void {
-    this._dismissed$ = dismissed$;
+    this._dismissed$ = dismissed$ as Observable<void> | { dismiss(id: string): void };
     this._shown$ = shown$;
     this._tapped$ = tapped$;
     this._dismissFn = dismissFn;
@@ -73,7 +97,10 @@ export class NgxMatToastRef {
    * Returns an Observable that emits once when the toast is dismissed.
    */
   public afterDismissed(): Observable<void> {
-    return this._dismissed$ ?? EMPTY;
+    if (this._dismissed$ && typeof this._dismissed$ === 'object' && 'subscribe' in this._dismissed$) {
+      return this._dismissed$ as Observable<void>;
+    }
+    return EMPTY;
   }
 
   /**
