@@ -14,7 +14,7 @@ import {
   type WritableSignal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { interval } from 'rxjs';
+import { interval, Subject } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import type { ToastData } from '../toast.model';
@@ -49,24 +49,16 @@ export class ToastItemComponent {
   public readonly isLeaving: WritableSignal<boolean> = signal<boolean>(false);
 
   private readonly _startTime: WritableSignal<number> = signal<number>(0);
+  private readonly _tick: WritableSignal<number> = signal<number>(0);
   private leaveTimer: ReturnType<typeof setTimeout> | undefined;
-
-  /**
-   * Tick signal driven by a 50 ms RxJS interval.
-   * Reading it inside `computed()` causes the computed to re-evaluate at that cadence,
-   * eliminating any need for manual `ChangeDetectorRef.markForCheck()` calls.
-   * The underlying subscription is cleaned up automatically via `takeUntilDestroyed()`.
-   */
-  private readonly _tick: Signal<number | undefined> = toSignal(
-    interval(50).pipe(takeUntilDestroyed()),
-  );
+  private tickUnsubscribe$: Subject<void> = new Subject<void>();
 
   /**
    * Current progress-bar value (0–100), reactively computed from elapsed time.
    * Updates every ≈50 ms while the progress bar is active.
    */
   public readonly progressValue: Signal<number> = computed((): number => {
-    this._tick(); // subscribe to 50 ms ticks so the computed re-evaluates
+    this._tick(); // subscribe to tick signal so the computed re-evaluates
     const toastData: ToastData = this.toast();
     const startTime: number = this._startTime();
     const initialValue: number = toastData.config.progressBarDirection === 'increasing' ? 0 : 100;
@@ -95,6 +87,8 @@ export class ToastItemComponent {
   );
 
   constructor() {
+    const destroyRef: DestroyRef = inject(DestroyRef);
+
     // Start the progress timer reactively the first time the toast becomes visible.
     effect((): void => {
       const toastData: ToastData = this.toast();
@@ -109,12 +103,34 @@ export class ToastItemComponent {
       }
     });
 
+    // Start the progress bar tick interval only when the progress bar is active.
+    effect((): void => {
+      const toastData: ToastData = this.toast();
+      const shouldTick: boolean =
+        toastData.isVisible &&
+        toastData.config.progressBar &&
+        toastData.config.duration > 0 &&
+        !this.isLeaving() &&
+        this._startTime() > 0;
+
+      if (shouldTick) {
+        // Subscribe to the interval and update the tick signal
+        interval(50)
+          .pipe(takeUntilDestroyed(destroyRef))
+          .subscribe((): void => {
+            this._tick.update((value: number): number => value + 1);
+          });
+      }
+    });
+
     // Clean up the leave timer when the component is destroyed.
-    inject(DestroyRef).onDestroy((): void => {
+    destroyRef.onDestroy((): void => {
       if (this.leaveTimer !== undefined) {
         clearTimeout(this.leaveTimer);
         this.leaveTimer = undefined;
       }
+      this.tickUnsubscribe$.next();
+      this.tickUnsubscribe$.complete();
     });
   }
 

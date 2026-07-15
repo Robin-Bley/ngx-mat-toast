@@ -1,4 +1,4 @@
-import { Subject, Observable } from 'rxjs';
+import { Subject, ReplaySubject, Observable } from 'rxjs';
 import { NgxMatToastService } from './ngx-mat-toast.service';
 
 /**
@@ -25,7 +25,7 @@ import { NgxMatToastService } from './ngx-mat-toast.service';
 export class NgxMatToastRef {
   private readonly _dismissed$: Subject<void> = new Subject<void>();
   private readonly _tapped$: Subject<void> = new Subject<void>();
-  private readonly _shown$: Subject<void> = new Subject<void>();
+  private readonly _shown$: ReplaySubject<void> = new ReplaySubject<void>(1);
 
   constructor(
     /** The unique ID of the toast. */

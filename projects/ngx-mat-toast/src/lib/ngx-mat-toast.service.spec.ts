@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarRef, type MatSnackBarConfig } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 import { vi } from 'vitest';
 import { NgxMatToastService } from './ngx-mat-toast.service';
 import { provideNgxMatToast } from './provide-ngx-mat-toast';
 import { ToastContainerComponent } from './toast-container/toast-container.component';
+import type { ToastOutletData } from './toast-container/toast-outlet-data';
 import type { NgxMatToastRef } from './toast.ref';
 
 /**
@@ -15,13 +16,14 @@ import type { NgxMatToastRef } from './toast.ref';
 interface OutletControl {
   triggerOpened(): void;
   triggerDismissed(): void;
+  triggerTap(id: string): void;
 }
 
 function stubOutlet(snackBar: MatSnackBar): OutletControl[] {
   const controls: OutletControl[] = [];
 
   vi.spyOn(snackBar, 'openFromComponent').mockImplementation(
-    (_component, _config): MatSnackBarRef<ToastContainerComponent> => {
+    (_component: unknown, config?: unknown): MatSnackBarRef<ToastContainerComponent> => {
       const opened$ = new Subject<void>();
       const dismissed$ = new Subject<void>();
 
@@ -37,6 +39,12 @@ function stubOutlet(snackBar: MatSnackBar): OutletControl[] {
           opened$.complete();
         },
         triggerDismissed: (): void => dismissed$.next(),
+        triggerTap: (id: string): void => {
+          const configTyped = config as MatSnackBarConfig<ToastOutletData> | undefined;
+          if (configTyped?.data) {
+            configTyped.data.tap(id);
+          }
+        },
       });
 
       return stub;
@@ -273,12 +281,11 @@ describe('NgxMatToastService', () => {
 
     controls[0]?.triggerOpened();
 
-    // Simulate a tap via the internal handleTap path
-    // (public surface: taps come from the container → outlet data → service)
-    service.dismiss(ref.id);
+    // Simulate a tap via the outlet's tap callback
+    controls[0]?.triggerTap(ref.id);
 
-    // After dismiss, tap observable completes without firing
-    expect(tappedSpy).not.toHaveBeenCalled();
+    // Verify the tap was received
+    expect(tappedSpy).toHaveBeenCalledTimes(1);
   });
 
   it('notifies the ref via onShown() when a toast transitions from pending to visible', () => {
@@ -301,13 +308,13 @@ describe('NgxMatToastService', () => {
     service.success('First');
     controls[0]?.triggerOpened();
 
-    // Second toast is immediately visible; subscribe BEFORE the fact
-    // (onShown already fired synchronously in show() – subscriber gets it on time
-    //  only if it subscribes first, but the pattern below shows completed state)
+    // Second toast is immediately visible; when outlet is already open,
+    // _notifyShown() fires synchronously during show() before the caller can subscribe.
+    // With ReplaySubject(1), late subscribers still receive the emission.
     const ref: NgxMatToastRef = service.success('Second — immediately visible');
     const shownSpy = vi.fn();
-    // Subscribing after the notification: the subject is complete, no emission
+    // Subscribing after the notification: ReplaySubject replays the single emission
     ref.onShown().subscribe(shownSpy);
-    expect(shownSpy).toHaveBeenCalledTimes(0); // already completed before subscribe
+    expect(shownSpy).toHaveBeenCalledTimes(1); // late subscriber receives the replayed emission
   });
 });

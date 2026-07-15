@@ -51,7 +51,7 @@ function mapCompatConfig(config?: Partial<IndividualConfig>): NgxMatToastOptions
   const isFullWidth: boolean =
     !!config.positionClass && FULL_WIDTH_POSITION_CLASSES.has(config.positionClass);
 
-  return {
+  const result: NgxMatToastOptions = {
     duration:
       config.disableTimeOut === true || config.disableTimeOut === 'timeOut' ? 0 : config.timeOut,
     closeable: config.closeButton,
@@ -61,8 +61,13 @@ function mapCompatConfig(config?: Partial<IndividualConfig>): NgxMatToastOptions
     maxToasts: config.maxOpened,
     progressBarDirection: config.progressAnimation,
     position: config.positionClass ? POSITION_CLASS_MAP[config.positionClass] : undefined,
-    fullWidth: isFullWidth || undefined,
   };
+
+  if (isFullWidth) {
+    result.fullWidth = true;
+  }
+
+  return result;
 }
 
 /**
