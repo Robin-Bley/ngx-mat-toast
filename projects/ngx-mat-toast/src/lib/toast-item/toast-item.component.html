@@ -9,7 +9,7 @@
   tabindex="0"
   (click)="onTap()"
   (keydown.enter)="onTap()"
-  (keydown.space)="onTap()"
+  (keydown.space)="$event.preventDefault(); onTap()"
 >
   <div class="ngx-mat-toast-item__icon" aria-hidden="true">
     @switch (toast.type) {
