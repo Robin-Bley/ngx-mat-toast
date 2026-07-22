@@ -1,0 +1,1 @@
+export const TOAST_PROGRESS_UPDATE_INTERVAL_MS: number = 50;

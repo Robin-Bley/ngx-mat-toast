@@ -149,6 +149,50 @@ describe('ToastItemComponent', () => {
     expect(fixture.componentInstance.progressValue()).toBe(0);
   });
 
+  it('reaches 0 when the decreasing progress bar completes', () => {
+    vi.useFakeTimers();
+
+    const fixture = TestBed.createComponent(ToastItemComponent);
+    fixture.componentRef.setInput(
+      'toast',
+      createToast({
+        config: {
+          ...DEFAULT_TOAST_CONFIG,
+          progressBar: true,
+          duration: 3000,
+          progressBarDirection: 'decreasing',
+        },
+      }),
+    );
+    fixture.detectChanges();
+
+    vi.advanceTimersByTime(3000);
+
+    expect(fixture.componentInstance.progressValue()).toBe(0);
+  });
+
+  it('reaches 100 when the increasing progress bar completes', () => {
+    vi.useFakeTimers();
+
+    const fixture = TestBed.createComponent(ToastItemComponent);
+    fixture.componentRef.setInput(
+      'toast',
+      createToast({
+        config: {
+          ...DEFAULT_TOAST_CONFIG,
+          progressBar: true,
+          duration: 3000,
+          progressBarDirection: 'increasing',
+        },
+      }),
+    );
+    fixture.detectChanges();
+
+    vi.advanceTimersByTime(3000);
+
+    expect(fixture.componentInstance.progressValue()).toBe(100);
+  });
+
   it('only applies the enter state once the toast becomes visible', () => {
     const fixture = TestBed.createComponent(ToastItemComponent);
     fixture.componentRef.setInput('toast', createToast({ isVisible: false }));
