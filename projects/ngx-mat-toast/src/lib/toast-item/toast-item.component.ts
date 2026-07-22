@@ -18,6 +18,7 @@ import { interval, Subscription } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import type { ToastData } from '../toast.model';
+import { TOAST_PROGRESS_UPDATE_INTERVAL_MS } from '../toast-progress.constants';
 import type { ToastType } from '../toast.types';
 
 /**
@@ -114,7 +115,7 @@ export class ToastItemComponent {
 
       if (shouldTick) {
         // Subscribe to the interval and update the tick signal
-        const subscription: Subscription = interval(50)
+        const subscription: Subscription = interval(TOAST_PROGRESS_UPDATE_INTERVAL_MS)
           .pipe(takeUntilDestroyed(destroyRef))
           .subscribe((): void => {
             this._tick.update((value: number): number => value + 1);

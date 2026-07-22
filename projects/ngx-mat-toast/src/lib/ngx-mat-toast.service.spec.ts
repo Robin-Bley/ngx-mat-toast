@@ -6,6 +6,7 @@ import { NgxMatToastService } from './ngx-mat-toast.service';
 import { provideNgxMatToast } from './provide-ngx-mat-toast';
 import { ToastContainerComponent } from './toast-container/toast-container.component';
 import type { ToastOutletData } from './toast-container/toast-outlet-data';
+import { TOAST_PROGRESS_UPDATE_INTERVAL_MS } from './toast-progress.constants';
 import type { NgxMatToastRef } from './toast.ref';
 
 /**
@@ -200,6 +201,28 @@ describe('NgxMatToastService', () => {
     controls[0]?.triggerOpened(); // reveal the toast and schedule dismiss(10ms)
 
     vi.advanceTimersByTime(11);
+
+    expect(service.toasts()).toHaveLength(0);
+  });
+
+  it('keeps a progress-bar toast visible until the bar can visually complete', () => {
+    vi.useFakeTimers();
+
+    const controls: OutletControl[] = stubOutlet(snackBar);
+
+    service.success('Dismiss me', undefined, {
+      duration: 10,
+      progressBar: true,
+    });
+    expect(service.toasts()).toHaveLength(1);
+
+    controls[0]?.triggerOpened();
+
+    vi.advanceTimersByTime(10);
+
+    expect(service.toasts()).toHaveLength(1);
+
+    vi.advanceTimersByTime(TOAST_PROGRESS_UPDATE_INTERVAL_MS + 1);
 
     expect(service.toasts()).toHaveLength(0);
   });

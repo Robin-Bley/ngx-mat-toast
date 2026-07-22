@@ -13,6 +13,7 @@ import type { ToastPosition } from './toast-position';
 import { ToastContainerComponent } from './toast-container/toast-container.component';
 import type { ToastOutletData } from './toast-container/toast-outlet-data';
 import type { OutletState } from './outlet-state';
+import { TOAST_PROGRESS_UPDATE_INTERVAL_MS } from './toast-progress.constants';
 
 let nextToastId: number = 0;
 
@@ -295,9 +296,12 @@ export class NgxMatToastService {
       return;
     }
 
+    const dismissDelay: number = toast.config.progressBar
+      ? toast.config.duration + TOAST_PROGRESS_UPDATE_INTERVAL_MS
+      : toast.config.duration;
     const timer: ReturnType<typeof setTimeout> = setTimeout(
       (): void => this.removeToast(toast.id),
-      toast.config.duration,
+      dismissDelay,
     );
     this.dismissTimers.set(toast.id, timer);
   }

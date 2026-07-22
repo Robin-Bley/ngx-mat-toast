@@ -7,6 +7,14 @@ and this project follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [Unreleased]
+
+### Fixed
+
+- Kept progress-bar toasts visible for one final progress update so the bar reaches its completed state before auto-dismissal.
+
+---
+
 ## [22.0.6] – 2026-07-10
 
 ### Changed
