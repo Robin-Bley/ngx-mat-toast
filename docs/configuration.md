@@ -45,6 +45,7 @@ These are the library defaults exported as `DEFAULT_TOAST_CONFIG`.
 | `tapToDismiss`         | `boolean`                                           | `true`         | Allows clicking the toast card to dismiss it.                                                   |
 | `preventDuplicates`    | `boolean`                                           | `false`        | Reuses the active toast instead of creating a duplicate with the same title, message, and type. |
 | `maxToasts`            | `number`                                            | `5`            | Maximum visible toasts. `0` disables the limit.                                                 |
+| `fullWidth`            | `boolean`                                           | `false`        | Renders the toast snackbar across the full width of its container.                              |
 | `enableDebug`          | `boolean`                                           | `false`        | Logs toast activity to the browser console.                                                     |
 
 ---
@@ -73,6 +74,8 @@ export const appConfig: ApplicationConfig = {
 ```
 
 ### NgModule setup
+
+> **Note**: `NgxMatToastModule` is deprecated. For new projects, prefer the standalone `provideNgxMatToast()` function. NgModule support will be removed in a future major version.
 
 ```ts
 import { NgModule } from '@angular/core';

@@ -19,6 +19,12 @@ const POSITION_CLASS_MAP: Record<ToastrPositionClass, ToastPosition> = {
   'toast-bottom-full-width': { horizontal: 'center', vertical: 'bottom' },
 };
 
+/** Position classes that should also enable the `fullWidth` layout option. */
+const FULL_WIDTH_POSITION_CLASSES: ReadonlySet<ToastrPositionClass> = new Set<ToastrPositionClass>([
+  'toast-top-full-width',
+  'toast-bottom-full-width',
+]);
+
 function normalizeType(type?: string): ToastType {
   switch (type) {
     case 'success':
@@ -42,16 +48,50 @@ function mapCompatConfig(config?: Partial<IndividualConfig>): NgxMatToastOptions
     return {};
   }
 
-  return {
-    duration: config.disableTimeOut ? 0 : config.timeOut,
-    closeable: config.closeButton,
-    progressBar: config.progressBar,
-    tapToDismiss: config.tapToDismiss,
-    preventDuplicates: config.preventDuplicates,
-    maxToasts: config.maxOpened,
-    progressBarDirection: config.progressAnimation,
-    position: config.positionClass ? POSITION_CLASS_MAP[config.positionClass] : undefined,
-  };
+  const isFullWidth: boolean =
+    !!config.positionClass && FULL_WIDTH_POSITION_CLASSES.has(config.positionClass);
+
+  const result: NgxMatToastOptions = {};
+
+  if (config.disableTimeOut === true || config.disableTimeOut === 'timeOut') {
+    result.duration = 0;
+  } else if (config.timeOut !== undefined) {
+    result.duration = config.timeOut;
+  }
+
+  if (config.closeButton !== undefined) {
+    result.closeable = config.closeButton;
+  }
+
+  if (config.progressBar !== undefined) {
+    result.progressBar = config.progressBar;
+  }
+
+  if (config.tapToDismiss !== undefined) {
+    result.tapToDismiss = config.tapToDismiss;
+  }
+
+  if (config.preventDuplicates !== undefined) {
+    result.preventDuplicates = config.preventDuplicates;
+  }
+
+  if (config.maxOpened !== undefined) {
+    result.maxToasts = config.maxOpened;
+  }
+
+  if (config.progressAnimation !== undefined) {
+    result.progressBarDirection = config.progressAnimation;
+  }
+
+  if (config.positionClass) {
+    result.position = POSITION_CLASS_MAP[config.positionClass];
+  }
+
+  if (isFullWidth) {
+    result.fullWidth = true;
+  }
+
+  return result;
 }
 
 /**

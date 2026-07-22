@@ -92,18 +92,18 @@ The adapter accepts `Partial<IndividualConfig>` and maps supported options into 
 
 ### Position class mapping
 
-| `positionClass`             | Native position                                |
-| --------------------------- | ---------------------------------------------- |
-| `'toast-top-left'`          | `{ horizontal: 'start', vertical: 'top' }`     |
-| `'toast-top-center'`        | `{ horizontal: 'center', vertical: 'top' }`    |
-| `'toast-top-right'`         | `{ horizontal: 'end', vertical: 'top' }`       |
-| `'toast-top-full-width'`    | `{ horizontal: 'center', vertical: 'top' }`    |
-| `'toast-bottom-left'`       | `{ horizontal: 'start', vertical: 'bottom' }`  |
-| `'toast-bottom-center'`     | `{ horizontal: 'center', vertical: 'bottom' }` |
-| `'toast-bottom-right'`      | `{ horizontal: 'end', vertical: 'bottom' }`    |
-| `'toast-bottom-full-width'` | `{ horizontal: 'center', vertical: 'bottom' }` |
+| `positionClass`             | Native position                                                       |
+| --------------------------- | --------------------------------------------------------------------- |
+| `'toast-top-left'`          | `{ horizontal: 'start', vertical: 'top' }`                            |
+| `'toast-top-center'`        | `{ horizontal: 'center', vertical: 'top' }`                           |
+| `'toast-top-right'`         | `{ horizontal: 'end', vertical: 'top' }`                              |
+| `'toast-top-full-width'`    | `{ horizontal: 'center', vertical: 'top' }` with `fullWidth: true`    |
+| `'toast-bottom-left'`       | `{ horizontal: 'start', vertical: 'bottom' }`                         |
+| `'toast-bottom-center'`     | `{ horizontal: 'center', vertical: 'bottom' }`                        |
+| `'toast-bottom-right'`      | `{ horizontal: 'end', vertical: 'bottom' }`                           |
+| `'toast-bottom-full-width'` | `{ horizontal: 'center', vertical: 'bottom' }` with `fullWidth: true` |
 
-Important note: the `full-width` position classes are mapped to centered positions. They do not recreate a literal full-width toast layout.
+Important note: the `full-width` position classes automatically enable the `fullWidth` layout option, which renders the toast snackbar across the full width of its container, matching the legacy ngx-toastr behavior.
 
 ---
 
@@ -131,7 +131,6 @@ The adapter is intentionally pragmatic. It does not aim for full feature parity 
 Notable boundaries:
 
 - no promise of total visual parity with `ngx-toastr`
-- no literal recreation of `full-width` toast layouts
 - no custom HTML or template rendering parity
 - no escape from the single Angular Material snackbar host model
 

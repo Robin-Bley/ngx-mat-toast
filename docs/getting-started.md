@@ -59,6 +59,8 @@ export const appConfig: ApplicationConfig = {
 
 ### Option B: NgModule-based Angular applications
 
+> **Note**: `NgxMatToastModule` is deprecated. For new projects, prefer the standalone `provideNgxMatToast()` function. NgModule support will be removed in a future major version.
+
 Use `NgxMatToastModule.forRoot()` in the root module.
 
 ```ts

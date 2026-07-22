@@ -63,6 +63,14 @@ export interface NgxMatToastConfig {
    * @default false
    */
   enableDebug: boolean;
+
+  /**
+   * Whether the toast container should span the full viewport width.
+   * Useful when migrating from `ngx-toastr`'s `toast-top-full-width` and
+   * `toast-bottom-full-width` position classes.
+   * @default false
+   */
+  fullWidth: boolean;
 }
 
 /**
@@ -91,4 +99,5 @@ export const DEFAULT_TOAST_CONFIG: NgxMatToastConfig = {
   preventDuplicates: false,
   maxToasts: 5,
   enableDebug: false,
+  fullWidth: false,
 };
