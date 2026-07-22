@@ -11,6 +11,11 @@ updates:
       all-dependencies:
         patterns:
           - '*'
+    ignore:
+      # TypeScript 6.x is not yet supported by @angular/build@21.x which requires ">=5.9 <6.0".
+      # Remove this ignore rule once Angular officially supports TypeScript 6 (Angular 22).
+      - dependency-name: 'typescript'
+        versions: ['>=6.0.0']
   - package-ecosystem: github-actions
     directory: '/'
     schedule:
