@@ -162,7 +162,12 @@
     flex-shrink: 0;
     margin: -8px -8px -8px 0;
     align-self: center;
+    --mat-icon-button-container-shape: 8px;
     border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
     color: var(--mat-sys-on-surface-variant, #49454f);
     transition: all 0.2s ease;
 
