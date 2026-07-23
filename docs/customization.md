@@ -18,10 +18,10 @@ Here is a ready-made example using branded colors for a professionally styled to
 ```scss
 :root {
   // Brand colors
-  --brand-mid-green: #5A9114;
-  --brand-mid-orange: #FF9400;
-  --brand-red: #DC0023;
-  --brand-mid-blue: #0087C8;
+  --brand-mid-green: #5a9114;
+  --brand-mid-orange: #ff9400;
+  --brand-red: #dc0023;
+  --brand-mid-blue: #0087c8;
 
   // ngx-mat-toast with brand colors
   --ngx-mat-toast-success-color: hsl(from var(--brand-mid-green) h s calc(l + 50%));
