@@ -42,15 +42,16 @@ For the full documentation set, see the repository docs:
 ## Installation
 
 ```bash
-npm install ngx-mat-toast@^22.0.0 @angular/material@^22.0.0 @angular/cdk@^22.0.0
+npm install ngx-mat-toast@^22.0.0 @angular/material@^21.0.0 @angular/cdk@^21.0.0
 ```
+
+> The latest version (`^22.0.0`) is compatible with both Angular 21 and Angular 22. Adjust Material and CDK versions to match your Angular version.
 
 ### Compatibility matrix
 
-| ngx-mat-toast | Angular | Material | CDK     |
-| ------------- | ------- | -------- | ------- |
-| `^22.0.0`     | `^22.0` | `^22.0`  | `^22.0` |
-| `^21.0.0`     | `^21.0` | `^21.0`  | `^21.0` |
+| ngx-mat-toast | Angular            | Material           | CDK                |
+| ------------- | ------------------ | ------------------ | ------------------ |
+| `^22.0.0`     | `^21.0` or `^22.0` | `^21.0` or `^22.0` | `^21.0` or `^22.0` |
 
 > **Note:** `ngx-mat-toast` uses CSS-native motion and does not require an Angular animations provider for its own snackbar-based rendering. Just install the peer dependencies from your target Angular version.
 

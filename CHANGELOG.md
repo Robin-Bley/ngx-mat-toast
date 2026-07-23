@@ -7,6 +7,27 @@ and this project follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [22.0.7] – 2026-07-23
+
+### Added
+
+- Added `fullWidth` support end-to-end (config surface + snackbar panel class + ngx-toastr positionClass mapping).
+- Added `NgxMatToastRef.onTap()` and `NgxMatToastRef.onShown()` for improved lifecycle and tap observability.
+
+### Fixed
+
+- Fixed toast close button styling to ensure the hover background renders as an 8px rounded square (instead of inheriting Material's circular icon-button shape) and that the "×" glyph is visually centered within the button.
+
+### Changed
+
+- Refactored `ToastItemComponent` and `NgxMatToastService` for signal-based state and consolidated outlet state.
+- Updated unit tests to reflect refactored architecture.
+- Plumbed tap events from toast item → container → service.
+- Sets the Material icon-button container shape token to 8px for the close button.
+- Forces the close button to use inline-flex with centered alignment to better center the "×" content.
+
+---
+
 ## [22.0.6] – 2026-07-10
 
 ### Changed

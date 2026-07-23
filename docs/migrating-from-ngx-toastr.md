@@ -242,7 +242,20 @@ export class ProfileComponent {
 
 ### Expecting full-width legacy positions to look identical
 
-Legacy `toast-top-full-width` and `toast-bottom-full-width` values are mapped to centered positions, not literal full-width toast layouts.
+Legacy `toast-top-full-width` and `toast-bottom-full-width` position classes are automatically mapped to a centered position with the `fullWidth` layout enabled. The resulting behavior matches the original ngx-toastr layout, but you can also control it directly:
+
+```ts
+// Via the adapter (automatic)
+this.toastr.success('Message', 'Title', {
+  positionClass: 'toast-top-full-width', // Automatically sets fullWidth: true
+});
+
+// Via the native API (explicit)
+this.ngxMatToast.success('Message', 'Title', {
+  position: { horizontal: 'center', vertical: 'top' },
+  fullWidth: true,
+});
+```
 
 ### Styling the overlay from component-local styles only
 

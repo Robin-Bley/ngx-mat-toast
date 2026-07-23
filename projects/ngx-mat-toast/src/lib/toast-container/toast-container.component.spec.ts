@@ -28,15 +28,20 @@ function createToast(overrides: Partial<ToastData> = {}): ToastData {
 describe('ToastContainerComponent', () => {
   let toasts: WritableSignal<ToastData[]>;
   let dismissedIds: string[];
+  let tappedIds: string[];
   let outletData: ToastOutletData;
 
   beforeEach(async () => {
     toasts = signal<ToastData[]>([createToast()]);
     dismissedIds = [];
+    tappedIds = [];
     outletData = {
       toasts: toasts.asReadonly(),
       dismiss: (id: string): void => {
         dismissedIds.push(id);
+      },
+      tap: (id: string): void => {
+        tappedIds.push(id);
       },
       position: { horizontal: 'start', vertical: 'top' },
     };
@@ -97,6 +102,21 @@ describe('ToastContainerComponent', () => {
     firstToastItem.dismissed.emit('toast-1');
 
     expect(dismissedIds).toEqual(['toast-1']);
+  });
+
+  it('forwards toast tap events to the snackbar outlet callback', () => {
+    const fixture: ComponentFixture<ToastContainerComponent> = createFixture();
+    const firstToastItemDebugElement: DebugElement | null = fixture.debugElement.query(
+      By.directive(ToastItemComponent),
+    );
+
+    expect(firstToastItemDebugElement).not.toBeNull();
+
+    const firstToastItem: ToastItemComponent = firstToastItemDebugElement!
+      .componentInstance as ToastItemComponent;
+    firstToastItem.tapped.emit('toast-1');
+
+    expect(tappedIds).toEqual(['toast-1']);
   });
 
   it('exposes horizontal and vertical host attributes for position-aware styling', () => {

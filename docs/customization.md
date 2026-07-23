@@ -11,6 +11,72 @@ Related guides:
 
 ---
 
+## Quick start: Using brand colors
+
+Here is a ready-made example using branded colors for a professionally styled toast system:
+
+```scss
+:root {
+  // Brand colors
+  --brand-mid-green: #5a9114;
+  --brand-mid-orange: #ff9400;
+  --brand-red: #dc0023;
+  --brand-mid-blue: #0087c8;
+
+  // ngx-mat-toast with brand colors
+  --ngx-mat-toast-success-color: hsl(from var(--brand-mid-green) h s calc(l + 50%));
+  --ngx-mat-toast-warning-color: hsl(from var(--brand-mid-orange) h s calc(l + 40%));
+  --ngx-mat-toast-error-color: hsl(from var(--brand-red) h s calc(l + 50%));
+  --ngx-mat-toast-info-color: hsl(from var(--brand-mid-blue) h s calc(l + 50%));
+}
+
+.ngx-mat-toast-snack-panel {
+  .ngx-mat-toast-item__title {
+    font-size: 16px;
+  }
+
+  .ngx-mat-toast-item__message {
+    font-size: 14px !important;
+  }
+
+  .ngx-mat-toast-item--success,
+  .ngx-mat-toast-item--warning,
+  .ngx-mat-toast-item--error,
+  .ngx-mat-toast-item--info {
+    .ngx-mat-toast-item__title,
+    .ngx-mat-toast-item__message {
+      color: white !important;
+    }
+  }
+
+  @each $type,
+    $color
+      in (
+        ('success', var(--brand-mid-green)),
+        ('warning', var(--brand-mid-orange)),
+        ('error', var(--brand-red)),
+        ('info', var(--brand-mid-blue))
+      )
+  {
+    .ngx-mat-toast-item--#{$type} {
+      background: #{$color} !important;
+
+      .ngx-mat-toast-item__icon {
+        background-color: #{$color} !important;
+      }
+    }
+  }
+}
+```
+
+**Result:**
+
+![Preview of branded toasts with custom colors](./assets/Preview_1.png)
+
+Simply copy this into your global `src/styles.scss` to get started with branded toasts.
+
+---
+
 ## Customization principles
 
 `ngx-mat-toast` is intentionally not a custom overlay framework.

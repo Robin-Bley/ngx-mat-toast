@@ -11,6 +11,10 @@ updates:
       all-dependencies:
         patterns:
           - '*'
+    # Angular 22+ uses TypeScript 6.x; only ignore future major versions until verified.
+    ignore:
+      - dependency-name: 'typescript'
+        versions: ['>=7.0.0']
   - package-ecosystem: github-actions
     directory: '/'
     schedule:

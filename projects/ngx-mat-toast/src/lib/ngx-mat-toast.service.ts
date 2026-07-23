@@ -1,5 +1,5 @@
-import { inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { MatSnackBar, MatSnackBarRef, type MatSnackBarConfig } from '@angular/material/snack-bar';
+import { inject, Injectable, Signal, signal, WritableSignal } from '@angular/core';
+import { MatSnackBar, type MatSnackBarConfig, MatSnackBarRef } from '@angular/material/snack-bar';
 import {
   DEFAULT_TOAST_CONFIG,
   type NgxMatToastConfig,
@@ -12,6 +12,7 @@ import type { ToastType } from './toast.types';
 import type { ToastPosition } from './toast-position';
 import { ToastContainerComponent } from './toast-container/toast-container.component';
 import type { ToastOutletData } from './toast-container/toast-outlet-data';
+import type { OutletState } from './outlet-state';
 
 let nextToastId: number = 0;
 
@@ -20,11 +21,16 @@ function createToastId(): string {
   return `ngx-mat-toast-${nextToastId}`;
 }
 
-function positionsMatch(a: ToastPosition | null, b: ToastPosition): boolean {
-  if (!a) {
-    return false;
-  }
+function positionsMatch(a: ToastPosition, b: ToastPosition): boolean {
   return a.horizontal === b.horizontal && a.vertical === b.vertical;
+}
+
+function outletMatchesRequest(
+  state: OutletState,
+  position: ToastPosition,
+  fullWidth: boolean,
+): boolean {
+  return positionsMatch(state.position, position) && state.fullWidth === fullWidth;
 }
 
 function resolveToastConfig(...configs: Array<NgxMatToastOptions | undefined>): NgxMatToastConfig {
@@ -64,12 +70,11 @@ export class NgxMatToastService {
   private readonly globalConfig: NgxMatToastOptions =
     inject(NGX_MAT_TOAST_CONFIG, { optional: true }) ?? {};
 
-  /** @internal Reactive list of active toasts used by the outlet component. */
-  public readonly _toasts: WritableSignal<ToastData[]> = signal<ToastData[]>([]);
+  private readonly _toasts: WritableSignal<ToastData[]> = signal<ToastData[]>([]);
 
-  private outletRef: MatSnackBarRef<ToastContainerComponent> | null = null;
-  private outletPosition: ToastPosition | null = null;
-  private outletOpened: boolean = false;
+  public readonly toasts: Signal<ToastData[]> = this._toasts.asReadonly();
+
+  private outlet: OutletState | null = null;
   private readonly activeRefs: Map<string, NgxMatToastRef> = new Map<string, NgxMatToastRef>();
   private readonly dismissTimers: Map<string, ReturnType<typeof setTimeout>> = new Map<
     string,
@@ -129,6 +134,10 @@ export class NgxMatToastService {
     }
 
     const id: string = createToastId();
+    const isVisible: boolean = this.canShowToastImmediately(
+      resolvedConfig.position,
+      resolvedConfig.fullWidth,
+    );
     const toast: ToastData = {
       id,
       message,
@@ -136,7 +145,7 @@ export class NgxMatToastService {
       type,
       config: resolvedConfig,
       createdAt: Date.now(),
-      isVisible: this.canShowToastImmediately(resolvedConfig.position),
+      isVisible,
     };
 
     const ref: NgxMatToastRef = new NgxMatToastRef(id, this);
@@ -146,9 +155,10 @@ export class NgxMatToastService {
 
     if (toast.isVisible) {
       this.scheduleDismiss(toast);
+      ref._notifyShown();
     }
 
-    this.ensureOutlet(resolvedConfig.position);
+    this.ensureOutlet(resolvedConfig.position, resolvedConfig.fullWidth);
 
     return ref;
   }
@@ -191,59 +201,71 @@ export class NgxMatToastService {
     }
   }
 
-  private ensureOutlet(position: ToastPosition): void {
-    if (this.outletRef && positionsMatch(this.outletPosition, position)) {
+  private handleTap(id: string): void {
+    const ref: NgxMatToastRef | undefined = this.activeRefs.get(id);
+    if (ref) {
+      ref._notifyTapped();
+    }
+  }
+
+  private ensureOutlet(position: ToastPosition, fullWidth: boolean): void {
+    if (this.outlet && outletMatchesRequest(this.outlet, position, fullWidth)) {
       return;
     }
 
-    if (this.outletRef) {
-      const previousRef: MatSnackBarRef<ToastContainerComponent> = this.outletRef;
-      this.outletRef = null;
-      this.outletPosition = null;
-      this.outletOpened = false;
+    if (this.outlet) {
+      const previousRef: MatSnackBarRef<ToastContainerComponent> = this.outlet.ref;
+      this.outlet = null;
       previousRef.dismiss();
     }
 
     const data: ToastOutletData = {
       toasts: this._toasts.asReadonly(),
       dismiss: (id: string) => this.removeToast(id),
+      tap: (id: string) => this.handleTap(id),
       position,
     };
+
+    const panelClasses: string[] = ['ngx-mat-toast-snack-panel'];
+    if (fullWidth) {
+      panelClasses.push('ngx-mat-toast-snack-panel--full-width');
+    }
 
     const config: MatSnackBarConfig<ToastOutletData> = {
       data,
       duration: 0,
       horizontalPosition: position.horizontal,
       verticalPosition: position.vertical,
-      panelClass: ['ngx-mat-toast-snack-panel'],
+      panelClass: panelClasses,
     };
 
     const outletRef: MatSnackBarRef<ToastContainerComponent> = this.snackBar.openFromComponent(
       ToastContainerComponent,
       config,
     );
-    this.outletRef = outletRef;
-    this.outletPosition = position;
-    this.outletOpened = false;
+
+    this.outlet = { ref: outletRef, position, fullWidth, opened: false };
 
     outletRef.afterOpened().subscribe((): void => {
-      if (this.outletRef === outletRef) {
-        this.outletOpened = true;
+      if (this.outlet?.ref === outletRef) {
+        this.outlet.opened = true;
         this.revealPendingToasts();
       }
     });
 
     outletRef.afterDismissed().subscribe((): void => {
-      if (this.outletRef === outletRef) {
-        this.outletRef = null;
-        this.outletPosition = null;
-        this.outletOpened = false;
+      if (this.outlet?.ref === outletRef) {
+        this.outlet = null;
       }
     });
   }
 
-  private canShowToastImmediately(position: ToastPosition): boolean {
-    return !!this.outletRef && positionsMatch(this.outletPosition, position) && this.outletOpened;
+  private canShowToastImmediately(position: ToastPosition, fullWidth: boolean): boolean {
+    return (
+      this.outlet !== null &&
+      this.outlet.opened &&
+      outletMatchesRequest(this.outlet, position, fullWidth)
+    );
   }
 
   private revealPendingToasts(): void {
@@ -261,6 +283,10 @@ export class NgxMatToastService {
 
     for (const toast of pendingToasts) {
       this.scheduleDismiss(toast);
+      const ref: NgxMatToastRef | undefined = this.activeRefs.get(toast.id);
+      if (ref) {
+        ref._notifyShown();
+      }
     }
   }
 
@@ -277,14 +303,12 @@ export class NgxMatToastService {
   }
 
   private destroyOutlet(): void {
-    if (!this.outletRef) {
+    if (!this.outlet) {
       return;
     }
 
-    const outletRef: MatSnackBarRef<ToastContainerComponent> = this.outletRef;
-    this.outletRef = null;
-    this.outletPosition = null;
-    this.outletOpened = false;
+    const outletRef: MatSnackBarRef<ToastContainerComponent> = this.outlet.ref;
+    this.outlet = null;
     outletRef.dismiss();
   }
 }

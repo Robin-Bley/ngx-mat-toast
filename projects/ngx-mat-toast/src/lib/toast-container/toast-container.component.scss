@@ -50,3 +50,21 @@ ngx-mat-toast-item {
   display: block;
   pointer-events: auto;
 }
+
+/* Full-width variant: overrides Material's default max-width constraints */
+.ngx-mat-toast-snack-panel--full-width .mat-mdc-snackbar-surface {
+  min-width: 0;
+  max-width: 100vw;
+  width: 100vw;
+}
+
+.ngx-mat-toast-snack-panel--full-width .ngx-mat-toast-stack {
+  width: 100%;
+}
+
+.ngx-mat-toast-snack-panel--full-width ngx-mat-toast-item .ngx-mat-toast-item {
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}

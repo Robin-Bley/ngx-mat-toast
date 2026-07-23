@@ -83,7 +83,7 @@ export class ExampleComponent {
 
 > `ngx-mat-toast` uses native CSS motion for both the toast cards and the current Angular Material snackbar host, so no Angular animations provider is required for the library itself.
 
-> **Using NgModules instead of standalone APIs?** Use `NgxMatToastModule.forRoot()`. The full setup is documented in [`docs/getting-started.md`](docs/getting-started.md).
+> **Using NgModules instead of standalone APIs?** `NgxMatToastModule.forRoot()` is deprecated. For new projects, always use `provideNgxMatToast()`. The full setup (including legacy NgModule support) is documented in [`docs/getting-started.md`](docs/getting-started.md).
 
 ---
 
