@@ -17,6 +17,7 @@ interface OutletControl {
   triggerOpened(): void;
   triggerDismissed(): void;
   triggerTap(id: string): void;
+  lastConfig(): MatSnackBarConfig<ToastOutletData> | undefined;
 }
 
 function stubOutlet(snackBar: MatSnackBar): OutletControl[] {
@@ -26,6 +27,9 @@ function stubOutlet(snackBar: MatSnackBar): OutletControl[] {
     (_component: unknown, config?: unknown): MatSnackBarRef<ToastContainerComponent> => {
       const opened$: Subject<void> = new Subject<void>();
       const dismissed$: Subject<void> = new Subject<void>();
+
+      const configTyped: MatSnackBarConfig<ToastOutletData> | undefined = config as
+        MatSnackBarConfig<ToastOutletData> | undefined;
 
       const stub = {
         afterOpened: (): Subject<void> => opened$,
@@ -46,12 +50,11 @@ function stubOutlet(snackBar: MatSnackBar): OutletControl[] {
           dismissed$.complete();
         },
         triggerTap: (id: string): void => {
-          const configTyped: MatSnackBarConfig<ToastOutletData> | undefined = config as
-            MatSnackBarConfig<ToastOutletData> | undefined;
           if (configTyped?.data) {
             configTyped.data.tap(id);
           }
         },
+        lastConfig: (): MatSnackBarConfig<ToastOutletData> | undefined => configTyped,
       });
 
       return stub;
@@ -323,5 +326,53 @@ describe('NgxMatToastService', () => {
     // Subscribing after the notification: ReplaySubject replays the single emission
     ref.onShown().subscribe(shownSpy);
     expect(shownSpy).toHaveBeenCalledTimes(1); // late subscriber receives the replayed emission
+  });
+
+  it('sets MatSnackBar politeness to "assertive" when error toasts are present', () => {
+    const controls: OutletControl[] = stubOutlet(snackBar);
+
+    service.error('Error message');
+
+    const config: MatSnackBarConfig<ToastOutletData> | undefined = controls[0]?.lastConfig();
+    expect(config?.politeness).toBe('assertive');
+  });
+
+  it('sets MatSnackBar politeness to "assertive" when warning toasts are present', () => {
+    const controls: OutletControl[] = stubOutlet(snackBar);
+
+    service.warning('Warning message');
+
+    const config: MatSnackBarConfig<ToastOutletData> | undefined = controls[0]?.lastConfig();
+    expect(config?.politeness).toBe('assertive');
+  });
+
+  it('sets MatSnackBar politeness to "polite" for success toasts', () => {
+    const controls: OutletControl[] = stubOutlet(snackBar);
+
+    service.success('Success message');
+
+    const config: MatSnackBarConfig<ToastOutletData> | undefined = controls[0]?.lastConfig();
+    expect(config?.politeness).toBe('polite');
+  });
+
+  it('sets MatSnackBar politeness to "polite" for info toasts', () => {
+    const controls: OutletControl[] = stubOutlet(snackBar);
+
+    service.info('Info message');
+
+    const config: MatSnackBarConfig<ToastOutletData> | undefined = controls[0]?.lastConfig();
+    expect(config?.politeness).toBe('polite');
+  });
+
+  it('sets MatSnackBar politeness to "assertive" when error toasts are present from the start', () => {
+    const controls: OutletControl[] = stubOutlet(snackBar);
+
+    service.error('Error');
+    service.success('Success');
+    service.info('Info');
+
+    const config: MatSnackBarConfig<ToastOutletData> | undefined = controls[0]?.lastConfig();
+    // Politeness is determined by active toasts when the outlet opens
+    expect(config?.politeness).toBe('assertive');
   });
 });

@@ -269,7 +269,7 @@ describe('ToastItemComponent', () => {
     expect(contentWrapper?.getAttribute('aria-atomic')).toBeNull();
   });
 
-  it('applies role="status" without nested aria-live for info toast', () => {
+  it('does not apply role or aria-atomic to the toast item', () => {
     const fixture = TestBed.createComponent(ToastItemComponent);
     fixture.componentRef.setInput('toast', createToast({ type: 'info' }));
     fixture.detectChanges();
@@ -277,25 +277,14 @@ describe('ToastItemComponent', () => {
     const element = fixture.nativeElement as HTMLElement;
     const item = element.querySelector('.ngx-mat-toast-item');
 
-    expect(item?.getAttribute('role')).toBe('status');
-    // Nested [aria-live] breaks MatSnackBar._screenReaderAnnounce().
-    expect(item?.getAttribute('aria-live')).toBeNull();
-    expect(item?.getAttribute('aria-atomic')).toBe('true');
-  });
-
-  it('applies role="status" without nested aria-live for success toast', () => {
-    const fixture = TestBed.createComponent(ToastItemComponent);
-    fixture.componentRef.setInput('toast', createToast({ type: 'success' }));
-    fixture.detectChanges();
-
-    const element = fixture.nativeElement as HTMLElement;
-    const item = element.querySelector('.ngx-mat-toast-item');
-
-    expect(item?.getAttribute('role')).toBe('status');
+    // These attributes should not be present, as they are now handled at the
+    // MatSnackBar level with politeness configuration.
+    expect(item?.getAttribute('role')).toBeNull();
+    expect(item?.getAttribute('aria-atomic')).toBeNull();
     expect(item?.getAttribute('aria-live')).toBeNull();
   });
 
-  it('applies role="alert" without nested aria-live for error toast', () => {
+  it('does not apply role or aria-atomic to error toast', () => {
     const fixture = TestBed.createComponent(ToastItemComponent);
     fixture.componentRef.setInput('toast', createToast({ type: 'error' }));
     fixture.detectChanges();
@@ -303,11 +292,11 @@ describe('ToastItemComponent', () => {
     const element = fixture.nativeElement as HTMLElement;
     const item = element.querySelector('.ngx-mat-toast-item');
 
-    expect(item?.getAttribute('role')).toBe('alert');
-    expect(item?.getAttribute('aria-live')).toBeNull();
+    expect(item?.getAttribute('role')).toBeNull();
+    expect(item?.getAttribute('aria-atomic')).toBeNull();
   });
 
-  it('applies role="alert" without nested aria-live for warning toast', () => {
+  it('does not apply role or aria-atomic to warning toast', () => {
     const fixture = TestBed.createComponent(ToastItemComponent);
     fixture.componentRef.setInput('toast', createToast({ type: 'warning' }));
     fixture.detectChanges();
@@ -315,7 +304,7 @@ describe('ToastItemComponent', () => {
     const element = fixture.nativeElement as HTMLElement;
     const item = element.querySelector('.ngx-mat-toast-item');
 
-    expect(item?.getAttribute('role')).toBe('alert');
-    expect(item?.getAttribute('aria-live')).toBeNull();
+    expect(item?.getAttribute('role')).toBeNull();
+    expect(item?.getAttribute('aria-atomic')).toBeNull();
   });
 });
