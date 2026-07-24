@@ -77,14 +77,6 @@ export class ToastItemComponent {
     return type === 'error' || type === 'warning' ? 'alert' : 'status';
   });
 
-  /** ARIA `aria-live` politeness based on the toast type. */
-  public readonly ariaLive: Signal<'assertive' | 'polite'> = computed(
-    (): 'assertive' | 'polite' => {
-      const type: ToastType = this.toast().type;
-      return type === 'error' || type === 'warning' ? 'assertive' : 'polite';
-    },
-  );
-
   constructor() {
     const destroyRef: DestroyRef = inject(DestroyRef);
 

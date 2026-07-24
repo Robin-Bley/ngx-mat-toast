@@ -4,7 +4,6 @@
   [class.state-enter]="toast().isVisible && !isLeaving()"
   [class.state-leave]="isLeaving()"
   [attr.role]="ariaRole()"
-  [attr.aria-live]="ariaLive()"
   aria-atomic="true"
   tabindex="0"
   (click)="onTap()"
