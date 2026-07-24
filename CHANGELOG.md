@@ -7,6 +7,19 @@ and this project follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [22.0.8] – 2026-07-24
+
+### Changed
+
+- Removed `role` and `aria-atomic` attributes from toast items. These attributes are now redundant since MatSnackBar already provides appropriate ARIA live region semantics at the container level.
+- MatSnackBar `politeness` is now automatically set based on active toast types: `'assertive'` for error/warning toasts, `'polite'` otherwise. This preserves urgency cues while eliminating duplicate live-region markup.
+
+### Fixed
+
+- Fixed accessibility by eliminating nested live-region attributes that could conflict with MatSnackBar's own announcements.
+
+---
+
 ## [22.0.7] – 2026-07-23
 
 ### Added

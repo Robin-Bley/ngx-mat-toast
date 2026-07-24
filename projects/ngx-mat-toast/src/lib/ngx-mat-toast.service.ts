@@ -13,6 +13,7 @@ import type { ToastPosition } from './toast-position';
 import { ToastContainerComponent } from './toast-container/toast-container.component';
 import type { ToastOutletData } from './toast-container/toast-outlet-data';
 import type { OutletState } from './outlet-state';
+import { AriaLivePoliteness } from '@angular/cdk/a11y';
 
 let nextToastId: number = 0;
 
@@ -31,6 +32,14 @@ function outletMatchesRequest(
   fullWidth: boolean,
 ): boolean {
   return positionsMatch(state.position, position) && state.fullWidth === fullWidth;
+}
+
+function determineSnackBarPoliteness(toasts: ToastData[]): AriaLivePoliteness {
+  // Use "assertive" politeness for error/warning toasts to preserve urgency cues,
+  // otherwise use "polite" for less urgent notifications.
+  return toasts.some((toast: ToastData) => toast.type === 'error' || toast.type === 'warning')
+    ? 'assertive'
+    : 'polite';
 }
 
 function resolveToastConfig(...configs: Array<NgxMatToastOptions | undefined>): NgxMatToastConfig {
@@ -231,12 +240,15 @@ export class NgxMatToastService {
       panelClasses.push('ngx-mat-toast-snack-panel--full-width');
     }
 
+    const politeness: AriaLivePoliteness = determineSnackBarPoliteness(this._toasts());
+
     const config: MatSnackBarConfig<ToastOutletData> = {
       data,
       duration: 0,
       horizontalPosition: position.horizontal,
       verticalPosition: position.vertical,
       panelClass: panelClasses,
+      politeness,
     };
 
     const outletRef: MatSnackBarRef<ToastContainerComponent> = this.snackBar.openFromComponent(

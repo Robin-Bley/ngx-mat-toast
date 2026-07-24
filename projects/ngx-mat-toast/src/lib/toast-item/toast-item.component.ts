@@ -71,12 +71,6 @@ export class ToastItemComponent {
     return toastData.config.progressBarDirection === 'decreasing' ? (1 - ratio) * 100 : ratio * 100;
   });
 
-  /** ARIA `role` attribute value based on the toast type. */
-  public readonly ariaRole: Signal<'status' | 'alert'> = computed((): 'status' | 'alert' => {
-    const type: ToastType = this.toast().type;
-    return type === 'error' || type === 'warning' ? 'alert' : 'status';
-  });
-
   constructor() {
     const destroyRef: DestroyRef = inject(DestroyRef);
 

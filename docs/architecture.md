@@ -197,6 +197,19 @@ Because the snackbar renders in the overlay container, customization should typi
 
 ---
 
+## Accessibility model
+
+`ngx-mat-toast` relies on Angular Material's `MatSnackBar` for live-region semantics and announcement behavior:
+
+- **no local role or aria-live**: Toast cards themselves do not carry `role="status"`, `role="alert"`, or `aria-atomic` attributes. These would be redundant because the snackbar host already provides a live region.
+- **politeness level**: The service automatically sets the snackbar's `politeness` configuration based on active toast types:
+  - `'assertive'` when the stack contains error or warning toasts
+  - `'polite'` otherwise
+
+This approach preserves urgency cues for important notifications while avoiding duplicate live-region markup.
+
+---
+
 ## Compatibility adapter role
 
 `ToastrService` is intentionally a bridge, not a second first-class API surface.

@@ -1,5 +1,6 @@
 :host {
   display: block;
+  --mat-icon-button-container-shape: 8px;
 }
 
 .ngx-mat-toast-item {
@@ -162,7 +163,6 @@
     flex-shrink: 0;
     margin: -8px -8px -8px 0;
     align-self: center;
-    --mat-icon-button-container-shape: 8px;
     border-radius: 8px;
     display: inline-flex;
     align-items: center;
