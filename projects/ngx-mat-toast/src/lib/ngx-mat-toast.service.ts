@@ -1,15 +1,19 @@
-import {inject, Injectable, Signal, signal, WritableSignal} from '@angular/core';
-import {MatSnackBar, type MatSnackBarConfig, MatSnackBarRef} from '@angular/material/snack-bar';
-import {DEFAULT_TOAST_CONFIG, type NgxMatToastConfig, type NgxMatToastOptions,} from './toast.config';
-import {NGX_MAT_TOAST_CONFIG} from './toast-config.token';
-import type {ToastData} from './toast.model';
-import {NgxMatToastRef} from './toast.ref';
-import type {ToastType} from './toast.types';
-import type {ToastPosition} from './toast-position';
-import {ToastContainerComponent} from './toast-container/toast-container.component';
-import type {ToastOutletData} from './toast-container/toast-outlet-data';
-import type {OutletState} from './outlet-state';
-import {AriaLivePoliteness} from '@angular/cdk/a11y';
+import { inject, Injectable, Signal, signal, WritableSignal } from '@angular/core';
+import { MatSnackBar, type MatSnackBarConfig, MatSnackBarRef } from '@angular/material/snack-bar';
+import {
+  DEFAULT_TOAST_CONFIG,
+  type NgxMatToastConfig,
+  type NgxMatToastOptions,
+} from './toast.config';
+import { NGX_MAT_TOAST_CONFIG } from './toast-config.token';
+import type { ToastData } from './toast.model';
+import { NgxMatToastRef } from './toast.ref';
+import type { ToastType } from './toast.types';
+import type { ToastPosition } from './toast-position';
+import { ToastContainerComponent } from './toast-container/toast-container.component';
+import type { ToastOutletData } from './toast-container/toast-outlet-data';
+import type { OutletState } from './outlet-state';
+import { AriaLivePoliteness } from '@angular/cdk/a11y';
 
 let nextToastId: number = 0;
 
@@ -41,7 +45,7 @@ function determineSnackBarPoliteness(toasts: ToastData[]): AriaLivePoliteness {
 function resolveToastConfig(...configs: Array<NgxMatToastOptions | undefined>): NgxMatToastConfig {
   let resolved: NgxMatToastConfig = {
     ...DEFAULT_TOAST_CONFIG,
-    position: {...DEFAULT_TOAST_CONFIG.position},
+    position: { ...DEFAULT_TOAST_CONFIG.position },
   };
 
   for (const config of configs) {
@@ -69,11 +73,11 @@ function resolveToastConfig(...configs: Array<NgxMatToastOptions | undefined>): 
  * rendering a stack of rich toast cards inside that snackbar so the API stays as simple
  * as `ngx-toastr`.
  */
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class NgxMatToastService {
   private readonly snackBar: MatSnackBar = inject(MatSnackBar);
   private readonly globalConfig: NgxMatToastOptions =
-    inject(NGX_MAT_TOAST_CONFIG, {optional: true}) ?? {};
+    inject(NGX_MAT_TOAST_CONFIG, { optional: true }) ?? {};
 
   private readonly _toasts: WritableSignal<ToastData[]> = signal<ToastData[]>([]);
 
@@ -111,7 +115,7 @@ export class NgxMatToastService {
     const resolvedConfig: NgxMatToastConfig = resolveToastConfig(this.globalConfig, config);
 
     if (resolvedConfig.enableDebug) {
-      console.debug('[ngx-mat-toast]', {message, title, type, config: resolvedConfig});
+      console.debug('[ngx-mat-toast]', { message, title, type, config: resolvedConfig });
     }
 
     if (resolvedConfig.preventDuplicates) {
@@ -252,7 +256,7 @@ export class NgxMatToastService {
       config,
     );
 
-    this.outlet = {ref: outletRef, position, fullWidth, opened: false};
+    this.outlet = { ref: outletRef, position, fullWidth, opened: false };
 
     outletRef.afterOpened().subscribe((): void => {
       if (this.outlet?.ref === outletRef) {
@@ -286,7 +290,7 @@ export class NgxMatToastService {
     }
 
     this._toasts.update((current: ToastData[]) =>
-      current.map((toast: ToastData) => (toast.isVisible ? toast : {...toast, isVisible: true})),
+      current.map((toast: ToastData) => (toast.isVisible ? toast : { ...toast, isVisible: true })),
     );
 
     for (const toast of pendingToasts) {
