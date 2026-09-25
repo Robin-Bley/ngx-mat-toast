@@ -191,18 +191,18 @@ $theme: mat.define-theme(
 
 The default implementation exposes a few CSS variables that are especially useful for theme-level overrides:
 
-| Variable                          | Purpose                                                |
-| --------------------------------- | ------------------------------------------------------ |
-| `--ngx-mat-toast-success-surface` | Card background + icon chip color for success toasts   |
-| `--ngx-mat-toast-error-surface`   | Card background + icon chip color for error toasts     |
-| `--ngx-mat-toast-warning-surface` | Card background + icon chip color for warning toasts   |
-| `--ngx-mat-toast-info-surface`    | Card background + icon chip color for info toasts       |
-| `--ngx-mat-toast-success-color`   | Icon glyph + progress accent for success toasts        |
-| `--ngx-mat-toast-error-color`     | Icon glyph + progress accent for error toasts          |
-| `--ngx-mat-toast-warning-color`   | Icon glyph + progress accent for warning toasts        |
-| `--ngx-mat-toast-info-color`      | Icon glyph + progress accent for info toasts           |
-| `--ngx-mat-toast-enter-offset`    | Horizontal enter animation offset                      |
-| `--ngx-mat-toast-leave-offset`    | Horizontal leave animation offset                      |
+| Variable                          | Purpose                                              |
+| --------------------------------- | ---------------------------------------------------- |
+| `--ngx-mat-toast-success-surface` | Card background + icon chip color for success toasts |
+| `--ngx-mat-toast-error-surface`   | Card background + icon chip color for error toasts   |
+| `--ngx-mat-toast-warning-surface` | Card background + icon chip color for warning toasts |
+| `--ngx-mat-toast-info-surface`    | Card background + icon chip color for info toasts    |
+| `--ngx-mat-toast-success-color`   | Icon glyph + progress accent for success toasts      |
+| `--ngx-mat-toast-error-color`     | Icon glyph + progress accent for error toasts        |
+| `--ngx-mat-toast-warning-color`   | Icon glyph + progress accent for warning toasts      |
+| `--ngx-mat-toast-info-color`      | Icon glyph + progress accent for info toasts         |
+| `--ngx-mat-toast-enter-offset`    | Horizontal enter animation offset                    |
+| `--ngx-mat-toast-leave-offset`    | Horizontal leave animation offset                    |
 
 The `--ngx-mat-toast-*-surface` variables control the solid card background (they
 default to the brand palette), while the `--ngx-mat-toast-*-color` variables set
