@@ -13,21 +13,22 @@ Related guides:
 
 ## Quick start: Using brand colors
 
-The brand color palette shown below is now the **library default**: every toast
+The accessible color palette shown below **is the library default**: every toast
 renders as a solid brand-colored card with white text out of the box, and the
 progress bar (loading indicator) is disabled by default. You therefore no longer
 need to copy anything to get this look.
 
 The example remains useful as a reference for how the defaults are composed and
-as a template when you want to fully re-skin the toasts (including typography):
+as a template when you want to fully re-skin the toasts (including typography).
+All surface colors pass WCAG 2.1 AA contrast (≥ 4.5:1) against white text:
 
 ```scss
 :root {
-  // Brand colors
-  --brand-mid-green: #5a9114;
-  --brand-mid-orange: #ff9400;
+  // Accessible surface colors (match the library defaults)
+  --brand-mid-green: #15803d;
+  --brand-mid-orange: #b45309;
   --brand-red: #dc0023;
-  --brand-mid-blue: #0087c8;
+  --brand-mid-blue: #0369a1;
 
   // ngx-mat-toast with brand colors
   --ngx-mat-toast-success-color: hsl(from var(--brand-mid-green) h s calc(l + 50%));

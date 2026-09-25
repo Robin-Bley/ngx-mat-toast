@@ -61,10 +61,10 @@ export class App {
     signal<ToastVerticalPosition>('top');
 
   public readonly toastTypes: ToastDemo[] = [
-    { type: 'success', label: 'Success', color: '#5a9114' },
+    { type: 'success', label: 'Success', color: '#15803d' },
     { type: 'error', label: 'Error', color: '#dc0023' },
-    { type: 'warning', label: 'Warning', color: '#ff9400' },
-    { type: 'info', label: 'Info', color: '#0087c8' },
+    { type: 'warning', label: 'Warning', color: '#b45309' },
+    { type: 'info', label: 'Info', color: '#0369a1' },
   ];
 
   public readonly horizontalPositions: { value: ToastHorizontalPosition; label: string }[] = [
