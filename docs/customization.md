@@ -13,7 +13,13 @@ Related guides:
 
 ## Quick start: Using brand colors
 
-Here is a ready-made example using branded colors for a professionally styled toast system:
+The brand color palette shown below is now the **library default**: every toast
+renders as a solid brand-colored card with white text out of the box, and the
+progress bar (loading indicator) is disabled by default. You therefore no longer
+need to copy anything to get this look.
+
+The example remains useful as a reference for how the defaults are composed and
+as a template when you want to fully re-skin the toasts (including typography):
 
 ```scss
 :root {
@@ -138,15 +144,17 @@ The toast markup uses stable class names that are safe to target.
 
 ## Material-theme-friendly styling
 
-The default styles already use Material design tokens where possible, including:
+By default each toast type renders with the brand color palette. The base card
+and text still fall back to Material design tokens where possible, including:
 
-- `--mat-sys-surface-container-high`
+- `--mat-sys-surface`
+- `--mat-sys-surface-container-low`
 - `--mat-sys-on-surface`
 - `--mat-sys-on-surface-variant`
-- `--mat-sys-primary`
-- `--mat-sys-error`
 
-That means your Angular Material theme can influence the toast appearance without extra work.
+That means your Angular Material theme can still influence the base surface, and
+you can align the per-type colors with your theme by overriding the
+`--ngx-mat-toast-*-surface` variables.
 
 A good first step is to make sure your Material theme is configured globally.
 
@@ -168,10 +176,10 @@ $theme: mat.define-theme(
 @include mat.all-component-themes($theme);
 
 :root {
-  --ngx-mat-toast-success-color: #2e7d32;
-  --ngx-mat-toast-error-color: #c62828;
-  --ngx-mat-toast-warning-color: #ed6c02;
-  --ngx-mat-toast-info-color: #1565c0;
+  --ngx-mat-toast-success-surface: #2e7d32;
+  --ngx-mat-toast-error-surface: #c62828;
+  --ngx-mat-toast-warning-surface: #ed6c02;
+  --ngx-mat-toast-info-surface: #1565c0;
 }
 ```
 
@@ -183,23 +191,39 @@ $theme: mat.define-theme(
 
 The default implementation exposes a few CSS variables that are especially useful for theme-level overrides:
 
-| Variable                        | Purpose                           |
-| ------------------------------- | --------------------------------- |
-| `--ngx-mat-toast-success-color` | Accent color for success toasts   |
-| `--ngx-mat-toast-error-color`   | Accent color for error toasts     |
-| `--ngx-mat-toast-warning-color` | Accent color for warning toasts   |
-| `--ngx-mat-toast-info-color`    | Accent color for info toasts      |
-| `--ngx-mat-toast-enter-offset`  | Horizontal enter animation offset |
-| `--ngx-mat-toast-leave-offset`  | Horizontal leave animation offset |
+| Variable                          | Purpose                                                |
+| --------------------------------- | ------------------------------------------------------ |
+| `--ngx-mat-toast-success-surface` | Card background + icon chip color for success toasts   |
+| `--ngx-mat-toast-error-surface`   | Card background + icon chip color for error toasts     |
+| `--ngx-mat-toast-warning-surface` | Card background + icon chip color for warning toasts   |
+| `--ngx-mat-toast-info-surface`    | Card background + icon chip color for info toasts       |
+| `--ngx-mat-toast-success-color`   | Icon glyph + progress accent for success toasts        |
+| `--ngx-mat-toast-error-color`     | Icon glyph + progress accent for error toasts          |
+| `--ngx-mat-toast-warning-color`   | Icon glyph + progress accent for warning toasts        |
+| `--ngx-mat-toast-info-color`      | Icon glyph + progress accent for info toasts           |
+| `--ngx-mat-toast-enter-offset`    | Horizontal enter animation offset                      |
+| `--ngx-mat-toast-leave-offset`    | Horizontal leave animation offset                      |
+
+The `--ngx-mat-toast-*-surface` variables control the solid card background (they
+default to the brand palette), while the `--ngx-mat-toast-*-color` variables set
+the accent used for the icon glyph and the optional progress bar rendered on top
+of that card.
 
 Example:
 
 ```scss
 :root {
-  --ngx-mat-toast-success-color: #2e7d32;
-  --ngx-mat-toast-error-color: #c62828;
-  --ngx-mat-toast-warning-color: #ed6c02;
-  --ngx-mat-toast-info-color: #1565c0;
+  // Card background colors (also used for the icon chip)
+  --ngx-mat-toast-success-surface: #2e7d32;
+  --ngx-mat-toast-error-surface: #c62828;
+  --ngx-mat-toast-warning-surface: #ed6c02;
+  --ngx-mat-toast-info-surface: #1565c0;
+
+  // Icon glyph + progress accent (rendered on top of the card)
+  --ngx-mat-toast-success-color: #ffffff;
+  --ngx-mat-toast-error-color: #ffffff;
+  --ngx-mat-toast-warning-color: #ffffff;
+  --ngx-mat-toast-info-color: #ffffff;
 }
 ```
 

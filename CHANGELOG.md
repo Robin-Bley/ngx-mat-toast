@@ -7,6 +7,21 @@ and this project follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [22.1.0] – 2026-09-25
+
+### Changed
+
+- The default toast palette now uses the brand colors from the "Using brand colors" recipe. Each toast type renders as a solid brand-colored card (`success` `#5a9114`, `error` `#dc0023`, `warning` `#ff9400`, `info` `#0087c8`) with white title/message text, replacing the previous soft gradient surfaces.
+- `closeable` now defaults to `false`. The close button is no longer rendered on toasts unless explicitly enabled.
+- The close button now uses white-on-color styling so it stays legible on the solid colored cards.
+- The demo application now boots with `provideNgxMatToast()` (no overrides) so its preview reflects the library defaults, including the progress bar and close button being disabled by default.
+
+### Added
+
+- Added `--ngx-mat-toast-success-surface`, `--ngx-mat-toast-error-surface`, `--ngx-mat-toast-warning-surface`, and `--ngx-mat-toast-info-surface` CSS custom properties to override each toast type's card background (defaulting to the brand palette). The existing `--ngx-mat-toast-*-color` variables continue to control the icon glyph and progress accent rendered on top of the card.
+
+---
+
 ## [22.0.8] – 2026-07-24
 
 ### Changed

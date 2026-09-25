@@ -51,64 +51,100 @@
     }
   }
 
-  /* Type variants with modern styling */
+  /* Type variants — default brand color palette.
+   *
+   * Each type renders as a solid brand-colored card with white text and a
+   * lightened accent used for the icon glyph and the optional progress bar.
+   * The base surface color and the accent color are exposed as CSS custom
+   * properties so consumers can re-skin the toasts from global styles:
+   *   --ngx-mat-toast-<type>-surface  → solid card background + icon chip
+   *   --ngx-mat-toast-<type>-color    → icon glyph + progress accent
+   */
   &--success {
-    background: linear-gradient(135deg, #f1f8f4 0%, #e8f5e9 100%);
-    border: 1px solid rgba(76, 175, 80, 0.3);
+    background: var(--ngx-mat-toast-success-surface, #5a9114);
 
     .ngx-mat-toast-item__icon {
-      background-color: rgba(76, 175, 80, 0.15);
-      color: var(--ngx-mat-toast-success-color, #4caf50);
+      background-color: var(--ngx-mat-toast-success-surface, #5a9114);
+      color: var(--ngx-mat-toast-success-color, hsl(from #5a9114 h s calc(l + 50%)));
+    }
+
+    .ngx-mat-toast-item__title,
+    .ngx-mat-toast-item__message {
+      color: #fff;
     }
 
     .ngx-mat-toast-item__progress {
-      --mdc-linear-progress-active-indicator-color: var(--ngx-mat-toast-success-color, #4caf50);
-      --mdc-linear-progress-track-color: rgba(76, 175, 80, 0.2);
+      --mdc-linear-progress-active-indicator-color: var(
+        --ngx-mat-toast-success-color,
+        hsl(from #5a9114 h s calc(l + 50%))
+      );
+      --mdc-linear-progress-track-color: rgba(255, 255, 255, 0.24);
     }
   }
 
   &--error {
-    background: linear-gradient(135deg, #fef5f5 0%, #ffebee 100%);
-    border: 1px solid rgba(176, 0, 32, 0.3);
+    background: var(--ngx-mat-toast-error-surface, #dc0023);
 
     .ngx-mat-toast-item__icon {
-      background-color: rgba(176, 0, 32, 0.15);
-      color: var(--ngx-mat-toast-error-color, #b00020);
+      background-color: var(--ngx-mat-toast-error-surface, #dc0023);
+      color: var(--ngx-mat-toast-error-color, hsl(from #dc0023 h s calc(l + 50%)));
+    }
+
+    .ngx-mat-toast-item__title,
+    .ngx-mat-toast-item__message {
+      color: #fff;
     }
 
     .ngx-mat-toast-item__progress {
-      --mdc-linear-progress-active-indicator-color: var(--ngx-mat-toast-error-color, #b00020);
-      --mdc-linear-progress-track-color: rgba(176, 0, 32, 0.2);
+      --mdc-linear-progress-active-indicator-color: var(
+        --ngx-mat-toast-error-color,
+        hsl(from #dc0023 h s calc(l + 50%))
+      );
+      --mdc-linear-progress-track-color: rgba(255, 255, 255, 0.24);
     }
   }
 
   &--warning {
-    background: linear-gradient(135deg, #fef7f0 0%, #fff3e0 100%);
-    border: 1px solid rgba(255, 152, 0, 0.3);
+    background: var(--ngx-mat-toast-warning-surface, #ff9400);
 
     .ngx-mat-toast-item__icon {
-      background-color: rgba(255, 152, 0, 0.15);
-      color: var(--ngx-mat-toast-warning-color, #ff9800);
+      background-color: var(--ngx-mat-toast-warning-surface, #ff9400);
+      color: var(--ngx-mat-toast-warning-color, hsl(from #ff9400 h s calc(l + 40%)));
+    }
+
+    .ngx-mat-toast-item__title,
+    .ngx-mat-toast-item__message {
+      color: #fff;
     }
 
     .ngx-mat-toast-item__progress {
-      --mdc-linear-progress-active-indicator-color: var(--ngx-mat-toast-warning-color, #ff9800);
-      --mdc-linear-progress-track-color: rgba(255, 152, 0, 0.2);
+      --mdc-linear-progress-active-indicator-color: var(
+        --ngx-mat-toast-warning-color,
+        hsl(from #ff9400 h s calc(l + 40%))
+      );
+      --mdc-linear-progress-track-color: rgba(255, 255, 255, 0.24);
     }
   }
 
   &--info {
-    background: linear-gradient(135deg, #f3f0f8 0%, #ede7f6 100%);
-    border: 1px solid rgba(103, 80, 164, 0.3);
+    background: var(--ngx-mat-toast-info-surface, #0087c8);
 
     .ngx-mat-toast-item__icon {
-      background-color: rgba(103, 80, 164, 0.15);
-      color: var(--ngx-mat-toast-info-color, #6750a4);
+      background-color: var(--ngx-mat-toast-info-surface, #0087c8);
+      color: var(--ngx-mat-toast-info-color, hsl(from #0087c8 h s calc(l + 50%)));
+    }
+
+    .ngx-mat-toast-item__title,
+    .ngx-mat-toast-item__message {
+      color: #fff;
     }
 
     .ngx-mat-toast-item__progress {
-      --mdc-linear-progress-active-indicator-color: var(--ngx-mat-toast-info-color, #6750a4);
-      --mdc-linear-progress-track-color: rgba(103, 80, 164, 0.2);
+      --mdc-linear-progress-active-indicator-color: var(
+        --ngx-mat-toast-info-color,
+        hsl(from #0087c8 h s calc(l + 50%))
+      );
+      --mdc-linear-progress-track-color: rgba(255, 255, 255, 0.24);
     }
   }
 
@@ -168,16 +204,16 @@
     align-items: center;
     justify-content: center;
 
-    color: var(--mat-sys-on-surface-variant, #49454f);
+    color: rgba(255, 255, 255, 0.85);
     transition: all 0.2s ease;
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.06);
-      color: var(--mat-sys-on-surface, #1c1b1f);
+      background-color: rgba(255, 255, 255, 0.16);
+      color: #fff;
     }
 
     &:active {
-      background-color: rgba(0, 0, 0, 0.12);
+      background-color: rgba(255, 255, 255, 0.24);
     }
   }
 
