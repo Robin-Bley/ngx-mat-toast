@@ -128,17 +128,12 @@
   <section class="code-section">
     <h2>Usage</h2>
     <pre class="code-block"><code>// app.config.ts
-import &#123; provideAnimationsAsync &#125; from '@angular/platform-browser/animations/async';
 import &#123; provideNgxMatToast &#125; from 'ngx-mat-toast';
 
 export const appConfig = &#123;
   providers: [
-    provideAnimationsAsync(),
-    provideNgxMatToast(&#123;
-      duration: 3000,
-      position: &#123; horizontal: 'end', vertical: 'top' &#125;,
-      progressBar: true,
-    &#125;),
+    // Uses the library's default configuration
+    provideNgxMatToast(),
   ],
 &#125;;
 

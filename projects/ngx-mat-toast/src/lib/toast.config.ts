@@ -19,7 +19,7 @@ export interface NgxMatToastConfig {
 
   /**
    * Whether to show a close button on each toast.
-   * @default true
+   * @default false
    */
   closeable: boolean;
 
@@ -92,7 +92,7 @@ export const DEFAULT_TOAST_CONFIG: NgxMatToastConfig = {
     horizontal: 'end',
     vertical: 'top',
   },
-  closeable: true,
+  closeable: false,
   progressBar: false,
   progressBarDirection: 'decreasing',
   tapToDismiss: true,

@@ -1,6 +1,6 @@
 {
   "name": "ngx-mat-toast",
-  "version": "22.0.8",
+  "version": "22.1.0",
   "description": "A toast notification library for Angular powered by Angular Material Snackbar.",
   "keywords": [
     "angular",
@@ -37,10 +37,6 @@
     {
       "type": "github",
       "url": "https://github.com/sponsors/Robin-Bley"
-    },
-    {
-      "type": "paypal",
-      "url": "https://www.paypal.me/RobinBley28"
     }
   ],
   "license": "MIT",

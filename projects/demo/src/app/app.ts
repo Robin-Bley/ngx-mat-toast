@@ -48,8 +48,8 @@ export class App {
   public readonly message: WritableSignal<string> = signal('This is a sample toast notification.');
   public readonly title: WritableSignal<string> = signal('Notification');
   public readonly duration: WritableSignal<number> = signal(3000);
-  public readonly closeable: WritableSignal<boolean> = signal(true);
-  public readonly progressBar: WritableSignal<boolean> = signal(true);
+  public readonly closeable: WritableSignal<boolean> = signal(false);
+  public readonly progressBar: WritableSignal<boolean> = signal(false);
   public readonly tapToDismiss: WritableSignal<boolean> = signal(true);
   public readonly preventDuplicates: WritableSignal<boolean> = signal(false);
   public readonly progressBarDirection: WritableSignal<'increasing' | 'decreasing'> = signal<
@@ -61,10 +61,10 @@ export class App {
     signal<ToastVerticalPosition>('top');
 
   public readonly toastTypes: ToastDemo[] = [
-    { type: 'success', label: 'Success', color: '#4caf50' },
-    { type: 'error', label: 'Error', color: '#f44336' },
-    { type: 'warning', label: 'Warning', color: '#ff9800' },
-    { type: 'info', label: 'Info', color: '#2196f3' },
+    { type: 'success', label: 'Success', color: '#15803d' },
+    { type: 'error', label: 'Error', color: '#dc0023' },
+    { type: 'warning', label: 'Warning', color: '#b45309' },
+    { type: 'info', label: 'Info', color: '#0369a1' },
   ];
 
   public readonly horizontalPositions: { value: ToastHorizontalPosition; label: string }[] = [
