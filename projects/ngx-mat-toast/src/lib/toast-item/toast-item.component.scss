@@ -61,11 +61,11 @@
    *   --ngx-mat-toast-<type>-color    → icon glyph + progress accent
    */
   &--success {
-    background: var(--ngx-mat-toast-success-surface, #5a9114);
+    background: var(--ngx-mat-toast-success-surface, #15803d);
 
     .ngx-mat-toast-item__icon {
-      background-color: var(--ngx-mat-toast-success-surface, #5a9114);
-      color: var(--ngx-mat-toast-success-color, hsl(from #5a9114 h s calc(l + 50%)));
+      background-color: var(--ngx-mat-toast-success-surface, #15803d);
+      color: var(--ngx-mat-toast-success-color, hsl(from #15803d h s calc(l + 50%)));
     }
 
     .ngx-mat-toast-item__title,
@@ -76,7 +76,7 @@
     .ngx-mat-toast-item__progress {
       --mdc-linear-progress-active-indicator-color: var(
         --ngx-mat-toast-success-color,
-        hsl(from #5a9114 h s calc(l + 50%))
+        hsl(from #15803d h s calc(l + 50%))
       );
       --mdc-linear-progress-track-color: rgba(255, 255, 255, 0.24);
     }
@@ -105,11 +105,11 @@
   }
 
   &--warning {
-    background: var(--ngx-mat-toast-warning-surface, #ff9400);
+    background: var(--ngx-mat-toast-warning-surface, #b45309);
 
     .ngx-mat-toast-item__icon {
-      background-color: var(--ngx-mat-toast-warning-surface, #ff9400);
-      color: var(--ngx-mat-toast-warning-color, hsl(from #ff9400 h s calc(l + 40%)));
+      background-color: var(--ngx-mat-toast-warning-surface, #b45309);
+      color: var(--ngx-mat-toast-warning-color, hsl(from #b45309 h s calc(l + 40%)));
     }
 
     .ngx-mat-toast-item__title,
@@ -120,18 +120,18 @@
     .ngx-mat-toast-item__progress {
       --mdc-linear-progress-active-indicator-color: var(
         --ngx-mat-toast-warning-color,
-        hsl(from #ff9400 h s calc(l + 40%))
+        hsl(from #b45309 h s calc(l + 40%))
       );
       --mdc-linear-progress-track-color: rgba(255, 255, 255, 0.24);
     }
   }
 
   &--info {
-    background: var(--ngx-mat-toast-info-surface, #0087c8);
+    background: var(--ngx-mat-toast-info-surface, #0369a1);
 
     .ngx-mat-toast-item__icon {
-      background-color: var(--ngx-mat-toast-info-surface, #0087c8);
-      color: var(--ngx-mat-toast-info-color, hsl(from #0087c8 h s calc(l + 50%)));
+      background-color: var(--ngx-mat-toast-info-surface, #0369a1);
+      color: var(--ngx-mat-toast-info-color, hsl(from #0369a1 h s calc(l + 50%)));
     }
 
     .ngx-mat-toast-item__title,
@@ -142,7 +142,7 @@
     .ngx-mat-toast-item__progress {
       --mdc-linear-progress-active-indicator-color: var(
         --ngx-mat-toast-info-color,
-        hsl(from #0087c8 h s calc(l + 50%))
+        hsl(from #0369a1 h s calc(l + 50%))
       );
       --mdc-linear-progress-track-color: rgba(255, 255, 255, 0.24);
     }

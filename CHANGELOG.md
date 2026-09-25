@@ -11,7 +11,7 @@ and this project follows [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- The default toast palette now uses the brand colors from the "Using brand colors" recipe. Each toast type renders as a solid brand-colored card (`success` `#5a9114`, `error` `#dc0023`, `warning` `#ff9400`, `info` `#0087c8`) with white title/message text, replacing the previous soft gradient surfaces.
+- The default toast palette now uses the brand colors from the "Using brand colors" recipe. Each toast type renders as a solid brand-colored card (`success` `#15803d`, `error` `#dc0023`, `warning` `#b45309`, `info` `#0369a1`) with white title/message text, replacing the previous soft gradient surfaces. *(Colors were adjusted from the originally introduced values — see Fixed below.)*
 - `closeable` now defaults to `false`. The close button is no longer rendered on toasts unless explicitly enabled.
 - The close button now uses white-on-color styling so it stays legible on the solid colored cards.
 - The demo application now boots with `provideNgxMatToast()` (no overrides) so its preview reflects the library defaults, including the progress bar and close button being disabled by default.
@@ -19,6 +19,15 @@ and this project follows [Semantic Versioning](https://semver.org/).
 ### Added
 
 - Added `--ngx-mat-toast-success-surface`, `--ngx-mat-toast-error-surface`, `--ngx-mat-toast-warning-surface`, and `--ngx-mat-toast-info-surface` CSS custom properties to override each toast type's card background (defaulting to the brand palette). The existing `--ngx-mat-toast-*-color` variables continue to control the icon glyph and progress accent rendered on top of the card.
+
+### Fixed
+
+- **Accessibility (WCAG 2.1 AA)**: The originally introduced solid-surface defaults did not meet the 4.5:1 minimum contrast ratio required for normal-size text with white (`#fff`). Three surfaces have been darkened to pass AA:
+  - `warning` `#ff9400` (≈2.2:1) → `#b45309` (≈5.0:1)
+  - `success` `#5a9114` (≈3.8:1) → `#15803d` (≈5.0:1)
+  - `info` `#0087c8` (≈4.0:1) → `#0369a1` (≈5.9:1)
+  - `error` `#dc0023` (≈5.2:1) was already compliant and is unchanged.
+  Consumers who have overridden `--ngx-mat-toast-*-surface` properties are unaffected.
 
 ---
 
