@@ -35,6 +35,16 @@ describe('Demo App', () => {
     expect(fixture.componentInstance).toBeTruthy();
   });
 
+  it('reflects the library default configuration in the playground (progress bar off)', () => {
+    const fixture = TestBed.createComponent(App);
+    expect(fixture.componentInstance.progressBar()).toBe(false);
+  });
+
+  it('reflects the library default configuration in the playground (close button off)', () => {
+    const fixture = TestBed.createComponent(App);
+    expect(fixture.componentInstance.closeable()).toBe(false);
+  });
+
   it('renders the demo heading', () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();

@@ -39,7 +39,7 @@ These are the library defaults exported as `DEFAULT_TOAST_CONFIG`.
 | `duration`             | `number`                                            | `3000`         | Auto-dismiss delay in milliseconds. Use `0` for persistent toasts.                              |
 | `position.horizontal`  | `'start' \| 'center' \| 'end' \| 'left' \| 'right'` | `'end'`        | Horizontal placement of the snackbar host.                                                      |
 | `position.vertical`    | `'top' \| 'bottom'`                                 | `'top'`        | Vertical placement of the snackbar host.                                                        |
-| `closeable`            | `boolean`                                           | `true`         | Shows the close button.                                                                         |
+| `closeable`            | `boolean`                                           | `false`        | Shows the close button.                                                                         |
 | `progressBar`          | `boolean`                                           | `false`        | Renders a determinate progress bar.                                                             |
 | `progressBarDirection` | `'decreasing' \| 'increasing'`                      | `'decreasing'` | Controls whether the progress bar shrinks or grows over time.                                   |
 | `tapToDismiss`         | `boolean`                                           | `true`         | Allows clicking the toast card to dismiss it.                                                   |
